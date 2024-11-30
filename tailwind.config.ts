@@ -35,6 +35,7 @@ export default {
         shine: "shine 8s ease-in-out infinite",
       },
       colors: {
+        siteTextGray2: "hsl(var(--site-text-gray-2))",
         siteBgGray: "hsl(var(--site-bg-gray))",
         siteTextGray: "hsl(var(--site-text-gray))",
         siteGray: "hsl(var(--site-gray))",

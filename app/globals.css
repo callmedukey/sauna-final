@@ -38,6 +38,7 @@ body {
     --site-gray: 0 0% 60%;
     --site-bg-gray: 60 18% 97%;
     --site-text-gray: 0 0% 37%;
+    --site-text-gray-2: 0 0% 32%;
   }
   .dark {
     --background: 0 0% 3.9%;
