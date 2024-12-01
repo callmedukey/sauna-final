@@ -3,9 +3,14 @@
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { signOut, useSession } from "next-auth/react";
 import { useState } from "react";
 
-import { AuthLinks, HeaderLinks } from "@/definitions/constants";
+import {
+  AfterAuthLinks,
+  AuthLinks,
+  HeaderLinks,
+} from "@/definitions/constants";
 import { cn } from "@/lib/utils";
 import HeaderLogo from "@/public/header/header-logo.svg";
 
@@ -18,6 +23,7 @@ const Header = () => {
   const pathname = usePathname();
   const [isLoginOpen, setIsLoginOpen] = useState(false);
   const [isRegisterOpen, setIsRegisterOpen] = useState(false);
+  const session = useSession();
   return (
     <>
       <header
@@ -66,34 +72,70 @@ const Header = () => {
           </nav>
           <nav
             className={cn(
-              "absolute right-0 hidden items-center divide-x-2 divide-white xl:flex [&>button]:px-4",
+              "absolute right-0 hidden items-center divide-x-2 divide-white xl:flex [&>button]:px-4 [&>a]:px-4",
               pathname !== "/" && "divide-siteBlack"
             )}
           >
-            {AuthLinks.map((link) => (
-              <button
-                key={link.href}
-                className="hover:underline"
-                type="button"
-                onClick={() => {
-                  if (link.href === "/login") {
-                    setIsLoginOpen(true);
-                    setIsRegisterOpen(false);
-                  } else if (link.href === "/signup") {
-                    setIsRegisterOpen(true);
-                    setIsLoginOpen(false);
+            {session &&
+            session.status === "authenticated" &&
+            session?.data?.user
+              ? AfterAuthLinks.map((link) => {
+                  if (link.href === "/logout") {
+                    return (
+                      <button
+                        key={link.href}
+                        className="hover:underline"
+                        type="button"
+                        onClick={async () => {
+                          await signOut({ redirectTo: "/" });
+                        }}
+                      >
+                        {link.label}
+                      </button>
+                    );
                   }
-                }}
-              >
-                {link.label}
-              </button>
-            ))}
+                  return (
+                    <Link
+                      key={link.href}
+                      href={link.href}
+                      className="transition-all duration-300 hover:underline"
+                    >
+                      {link.label}
+                    </Link>
+                  );
+                })
+              : AuthLinks.map((link) => (
+                  <button
+                    key={link.href}
+                    className="hover:underline"
+                    type="button"
+                    onClick={() => {
+                      if (link.href === "/login") {
+                        setIsLoginOpen(true);
+                        setIsRegisterOpen(false);
+                      } else if (link.href === "/signup") {
+                        setIsRegisterOpen(true);
+                        setIsLoginOpen(false);
+                      }
+                    }}
+                  >
+                    {link.label}
+                  </button>
+                ))}
           </nav>
           <MobileMenu />
         </div>
       </header>
-      <LoginModal isOpen={true} setIsOpen={setIsLoginOpen} />
-      <RegisterModal isOpen={isRegisterOpen} setIsOpen={setIsRegisterOpen} />
+      <LoginModal
+        isOpen={isLoginOpen}
+        setIsOpen={setIsLoginOpen}
+        setIsRegisterOpen={setIsRegisterOpen}
+      />
+      <RegisterModal
+        isOpen={isRegisterOpen}
+        setIsOpen={setIsRegisterOpen}
+        setLoginOpen={setIsLoginOpen}
+      />
     </>
   );
 };

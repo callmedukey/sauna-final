@@ -39,6 +39,7 @@ body {
     --site-bg-gray: 60 18% 97%;
     --site-text-gray: 0 0% 37%;
     --site-text-gray-2: 0 0% 32%;
+    --golden: 35.8 20.5% 49.8%;
   }
   .dark {
     --background: 0 0% 3.9%;
@@ -74,6 +75,10 @@ body {
   }
   body {
     @apply bg-background text-foreground;
+  }
+
+  input {
+    @apply outline-none bg-transparent;
   }
 
   .flex-all-center {

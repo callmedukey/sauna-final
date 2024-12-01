@@ -1,7 +1,9 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
+import { SessionProvider } from "next-auth/react";
 
 import "./globals.css";
+import { auth } from "@/auth";
 import Footer from "@/components/layout/Footer";
 import Header from "@/components/layout/Header";
 import { cn } from "@/lib/utils";
@@ -18,17 +20,20 @@ export const metadata: Metadata = {
   description: "현대적인 시설과 전통적인 한국식 사우나의 조화로운 만남",
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
+  const session = await auth();
   return (
     <html lang="ko" suppressHydrationWarning>
       <body className={cn(`${Pretendard.variable} isolate antialiased`)}>
-        <Header />
-        {children}
-        <Footer />
+        <SessionProvider session={session}>
+          <Header />
+          {children}
+          <Footer />
+        </SessionProvider>
       </body>
     </html>
   );

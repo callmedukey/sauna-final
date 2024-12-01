@@ -36,6 +36,8 @@ export default {
       },
       colors: {
         siteTextGray2: "hsl(var(--site-text-gray-2))",
+        golden: "hsl(var(--golden))",
+        siteTextGray3: "hsl(var(--site-text-gray-3))",
         siteBgGray: "hsl(var(--site-bg-gray))",
         siteTextGray: "hsl(var(--site-text-gray))",
         siteGray: "hsl(var(--site-gray))",

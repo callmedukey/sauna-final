@@ -1,5 +1,3 @@
-import Link from "next/link";
-
 import {
   Table,
   TableBody,
@@ -8,32 +6,17 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { cn } from "@/lib/utils";
+
+import CommunityAside from "../_components/CommunityAside";
 
 const page = () => {
   return (
     <main className="px-4 ~pt-[3.75rem]/[12rem] ~pb-[4rem]/[6rem]">
-      <aside className="page-title mx-auto flex max-w-screen-2xl justify-center font-normal ~mb-[2rem]/[8rem] ~gap-[3.75rem]/[12rem]">
-        <Link
-          href="/community/notice"
-          className={cn(
-            "hover:motion-preset-shake",
-            "font-bold underline underline-offset-4"
-          )}
-        >
-          공지사항
-        </Link>
-        <Link
-          href="/community/inquiry"
-          className={cn("hover:motion-preset-shake")}
-        >
-          문의하기
-        </Link>
-      </aside>
-      <article className="mx-auto max-w-screen-xl">
+      <CommunityAside />
+      <article className="mx-auto max-w-screen-xl px-4">
         <Table>
           <TableHeader className="border-b border-t-2 border-black ">
-            <TableRow className="">
+            <TableRow className="border-black">
               <TableHead className="w-40 text-center text-siteBlack">
                 번호
               </TableHead>
