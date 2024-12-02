@@ -42,9 +42,12 @@ const ProfileUpdateForm = ({ user }: { user: Omit<User, "password"> }) => {
   const handleSendVerificationSMS = async () => {
     if (phone.length !== 11) return;
     if (smsSent) return;
+    setValidated(false);
+    setSmsSent(true);
     const res = await sendVerificationSMS(phone);
     if (res?.success) {
       setSmsSent(true);
+      setValidated(true);
       return;
     }
     if (res?.message) {

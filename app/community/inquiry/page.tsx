@@ -13,10 +13,10 @@ const page = () => {
   return (
     <main className="px-4 ~pt-[3.75rem]/[12rem] ~pb-[4rem]/[6rem]">
       <CommunityAside />
-      <article className="mx-auto max-w-screen-xl">
+      <article className="mx-auto max-w-screen-xl px-4">
         <Table>
           <TableHeader className="border-b border-t-2 border-black ">
-            <TableRow className="">
+            <TableRow className="border-black">
               <TableHead className="w-40 text-center text-siteBlack">
                 번호
               </TableHead>

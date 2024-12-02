@@ -209,6 +209,7 @@ const SecondScreen = ({
     if (phone.length !== 13) return;
     if (smsSent) return;
     setSmsSent(true);
+    setValidated(false);
     const res = await sendVerificationSMS(phone);
     if (res?.success) {
       setValidated(true);
