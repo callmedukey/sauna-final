@@ -1,3 +1,4 @@
+import { RoomType } from "@prisma/client";
 import { z } from "zod";
 
 export const UserSchema = z.object({
@@ -59,3 +60,18 @@ export const RegisterPartOneSchema = RawRegisterSchema.pick({
 });
 
 export const UpdateProfileSchema = RegisterSchema;
+
+export const ReservationSchema = z.object({
+  men: z.number().min(0),
+  women: z.number().min(0),
+  children: z.number().min(0),
+  infants: z.number().min(0),
+  message: z.string().optional(),
+  usedPoint: z.number().optional(),
+  roomType: z.nativeEnum(RoomType),
+  date: z.string(),
+  time: z.string(),
+  isWeekend: z.boolean(),
+  price: z.number(),
+  paidPrice: z.number(),
+});

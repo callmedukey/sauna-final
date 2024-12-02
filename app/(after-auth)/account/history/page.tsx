@@ -58,27 +58,31 @@ const page = async () => {
             {reservations && reservations.length > 0 ? (
               reservations.map((reservation) => (
                 <TableRow
-                  className="text-center ~text-xs/base"
+                  className="break-keep text-center ~text-xs/base"
                   key={reservation.id}
                 >
-                  <TableCell className="flex flex-col">
+                  <TableCell className="flex min-w-28 flex-col">
                     <span>{reservation.date}</span>
                     <span>{reservation.time}</span>
                   </TableCell>
                   <TableCell>
                     {parseRoomInfo(reservation.roomType).name}
                   </TableCell>
-                  <TableCell className="flex flex-col">
-                    {reservation.men && <span>성인 남 {reservation.men}</span>}
-                    {reservation.women && (
-                      <span>성인 여 {reservation.women}</span>
-                    )}
-                    {reservation.children && (
-                      <span>어린이 {reservation.children}</span>
-                    )}
-                    {reservation.infants && (
-                      <span>유아 {reservation.infants}</span>
-                    )}
+                  <TableCell className="min-w-28">
+                    <div className="flex flex-col items-center">
+                      {reservation.men > 0 && (
+                        <div>성인 남 {reservation.men}</div>
+                      )}
+                      {reservation.women > 0 && (
+                        <div>성인 여 {reservation.women}</div>
+                      )}
+                      {reservation.children > 0 && (
+                        <div>어린이 {reservation.children}</div>
+                      )}
+                      {reservation.infants > 0 && (
+                        <div>유아 {reservation.infants}</div>
+                      )}
+                    </div>
                   </TableCell>
                   <TableCell>
                     {parseRoomInfo(reservation.roomType).time}분

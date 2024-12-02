@@ -1,7 +1,9 @@
 "use client";
 
 import type { Reservation } from "@prisma/client";
-import { useCallback, useState } from "react";
+import { format } from "date-fns";
+import { AnimatePresence } from "motion/react";
+import { useState } from "react";
 
 import Step1 from "./Step1";
 import Step2 from "./Step2";
@@ -10,8 +12,10 @@ import Step4 from "./Step4";
 
 const ReservationControl = ({
   reservations,
+  points,
 }: {
-  reservations: Pick<Reservation, "date" | "time" | "id">[];
+  reservations: Pick<Reservation, "date" | "time" | "id" | "roomType">[];
+  points: number;
 }) => {
   const [people, setPeople] = useState<{
     men: number;
@@ -24,50 +28,84 @@ const ReservationControl = ({
     children: 0,
     infants: 0,
   });
+  const [peopleConfirmed, setPeopleConfirmed] = useState(false);
 
-  const [room, setRoom] = useState("");
-  const [date, setDate] = useState("");
+  const [room, setRoom] = useState({
+    name: "",
+    price: 0,
+    type: "",
+    extra: "",
+    last: "",
+  });
+  const [date, setDate] = useState(format(new Date(), "yyyy-MM-dd"));
   const [time, setTime] = useState("");
+  const [usedPoint, setUsedPoint] = useState(0);
   const [message, setMessage] = useState("");
 
-  const handleMessage = useCallback((message: string) => {
-    setMessage(message);
-  }, []);
-
-  const handleDate = useCallback((date: string) => {
-    setDate(date);
-  }, []);
-
-  const handleTime = useCallback((time: string) => {
-    setTime(time);
-  }, []);
-
-  const handleRoom = useCallback((room: string) => {
-    setRoom(room);
-  }, []);
-
-  const handlePeople = useCallback(
-    (people: {
-      men: number;
-      women: number;
-      children: number;
-      infants: number;
-    }) => {
-      setPeople(people);
-    },
-    []
-  );
+  const handleReset = () => {
+    setPeopleConfirmed(false);
+    setRoom({
+      name: "",
+      price: 0,
+      type: "",
+      extra: "",
+      last: "",
+    });
+    setDate(format(new Date(), "yyyy-MM-dd"));
+    setTime("");
+    setMessage("");
+    setPeople({
+      men: 0,
+      women: 0,
+      children: 0,
+      infants: 0,
+    });
+  };
 
   return (
-    <article className="mx-auto max-w-screen-lg ~px-[0rem]/[9.5rem]">
-      <Step1 handlePeople={handlePeople} />
-      <Step2 handleRoom={handleRoom} />
-      <Step3
-        handleTime={handleTime}
-        reservations={reservations}
-        handleDate={handleDate}
-      />
-      <Step4 handleMessage={handleMessage} />
+    <article className="mx-auto max-w-screen-lg py-[3.125rem] ~px-[0rem]/[4.5rem]">
+      <AnimatePresence>
+        <Step1
+          key="step1"
+          people={people}
+          handlePeople={setPeople}
+          handlePeopleConfirmed={setPeopleConfirmed}
+          handleReset={handleReset}
+          confirmed={peopleConfirmed}
+        />
+        {peopleConfirmed && (
+          <Step2
+            key="step2"
+            handleRoom={setRoom}
+            currentRoom={room}
+            persons={people}
+          />
+        )}
+        {peopleConfirmed && room.name.trim() !== "" && (
+          <Step3
+            key="step3"
+            handleTime={setTime}
+            reservations={reservations}
+            handleDate={setDate}
+            selectedRoom={room}
+            selectedTime={time}
+          />
+        )}
+        {date && time && (
+          <Step4
+            key="step4"
+            selectedRoom={room}
+            persons={people}
+            selectedDate={date}
+            handleMessage={setMessage}
+            usedPoint={usedPoint}
+            maxPoint={points}
+            selectedTime={time}
+            currentMessage={message}
+            handleUsedPoint={setUsedPoint}
+          />
+        )}
+      </AnimatePresence>
     </article>
   );
 };

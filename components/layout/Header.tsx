@@ -123,7 +123,10 @@ const Header = () => {
                   </button>
                 ))}
           </nav>
-          <MobileMenu />
+          <MobileMenu
+            setIsLoginOpen={setIsLoginOpen}
+            setIsRegisterOpen={setIsRegisterOpen}
+          />
         </div>
       </header>
       <LoginModal

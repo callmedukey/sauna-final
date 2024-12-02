@@ -23,6 +23,7 @@
     "@radix-ui/react-select": "^2.1.2",
     "@radix-ui/react-slot": "^1.1.0",
     "@radix-ui/react-tabs": "^1.1.1",
+    "@tosspayments/payment-sdk": "^1.9.1",
     "bcryptjs": "^2.4.3",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
@@ -35,10 +36,12 @@
     "eslint-plugin-tailwindcss": "^3.17.5",
     "ioredis": "^5.4.1",
     "lucide-react": "^0.462.0",
+    "motion": "^11.12.0",
     "next": "15.0.3",
     "next-auth": "^5.0.0-beta.25",
     "nodemailer": "^6.9.16",
     "react": "19.0.0-rc-66855b96-20241106",
+    "react-day-picker": "^8.10.1",
     "react-dom": "19.0.0-rc-66855b96-20241106",
     "react-hook-form": "^7.53.2",
     "solapi": "^5.3.1",
@@ -50,6 +53,7 @@
     "zod": "^3.23.8"
   },
   "devDependencies": {
+    "@tailwindcss/typography": "^0.5.15",
     "@types/bcryptjs": "^2.4.6",
     "@types/node": "^20",
     "@types/nodemailer": "^6.4.17",

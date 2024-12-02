@@ -44,6 +44,8 @@ export const sendVerificationSMS = async (phone: string): ActionResponse => {
     text: `솔로사우나 인증번호: [ ${code} ]`,
   });
 
+  console.log(res);
+
   if (res.statusCode === "2000") {
     return {
       success: true,

@@ -39,6 +39,7 @@ body {
     --site-bg-gray: 60 18% 97%;
     --site-text-gray: 0 0% 37%;
     --site-text-gray-2: 0 0% 32%;
+    --site-odd-gray: 0 0% 78.4%;
     --golden: 35.8 20.5% 49.8%;
   }
   .dark {
@@ -100,5 +101,37 @@ body {
 
   .page-padding {
     @apply px-4 ~pt-[4rem]/48 ~pb-[4rem]/[6rem];
+  }
+
+  .step-title {
+    @apply flex items-baseline gap-8 text-siteBlack relative isolate;
+  }
+
+  .step-title span:first-child {
+    @apply ~text-xs/base;
+  }
+
+  .step-title span:last-child {
+    @apply font-bold text-2xl absolute sm:static left-0 right-0 text-center;
+  }
+
+  .step-one-title-container {
+    @apply flex flex-col max-w-[3.75rem] w-full;
+  }
+
+  .step-one-title {
+    @apply text-siteBlack text-base;
+  }
+
+  .step-one-sub-title {
+    @apply text-siteBlack text-xs;
+  }
+
+  .step-one-button-container {
+    @apply flex items-center gap-2 min-w-[6rem];
+  }
+
+  .step-one-button-container span {
+    @apply text-siteBlack text-base flex-grow flex-shrink-0 flex-all-center;
   }
 }

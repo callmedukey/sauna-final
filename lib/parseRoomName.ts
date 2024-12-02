@@ -32,6 +32,26 @@ export const parseRoomInfo = (roomName: keyof typeof Rooms) => {
         name: "가족룸 (주말)",
         time: "100",
       };
+    case "MEN60WEEKEND":
+      return {
+        name: "남성룸",
+        time: "60",
+      };
+    case "MEN90WEEKEND":
+      return {
+        name: "남성룸",
+        time: "90",
+      };
+    case "WOMEN60WEEKEND":
+      return {
+        name: "여성룸",
+        time: "60",
+      };
+    case "WOMEN90WEEKEND":
+      return {
+        name: "여성룸",
+        time: "90",
+      };
     default:
       return {
         name: "",

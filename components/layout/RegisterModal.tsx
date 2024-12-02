@@ -206,10 +206,12 @@ const SecondScreen = ({
   }, [smsSent]);
 
   const handleSendVerificationSMS = async () => {
-    if (phone.length !== 11) return;
+    if (phone.length !== 13) return;
     if (smsSent) return;
+    setSmsSent(true);
     const res = await sendVerificationSMS(phone);
     if (res?.success) {
+      setValidated(true);
       setSmsSent(true);
       return;
     }
@@ -322,7 +324,7 @@ const SecondScreen = ({
                   </FormControl>
                   <button
                     type="button"
-                    className="absolute bottom-1 cursor-pointer bg-siteBgGray ~text-xs/base ~right-1/2 ~px-[0.625rem]/[1rem] ~py-[0.3125rem]/[0.5rem] disabled:cursor-not-allowed disabled:bg-siteBgGray/50"
+                    className="absolute bottom-1 cursor-pointer bg-siteBgGray ~text-xs/base ~right-1/2 ~px-[0.625rem]/[1rem] ~py-[0.3125rem]/[0.5rem] disabled:cursor-not-allowed disabled:bg-siteBgGray/50 disabled:opacity-50"
                     onClick={handleSendVerificationSMS}
                     disabled={smsSent || phone.length !== 13}
                   >
@@ -370,10 +372,9 @@ const SecondScreen = ({
           </fieldset>
           <Button
             variant={"ringHover"}
-            type="button"
+            type="submit"
             disabled={!isValid}
             className="mx-auto w-full rounded-full bg-siteBgGray py-8 text-base text-siteBlack hover:text-white lg:max-w-60"
-            onClick={() => {}}
           >
             완료
           </Button>

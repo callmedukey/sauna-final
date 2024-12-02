@@ -38,6 +38,7 @@ export default {
         siteTextGray2: "hsl(var(--site-text-gray-2))",
         golden: "hsl(var(--golden))",
         siteTextGray3: "hsl(var(--site-text-gray-3))",
+        siteOddGray: "hsl(var(--site-odd-gray))",
         siteBgGray: "hsl(var(--site-bg-gray))",
         siteTextGray: "hsl(var(--site-text-gray))",
         siteGray: "hsl(var(--site-gray))",
@@ -91,6 +92,7 @@ export default {
     },
   },
   plugins: [
+    require("@tailwindcss/typography"),
     require("tailwindcss-animate"),
     require("tailwindcss-motion"),
     fluid,

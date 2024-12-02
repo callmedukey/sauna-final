@@ -21,7 +21,7 @@ export const HeaderLinks = [
   },
   {
     label: "예약하기",
-    href: "/reservation",
+    href: "/account/reservation",
   },
 ];
 
@@ -72,9 +72,30 @@ export const Rooms = {
     { startingTime: "18:40", endingTime: "19:40" },
     { startingTime: "20:00", endingTime: "21:00" },
     { startingTime: "21:20", endingTime: "22:20" },
+  ],
+  MEN60WEEKEND: [
+    { startingTime: "9:20", endingTime: "10:20" },
+    { startingTime: "10:40", endingTime: "11:40" },
+    { startingTime: "12:00", endingTime: "13:00" },
+    { startingTime: "13:20", endingTime: "14:20" },
+    { startingTime: "14:40", endingTime: "15:40" },
+    { startingTime: "16:00", endingTime: "17:00" },
+    { startingTime: "17:20", endingTime: "18:20" },
+    { startingTime: "18:40", endingTime: "19:40" },
+    { startingTime: "20:00", endingTime: "21:00" },
+    { startingTime: "21:20", endingTime: "22:20" },
     { startingTime: "22:40", endingTime: "23:40" },
   ],
   MEN90: [
+    { startingTime: "9:20", endingTime: "10:50" },
+    { startingTime: "11:10", endingTime: "12:40" },
+    { startingTime: "13:00", endingTime: "14:30" },
+    { startingTime: "14:50", endingTime: "16:20" },
+    { startingTime: "16:40", endingTime: "18:10" },
+    { startingTime: "18:30", endingTime: "20:00" },
+    { startingTime: "20:20", endingTime: "21:50" },
+  ],
+  MEN90WEEKEND: [
     { startingTime: "9:20", endingTime: "10:50" },
     { startingTime: "11:10", endingTime: "12:40" },
     { startingTime: "13:00", endingTime: "14:30" },
@@ -95,9 +116,30 @@ export const Rooms = {
     { startingTime: "18:20", endingTime: "19:20" },
     { startingTime: "19:40", endingTime: "20:40" },
     { startingTime: "21:00", endingTime: "22:00" },
+  ],
+  WOMEN60WEEKEND: [
+    { startingTime: "9:00", endingTime: "10:00" },
+    { startingTime: "10:20", endingTime: "11:20" },
+    { startingTime: "11:40", endingTime: "12:40" },
+    { startingTime: "13:00", endingTime: "14:00" },
+    { startingTime: "14:20", endingTime: "15:20" },
+    { startingTime: "15:40", endingTime: "16:40" },
+    { startingTime: "17:00", endingTime: "18:00" },
+    { startingTime: "18:20", endingTime: "19:20" },
+    { startingTime: "19:40", endingTime: "20:40" },
+    { startingTime: "21:00", endingTime: "22:00" },
     { startingTime: "22:20", endingTime: "23:20" },
   ],
   WOMEN90: [
+    { startingTime: "9:00", endingTime: "10:30" },
+    { startingTime: "10:50", endingTime: "12:20" },
+    { startingTime: "12:40", endingTime: "14:10" },
+    { startingTime: "14:30", endingTime: "16:00" },
+    { startingTime: "16:20", endingTime: "17:50" },
+    { startingTime: "18:10", endingTime: "19:40" },
+    { startingTime: "20:00", endingTime: "21:30" },
+  ],
+  WOMEN90WEEKEND: [
     { startingTime: "9:00", endingTime: "10:30" },
     { startingTime: "10:50", endingTime: "12:20" },
     { startingTime: "12:40", endingTime: "14:10" },
@@ -124,6 +166,14 @@ export const Rooms = {
     { startingTime: "20:10", endingTime: "21:50" },
     { startingTime: "22:30", endingTime: "0:10" },
   ],
+};
+
+export const WeekendRooms = {
+  FAMILY100: "FAMILY100WEEKEND",
+  WOMEN60: "WOMEN60WEEKEND",
+  WOMEN90: "WOMEN90WEEKEND",
+  MEN60: "MEN60WEEKEND",
+  MEN90: "MEN90WEEKEND",
 };
 
 export const PointsOptions = [
@@ -163,3 +213,47 @@ export const PointsOptions = [
     extraPoint: 225000,
   },
 ];
+export const RoomInfo = {
+  MEN60: {
+    name: "남성룸[60분]",
+    price: 45000,
+    extra: "(기본 1인)",
+    last: "인원추가 시 1인당 35,000 추가",
+    type: "MEN60",
+  },
+  MEN90: {
+    name: "남성룸[90분]",
+    price: 55000,
+    extra: "(기본 1인)",
+    last: "인원추가 시 1인당 35,000 추가",
+    type: "MEN90",
+  },
+  FAMILY100: {
+    name: "혼합룸,여성+가족룸,남성+가족룸[100분]",
+    price: 120000,
+    extra: "(기본 2인)",
+    last: "인원추가 시 1인당 35,000 추가",
+    type: "FAMILY100",
+  },
+  FAMILY100MOBILE: {
+    name: "혼합룸+대형사우나룸[100분]",
+    price: 120000,
+    extra: "(기본 2인)",
+    last: "인원추가 시 1인당 35,000 추가",
+    type: "FAMILY100",
+  },
+  WOMEN60: {
+    name: "여성룸[60분]",
+    price: 45000,
+    extra: "(기본 1인)",
+    last: "인원추가 시 1인당 35,000 추가",
+    type: "WOMEN60",
+  },
+  WOMEN90: {
+    name: "여성룸[90분]",
+    price: 55000,
+    extra: "(기본 1인)",
+    last: "인원추가 시 1인당 35,000 추가",
+    type: "WOMEN90",
+  },
+};
