@@ -7,6 +7,7 @@ async function main() {}
 main()
   .then(async () => {
     const hashedPassword = await bcrypt.hash("admin2024@@", 10);
+    const hashedPassword2 = await bcrypt.hash("test2024@@", 10);
 
     await prisma.user.upsert({
       where: {
@@ -25,6 +26,25 @@ main()
         name: "관리자",
         phone: "010-1234-5678",
         role: "ADMIN",
+      },
+    });
+
+    await prisma.user.upsert({
+      where: {
+        email: "test@sauna.com",
+      },
+      update: {
+        password: hashedPassword2,
+        role: "USER",
+        name: "테스트",
+        phone: "010-1234-5678",
+      },
+      create: {
+        email: "test@sauna.com",
+        password: hashedPassword2,
+        role: "USER",
+        name: "테스트",
+        phone: "010-1234-5678",
       },
     });
 

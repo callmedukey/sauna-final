@@ -4,17 +4,16 @@ import {
   DialogDescription,
   DialogHeader,
   DialogTitle,
-  DialogTrigger,
 } from "@/components/ui/dialog";
 
-const PrivacyDialog = () => {
+interface PrivacyDialogProps {
+  open: boolean;
+  onOpenChange: (open: boolean) => void;
+}
+
+const PrivacyDialog = ({ open, onOpenChange }: PrivacyDialogProps) => {
   return (
-    <Dialog>
-      <DialogTrigger asChild>
-        <button className="border-l border-siteBlack xl:border-siteGray">
-          개인정보처리방침
-        </button>
-      </DialogTrigger>
+    <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="3xl:max-w-screen-2xl max-h-[min(80vh,60rem)] max-w-[90%] overflow-y-auto rounded-lg ~px-4/8">
         <DialogHeader>
           <DialogTitle className="w-full text-center text-2xl font-bold">
@@ -69,7 +68,7 @@ const PrivacyDialog = () => {
             회원정보를 보관합니다.
           </p>
           <ol>
-            <li>보존 항목 : 로그인ID, 결제기록</li>
+            <li>보존 항목 : 로그인ID, 결제기��</li>
             <li>보존 근거 : 신용정보의 이용 및 보호에 관한 법률</li>
             <li>
               보존 기간 : 3년

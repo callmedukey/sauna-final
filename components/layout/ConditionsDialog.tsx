@@ -4,15 +4,16 @@ import {
   DialogDescription,
   DialogHeader,
   DialogTitle,
-  DialogTrigger,
 } from "@/components/ui/dialog";
 
-const ConditionsDialog = () => {
+interface ConditionsDialogProps {
+  open: boolean;
+  onOpenChange: (open: boolean) => void;
+}
+
+const ConditionsDialog = ({ open, onOpenChange }: ConditionsDialogProps) => {
   return (
-    <Dialog>
-      <DialogTrigger asChild>
-        <button>이용약관</button>
-      </DialogTrigger>
+    <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="3xl:max-w-screen-2xl max-h-[min(80vh,60rem)] max-w-[90%] overflow-y-auto rounded-lg ~px-4/8">
         <DialogHeader>
           <DialogTitle className="w-full text-center text-2xl font-bold">

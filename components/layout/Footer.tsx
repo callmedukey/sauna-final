@@ -1,11 +1,13 @@
+"use client";
+
 import Image from "next/image";
 
 import FooterLogo from "@/public/footer/footer-logo.svg";
 
-import ConditionsDialog from "./ConditionsDialog";
-import PrivacyDialog from "./PrivacyDialog";
+import { useDialog } from "./Providers";
 
 export default function Footer() {
+  const { openConditionsDialog, openPrivacyDialog } = useDialog();
   return (
     <>
       <footer className="bg-siteBgGray px-4 py-6 text-siteBlack">
@@ -53,10 +55,27 @@ export default function Footer() {
             </address>
 
             {/* Legal links navigation */}
-            <div className="flex items-center justify-center sm:justify-start xl:text-siteGray [&>button:first-child]:pr-4 [&>button:last-child]:pl-4 [&>button]:text-center sm:[&>button]:text-left">
-              <ConditionsDialog />
-              <PrivacyDialog />
-            </div>
+            <nav
+              className="flex items-center justify-center sm:justify-start xl:text-siteGray [&>button:first-child]:border-r [&>button:first-child]:pr-4 [&>button:last-child]:pl-4 [&>button]:text-center sm:[&>button]:text-left"
+              aria-label="법적 링크"
+            >
+              <button
+                onClick={openConditionsDialog}
+                type="button"
+                aria-label="이용약관 보기"
+                className="hover:underline focus:outline-none focus:ring-2 focus:ring-offset-2"
+              >
+                이용약관
+              </button>
+              <button
+                onClick={openPrivacyDialog}
+                type="button"
+                aria-label="개인정보처리방침 보기"
+                className="hover:underline focus:outline-none focus:ring-2 focus:ring-offset-2"
+              >
+                개인정보처리방침
+              </button>
+            </nav>
           </div>
           <div className="order-1 mx-auto space-y-8 self-start border-siteBlack text-base sm:order-2 sm:ml-auto sm:mr-0 sm:border-l sm:pl-8 xl:order-3 xl:space-y-0 xl:border-none">
             <div className="block xl:hidden">

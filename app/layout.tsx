@@ -6,6 +6,7 @@ import "./globals.css";
 import { auth } from "@/auth";
 import Footer from "@/components/layout/Footer";
 import Header from "@/components/layout/Header";
+import { Providers } from "@/components/layout/Providers";
 import { cn } from "@/lib/utils";
 
 const Pretendard = localFont({
@@ -30,9 +31,11 @@ export default async function RootLayout({
     <html lang="ko" suppressHydrationWarning>
       <body className={cn(`${Pretendard.variable} isolate antialiased`)}>
         <SessionProvider session={session}>
-          <Header />
-          {children}
-          <Footer />
+          <Providers>
+            <Header />
+            {children}
+            <Footer />
+          </Providers>
         </SessionProvider>
       </body>
     </html>

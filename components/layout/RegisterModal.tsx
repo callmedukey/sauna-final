@@ -15,6 +15,7 @@ import {
 } from "@/components/ui/dialog";
 import { RegisterSchema } from "@/definitions/zod";
 
+import { useDialog } from "./Providers";
 import { Button } from "../ui/button";
 import { Checkbox } from "../ui/checkbox";
 import {
@@ -184,6 +185,7 @@ const SecondScreen = ({
   const timer = useRef<NodeJS.Timeout>();
   const [conditionsAgreed, setConditionsAgreed] = useState(false);
   const phone = form.watch("phone");
+  const { openConditionsDialog } = useDialog();
 
   useEffect(() => {
     setValidated(false);
@@ -368,7 +370,17 @@ const SecondScreen = ({
               onCheckedChange={() => setConditionsAgreed(!conditionsAgreed)}
             />
             <label htmlFor="conditions" className="text-xs">
-              이용 약관 동의
+              <button
+                type="button"
+                className="hover:underline"
+                onClick={(e) => {
+                  e.preventDefault();
+                  openConditionsDialog();
+                }}
+              >
+                이용 약관
+              </button>{" "}
+              동의
             </label>
           </fieldset>
           <Button
