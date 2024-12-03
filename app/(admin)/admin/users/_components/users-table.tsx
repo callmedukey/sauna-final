@@ -32,6 +32,8 @@ import {
 
 interface UsersTableProps {
   users: Pick<User, "id" | "name" | "email" | "phone" | "point">[];
+  currentPage: number;
+  totalPages: number;
 }
 
 export function UsersTable({ users }: UsersTableProps) {
