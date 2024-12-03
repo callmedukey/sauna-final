@@ -55,6 +55,28 @@ const Header = () => {
               if (link.href === "/community") {
                 return <CommunityDropdown key={link.href} />;
               }
+
+              if (link.href === "/account/reservation") {
+                return (
+                  <Link
+                    key={link.href}
+                    href={link.href}
+                    onClick={(e) => {
+                      if (!session || !session.data?.user) {
+                        e.preventDefault();
+                        setIsLoginOpen(true);
+                      }
+                    }}
+                    className={cn(
+                      "hover:motion-preset-shake",
+                      link.href === pathname &&
+                        "underline underline-offset-4 font-bold"
+                    )}
+                  >
+                    {link.label}
+                  </Link>
+                );
+              }
               return (
                 <Link
                   key={link.href}
