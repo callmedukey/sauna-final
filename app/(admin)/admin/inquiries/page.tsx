@@ -4,20 +4,21 @@ import prisma from "@/lib/prisma";
 import { InquiriesTable } from "./_components/inquiries-table";
 
 interface PageProps {
-  searchParams: Promise<{
+  searchParams: {
     page?: string;
-  }>;
+  };
 }
 
-export default async function AdminInquiriesPage({ searchParams }: PageProps) {
+export default async function AdminInquiriesPage({
+  searchParams,
+}: PageProps) {
   const session = await auth();
 
   if (!session?.user?.isAdmin) {
     redirect("/");
   }
 
-  const searchParamsAwaited = await searchParams;
-  const page = Number(searchParamsAwaited.page) || 1;
+  const page = Number(searchParams.page) || 1;
   const limit = 20;
 
   const [inquiries, total] = await Promise.all([

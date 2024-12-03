@@ -5,11 +5,16 @@ import { SignatureDialog } from "./_components/signature-dialog";
 import { SignatureList } from "../../reservations/[id]/_components/signature-list";
 
 interface PageProps {
-  params: { id: string };
+  params: Promise<{
+    id: string;
+  }>;
 }
 
-export default async function NaverReservationDetailPage({ params }: PageProps) {
-  const { id } = params;
+export default async function NaverReservationDetailPage({
+  params,
+}: PageProps) {
+  const paramsAwaited = await params;
+  const { id } = paramsAwaited;
 
   const reservation = await prisma.naverReservation.findUnique({
     where: { id },
