@@ -57,7 +57,11 @@ const MobileMenu = ({
                   return (
                     <Link
                       key={link.href}
-                      href={link.href}
+                      href={
+                        session.data.user.isAdmin && link.href === "/account"
+                          ? "/admin/reservations"
+                          : link.href
+                      }
                       className="transition-all duration-300 hover:underline"
                     >
                       {link.label}

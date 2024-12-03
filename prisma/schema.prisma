@@ -26,6 +26,23 @@ enum RoomType {
   FAMILY100WEEKEND
 }
 
+enum ContentType {
+  POPUP
+}
+
+enum SpecialDateType {
+  BLOCKED
+  DISCOUNT
+}
+
+model Content {
+  id        String      @id @default(uuid())
+  type      ContentType
+  path      String
+  createdAt DateTime    @default(now())
+  updatedAt DateTime    @updatedAt
+}
+
 model VerificationEmail {
   id        String   @id @default(uuid())
   email     String   @unique
@@ -62,6 +79,8 @@ model User {
   verificationSMS     VerificationSMS?
 
   reservations Reservation[]
+  notices      Notice[]
+  inquiries    Inquiry[]
 
   point Int @default(3000)
 
@@ -94,4 +113,64 @@ model Reservation {
 
   user   User   @relation(fields: [userId], references: [id])
   userId String
+
+  signedAgreement SignedAgreement[]
+}
+
+model SignedAgreement {
+  id        String   @id @default(uuid())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  path String
+
+  reservation        Reservation?      @relation(fields: [reservationId], references: [id], onDelete: Cascade)
+  reservationId      String?
+  naverReservation   NaverReservation? @relation(fields: [naverReservationId], references: [id], onDelete: Cascade)
+  naverReservationId String?
+}
+
+model NaverReservation {
+  id                String @id @default(uuid())
+  name              String
+  date              String
+  time              String
+  reservationNumber String
+
+  signedAgreement SignedAgreement[]
+  createdAt       DateTime          @default(now())
+  updatedAt       DateTime          @updatedAt
+}
+
+model SpecialDate {
+  id        String          @id @default(uuid())
+  date      String // Format: YYYY-MM-DD
+  type      SpecialDateType
+  discount  Int? // Percentage discount (only used when type is DISCOUNT)
+  createdAt DateTime        @default(now())
+  updatedAt DateTime        @updatedAt
+}
+
+model Notice {
+  id        String   @id @default(uuid())
+  title     String
+  content   String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  user      User     @relation(fields: [userId], references: [id])
+  userId    String
+}
+
+model Inquiry {
+  id         String    @id @default(uuid())
+  title      String
+  content    String
+  isPrivate  Boolean   @default(false)
+  answer     String?
+  answeredAt DateTime?
+  answeredBy String?
+  createdAt  DateTime  @default(now())
+  updatedAt  DateTime  @updatedAt
+  user       User      @relation(fields: [userId], references: [id])
+  userId     String
 }

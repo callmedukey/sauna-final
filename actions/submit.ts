@@ -94,6 +94,21 @@ const checkTimeAvailability = async (
   return true;
 };
 
+interface ReservationParams {
+  date: string;
+  time: string;
+  roomType: RoomType;
+  men: number;
+  women: number;
+  children: number;
+  infants: number;
+  message: string;
+  usedPoint: number;
+  price: number;
+  paidPrice: number;
+  isWeekend: boolean;
+}
+
 export const submitReservation = async (
   reservation: z.infer<typeof ReservationSchema>
 ): ActionResponse => {
@@ -117,7 +132,29 @@ export const submitReservation = async (
 
     // Execute as transaction
     const result = await prisma.$transaction(async (tx) => {
-      console.log("Starting transaction with data:", validated.data);
+      // Check for blocked dates first
+      const formattedDate = validated.data.date.replace(/\//g, "-");
+      const specialDate = await tx.specialDate.findFirst({
+        where: {
+          date: formattedDate,
+          type: "BLOCKED",
+        },
+      });
+
+      if (specialDate) {
+        return {
+          success: false,
+          message: "선택하신 날짜는 예약이 불가능합니다.",
+        };
+      }
+
+      // Get discount information if available
+      const discountDate = await tx.specialDate.findFirst({
+        where: {
+          date: formattedDate,
+          type: "DISCOUNT",
+        },
+      });
 
       // Check if user has enough points
       if (validated.data?.usedPoint && validated.data.usedPoint > 0) {
@@ -138,8 +175,6 @@ export const submitReservation = async (
         ? ((validated.data.roomType + "WEEKEND") as RoomType)
         : (validated.data.roomType as RoomType);
 
-      console.log("Final room type:", finalRoomType);
-
       // Check time availability
       const isAvailable = await checkTimeAvailability(
         tx,
@@ -147,8 +182,6 @@ export const submitReservation = async (
         validated.data.time,
         finalRoomType
       );
-
-      console.log("Time availability check result:", isAvailable);
 
       if (!isAvailable) {
         return {
@@ -169,33 +202,26 @@ export const submitReservation = async (
         isFamily
       );
 
-      console.log("Additional fee calculation:", {
-        isFamily,
-        additionalFee,
-        persons: {
-          men: validated.data.men,
-          women: validated.data.women,
-          children: validated.data.children,
-          infants: validated.data.infants,
-        },
-      });
+      // The subtotal is already provided from the client and includes additional fee
+      const subtotal = validated.data.price;
 
-      const totalPrice = validated.data.price + additionalFee;
-
-      console.log("Price verification:", {
-        basePrice: validated.data.price,
-        additionalFee,
-        totalPrice,
-        paidPrice: validated.data.paidPrice,
-        usedPoints: validated.data?.usedPoint,
-      });
+      // Apply discount if available
+      let finalPrice = subtotal;
+      if (discountDate?.discount) {
+        finalPrice = Math.floor(subtotal * (1 - discountDate.discount / 100));
+      }
 
       // Verify the paid amount matches the calculated total
-      if (
-        totalPrice !==
-        validated.data.paidPrice + (validated.data?.usedPoint ?? 0)
-      ) {
-        console.log("Price mismatch detected");
+      const expectedPaidAmount = finalPrice - (validated.data?.usedPoint ?? 0);
+      if (validated.data.paidPrice !== expectedPaidAmount) {
+        console.error("Price mismatch:", {
+          calculated: expectedPaidAmount,
+          submitted: validated.data.paidPrice,
+          subtotal,
+          finalPrice,
+          discount: discountDate?.discount,
+          usedPoints: validated.data?.usedPoint,
+        });
         return {
           success: false,
           message: "결제 금액이 일치하지 않습니다.",
@@ -203,20 +229,12 @@ export const submitReservation = async (
       }
 
       // Create the reservation
-      console.log("Creating reservation with data:", {
-        date: validated.data.date,
-        time: validated.data.time,
-        roomType: finalRoomType,
-        price: totalPrice,
-        userId: session.user.id,
-      });
-
       const newReservation = await tx.reservation.create({
         data: {
           date: validated.data.date,
           time: validated.data.time,
           roomType: finalRoomType,
-          price: totalPrice,
+          price: subtotal,
           paidPrice: validated.data.paidPrice,
           usedPoint: validated.data.usedPoint,
           men: validated.data.men,
@@ -232,8 +250,6 @@ export const submitReservation = async (
         },
       });
 
-      console.log("Successfully created reservation:", newReservation);
-
       // Update user points if points were used
       if (validated.data?.usedPoint && validated.data.usedPoint > 0) {
         await tx.user.update({
@@ -243,11 +259,6 @@ export const submitReservation = async (
               decrement: validated.data.usedPoint,
             },
           },
-        });
-
-        console.log("Updated user points:", {
-          userId: session.user.id,
-          pointsUsed: validated.data.usedPoint,
         });
       }
 
@@ -260,7 +271,7 @@ export const submitReservation = async (
     if (!result.success) {
       return {
         success: false,
-        message: "예약 제출에 실패하였습니다. 다시 시도해주세요.",
+        message: result.message || "예약 제출에 실패하였습니다. 다시 시도해주세요.",
       };
     }
 

@@ -1,7 +1,9 @@
 import { MinusCircledIcon, PlusCircledIcon } from "@radix-ui/react-icons";
 import React from "react";
+import { format } from "date-fns";
 
 import { Button } from "@/components/ui/button";
+import { RoomType, SpecialDate } from "@prisma/client";
 
 const instructions = [
   "룸별 인원제한 - 일반룸 (1명~3명) / 일반룸+대형사우나 (3명~6명)",
@@ -12,31 +14,48 @@ const instructions = [
   "예약에 도움이 필요하신 고객님께서는 편하게 전화주시면 안내해드리겠습니다.\n(tel. 070-8860-8553)",
 ];
 
-const Step1 = ({
-  handlePeople,
-  people,
-  handlePeopleConfirmed,
-  handleReset,
-  confirmed,
-}: {
-  handlePeople: React.Dispatch<
-    React.SetStateAction<{
-      children: number;
-      infants: number;
-      men: number;
-      women: number;
-    }>
-  >;
+interface Props {
   people: {
     children: number;
     infants: number;
     men: number;
     women: number;
   };
-  handlePeopleConfirmed: React.Dispatch<React.SetStateAction<boolean>>;
+  handlePeople: (people: {
+    children: number;
+    infants: number;
+    men: number;
+    women: number;
+  }) => void;
+  handlePeopleConfirmed: (confirmed: boolean) => void;
   handleReset: () => void;
   confirmed: boolean;
-}) => {
+  reservations: {
+    date: string;
+    time: string;
+    id: string;
+    roomType: RoomType;
+  }[];
+  specialDates: SpecialDate[];
+}
+
+export default function Step1({
+  people,
+  handlePeople,
+  handlePeopleConfirmed,
+  handleReset,
+  confirmed,
+  reservations,
+  specialDates,
+}: Props) {
+  const [selectedDate, setSelectedDate] = React.useState<string | null>(null);
+
+  const handleDateSelect = (date: Date) => {
+    const dateStr = format(date, "yyyy-MM-dd");
+    setSelectedDate(dateStr);
+    handlePeopleConfirmed(true);
+  };
+
   const handleUpdate = (
     type: "children" | "infants" | "men" | "women",
     value: number
@@ -45,14 +64,56 @@ const Step1 = ({
       handleReset();
     }
 
-    handlePeople((prev) => {
-      const currentValue = prev[type];
-      const newValue = currentValue + value;
-      if (newValue >= 0) {
-        return { ...prev, [type]: newValue };
-      }
-      return prev;
+    handlePeople({
+      ...people,
+      [type]: Math.max(0, people[type] + value),
     });
+  };
+
+  const isDateDisabled = (date: Date) => {
+    const dateStr = format(date, "yyyy-MM-dd");
+    const specialDate = specialDates.find(
+      (sd) => sd.date.replace(/\//g, "-") === dateStr
+    );
+
+    if (specialDate?.type === "BLOCKED") {
+      return true;
+    }
+
+    return false;
+  };
+
+  const getDayClassNames = (date: Date) => {
+    const dateStr = format(date, "yyyy-MM-dd");
+    const specialDate = specialDates.find(
+      (sd) => sd.date.replace(/\//g, "-") === dateStr
+    );
+
+    let classes = "relative";
+
+    if (specialDate?.type === "DISCOUNT") {
+      classes += " bg-green-100";
+    }
+
+    return classes;
+  };
+
+  const renderDayContents = (day: number, date: Date) => {
+    const dateStr = format(date, "yyyy-MM-dd");
+    const specialDate = specialDates.find(
+      (sd) => sd.date.replace(/\//g, "-") === dateStr
+    );
+
+    return (
+      <div className="relative">
+        {day}
+        {specialDate?.type === "DISCOUNT" && (
+          <div className="absolute -bottom-4 left-0 right-0 text-xs text-green-600">
+            {specialDate.discount}% OFF
+          </div>
+        )}
+      </div>
+    );
   };
 
   return (
@@ -150,6 +211,4 @@ const Step1 = ({
       </ul>
     </div>
   );
-};
-
-export default Step1;
+}

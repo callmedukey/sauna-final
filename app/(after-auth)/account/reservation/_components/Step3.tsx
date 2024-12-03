@@ -1,10 +1,10 @@
 "use client";
-import type { Reservation } from "@prisma/client";
-import { format, isWeekend } from "date-fns";
+import type { Reservation, SpecialDate } from "@prisma/client";
+import { format, isWeekend, isBefore } from "date-fns";
 import { ko } from "date-fns/locale";
 import { Clock } from "lucide-react";
 import { motion } from "motion/react";
-import React, { useMemo } from "react";
+import React, { useMemo, useState } from "react";
 
 import { Calendar } from "@/components/ui/calendar";
 import { Rooms, WeekendRooms } from "@/definitions/constants";
@@ -17,6 +17,7 @@ const Step3 = ({
   handleDate,
   selectedRoom,
   selectedTime,
+  specialDates,
 }: {
   reservations: Pick<Reservation, "date" | "time" | "id" | "roomType">[];
   handleTime: (time: string) => void;
@@ -29,24 +30,109 @@ const Step3 = ({
     name: string;
   };
   selectedTime: string;
+  specialDates: SpecialDate[];
 }) => {
-  const [date, setDate] = React.useState<Date | undefined>(new Date());
+  const [date, setDate] = useState<Date | undefined>(undefined);
+
   const handleSelectDate = (date: Date | undefined) => {
     if (!date) return;
     setDate(date);
     handleDate(format(date, "yyyy/MM/dd"));
-    handleTime("");
+  };
+
+  const isDateDisabled = (date: Date) => {
+    // First check if it's a past date
+    const koreaDate = new Date(
+      date.toLocaleString("en-US", { timeZone: "Asia/Seoul" })
+    );
+    const koreaToday = new Date(
+      new Date().toLocaleString("en-US", { timeZone: "Asia/Seoul" })
+    );
+    koreaToday.setHours(0, 0, 0, 0);
+    
+    if (isBefore(koreaDate, koreaToday)) {
+      return true;
+    }
+
+    // Then check if it's a blocked date
+    const dateStr = format(date, "yyyy-MM-dd");
+    const specialDate = specialDates.find((sd) => sd.date.replace(/\//g, '-') === dateStr);
+    return specialDate?.type === "BLOCKED";
+  };
+
+  const renderDayContents = (day: number, date: Date) => {
+    const dateStr = format(date, "yyyy-MM-dd");
+    const specialDate = specialDates.find((sd) => sd.date.replace(/\//g, '-') === dateStr);
+
+    if (specialDate?.type === "BLOCKED") {
+      return (
+        <div className="relative flex flex-col items-center">
+          <span>{day}</span>
+          <span className="absolute top-[20px] text-[10px] text-red-400 whitespace-nowrap">
+            휴무
+          </span>
+        </div>
+      );
+    }
+
+    return (
+      <div className="relative flex flex-col items-center">
+        <span>{day}</span>
+        {specialDate?.type === "DISCOUNT" && (
+          <span className="absolute top-[20px] text-[10px] text-green-600 whitespace-nowrap">
+            {specialDate.discount}%
+          </span>
+        )}
+      </div>
+    );
   };
 
   const handleSelectTime = (time: string) => {
+    if (!date) return;
+
+    // Check if the selected time is in the past for today's date
+    const now = new Date();
+    const koreaTime = new Date(
+      now.toLocaleString("en-US", { timeZone: "Asia/Seoul" })
+    );
+    const [hours, minutes] = time.split(":").map(Number);
+    const selectedDateTime = new Date(date);
+    selectedDateTime.setHours(hours, minutes, 0, 0);
+
+    if (
+      format(date, "yyyy/MM/dd") === format(koreaTime, "yyyy/MM/dd") &&
+      isBefore(selectedDateTime, koreaTime)
+    ) {
+      alert("지난 시간은 선택할 수 없습니다.");
+      return;
+    }
+
     handleTime(time);
   };
 
   const isTimeSlotAvailable = (timeSlot: { startingTime: string }) => {
     if (!date || !selectedRoom.type) return false;
 
+    // Check if the time slot is in the past for today's date
+    const now = new Date();
+    const koreaTime = new Date(
+      now.toLocaleString("en-US", { timeZone: "Asia/Seoul" })
+    );
     const [hours, minutes] = timeSlot.startingTime.split(":").map(Number);
-    const slotStartTime = hours * 60 + minutes;
+    const slotDateTime = new Date(date);
+    slotDateTime.setHours(hours, minutes, 0, 0);
+
+    if (
+      format(date, "yyyy/MM/dd") === format(koreaTime, "yyyy/MM/dd") &&
+      isBefore(slotDateTime, koreaTime)
+    ) {
+      return false;
+    }
+
+    const [slotHours, slotMinutes] = timeSlot.startingTime
+      .split(":")
+      .map(Number);
+    const slotStartTime = slotHours * 60 + slotMinutes;
     const slotDuration = getRoomDuration(selectedRoom.type);
 
     // Check against all existing reservations
@@ -127,8 +213,19 @@ const Step3 = ({
           mode="single"
           selected={date}
           onSelect={handleSelectDate}
+          disabled={isDateDisabled}
+          modifiers={{ disabled: isDateDisabled }}
+          modifiersClassNames={{
+            disabled: "text-gray-400 cursor-not-allowed"
+          }}
           className="mx-auto mt-5 rounded-md border sm:mx-[revert] sm:mt-0"
           locale={ko}
+          components={{
+            DayContent: ({ date, displayMonth }) => {
+              const day = date.getDate();
+              return renderDayContents(day, date);
+            }
+          }}
         />
         <div className="mt-5 flex shrink flex-col ~gap-y-[1.25rem]/[1.69rem] sm:mt-0">
           <div className="text-base">방문 시간 선택</div>

@@ -4,10 +4,16 @@ const nextConfig = {
     remotePatterns: [
       {
         protocol: "https",
-        hostname: "picsum.photos",
-        pathname: "/**",
+        hostname: "**",
       },
     ],
+  },
+  webpack: (config) => {
+    // Resolve @react-pdf/renderer issues
+    config.resolve.alias.canvas = false;
+    config.resolve.alias.encoding = false;
+
+    return config;
   },
 };
 

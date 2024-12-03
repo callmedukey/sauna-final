@@ -7,11 +7,14 @@ export async function middleware(request: NextRequest) {
     return NextResponse.redirect(new URL("/account/profile", request.url));
   }
 
-  // Protect all routes under /account/
+  // Handle /admin route redirect
+  if (request.nextUrl.pathname === "/admin") {
+    return NextResponse.redirect(new URL("/admin/reservations", request.url));
+  }
 
   return NextResponse.next();
 }
 
 export const config = {
-  matcher: ["/account/:path*"],
+  matcher: ["/account/:path*", "/admin"],
 };

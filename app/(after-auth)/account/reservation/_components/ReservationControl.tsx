@@ -1,6 +1,6 @@
 "use client";
 
-import type { Reservation } from "@prisma/client";
+import type { Reservation, SpecialDate } from "@prisma/client";
 import { format } from "date-fns";
 import { AnimatePresence } from "motion/react";
 import { useState } from "react";
@@ -10,13 +10,22 @@ import Step2 from "./Step2";
 import Step3 from "./Step3";
 import Step4 from "./Step4";
 
+interface Props {
+  reservations: {
+    date: string;
+    time: string;
+    id: string;
+    roomType: RoomType;
+  }[];
+  points: number;
+  specialDates: SpecialDate[];
+}
+
 const ReservationControl = ({
   reservations,
   points,
-}: {
-  reservations: Pick<Reservation, "date" | "time" | "id" | "roomType">[];
-  points: number;
-}) => {
+  specialDates,
+}: Props) => {
   const [people, setPeople] = useState<{
     men: number;
     women: number;
@@ -62,6 +71,20 @@ const ReservationControl = ({
     });
   };
 
+  const calculateFinalPrice = (basePrice: number) => {
+    const selectedSpecialDate = specialDates.find(
+      (sd) => sd.date === date?.replace(/\//g, '-')
+    );
+
+    let finalPrice = basePrice;
+    
+    if (selectedSpecialDate?.type === 'DISCOUNT' && selectedSpecialDate.discount) {
+      finalPrice = basePrice * (1 - selectedSpecialDate.discount / 100);
+    }
+
+    return Math.floor(finalPrice - usedPoint);
+  };
+
   return (
     <article className="mx-auto max-w-screen-lg py-[3.125rem] ~px-[0rem]/[4.5rem]">
       <AnimatePresence>
@@ -72,6 +95,8 @@ const ReservationControl = ({
           handlePeopleConfirmed={setPeopleConfirmed}
           handleReset={handleReset}
           confirmed={peopleConfirmed}
+          reservations={reservations}
+          specialDates={specialDates}
         />
         {peopleConfirmed && (
           <Step2
@@ -89,6 +114,7 @@ const ReservationControl = ({
             handleDate={setDate}
             selectedRoom={room}
             selectedTime={time}
+            specialDates={specialDates}
           />
         )}
         {date && time && (
@@ -103,6 +129,7 @@ const ReservationControl = ({
             selectedTime={time}
             currentMessage={message}
             handleUsedPoint={setUsedPoint}
+            specialDates={specialDates}
           />
         )}
       </AnimatePresence>

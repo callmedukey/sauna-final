@@ -54,7 +54,7 @@ const AboutPage = () => {
                     "flex flex-col items-start justify-center gap-10 lg:pl-16 order-3 lg:order-4"
                   )}
                 >
-                  <h2 className="text-3xl font-bold">{item.title}</h2>
+                  <h2 className="text-2xl font-bold">{item.title}</h2>
                   <p className="text-pretty break-keep leading-[175%] text-siteTextGray">
                     {item.content}
                   </p>

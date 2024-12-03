@@ -27,23 +27,36 @@ const page = async () => {
     redirect("/");
   }
 
-  const reservations = await prisma.reservation.findMany({
-    where: {
-      date: {
-        gte: format(new Date(), "yyyy/MM/dd"),
+  const [reservations, specialDates] = await Promise.all([
+    prisma.reservation.findMany({
+      where: {
+        date: {
+          gte: format(new Date(), "yyyy/MM/dd"),
+        },
       },
-    },
-    select: {
-      date: true,
-      time: true,
-      id: true,
-      roomType: true,
-    },
-  });
+      select: {
+        date: true,
+        time: true,
+        id: true,
+        roomType: true,
+      },
+    }),
+    prisma.specialDate.findMany({
+      where: {
+        date: {
+          gte: format(new Date(), "yyyy-MM-dd"),
+        },
+      },
+    }),
+  ]);
 
   return (
     <main className="px-4 ~pt-[3.75rem]/[12rem] ~pb-[4rem]/[6rem]">
-      <ReservationControl reservations={reservations} points={user.point} />
+      <ReservationControl 
+        reservations={reservations} 
+        points={user.point} 
+        specialDates={specialDates}
+      />
     </main>
   );
 };
