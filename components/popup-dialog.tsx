@@ -4,7 +4,7 @@ import { Content } from "@prisma/client";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 
-import { setPopupHideUntil } from "@/actions/cookies";
+import { hidePopup } from "@/actions/cookies";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import {
@@ -40,7 +40,7 @@ export function PopupDialog({ content, hideUntil }: PopupDialogProps) {
 
   const handleClose = async () => {
     if (dontShowAgain) {
-      await setPopupHideUntil();
+      await hidePopup();
     }
     setOpen(false);
   };

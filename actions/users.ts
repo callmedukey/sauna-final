@@ -61,7 +61,7 @@ export async function searchUsers(name: string) {
         name: {
           contains: name,
         },
-        isAdmin: false,
+        role: "USER",
       },
       select: {
         id: true,
