@@ -37,7 +37,7 @@ main()
         password: hashedPassword2,
         role: "USER",
         name: "테스트",
-        phone: "010-1234-5678",
+        phone: "010-1234-5671",
       },
       create: {
         email: "test@sauna.com",
