@@ -43,16 +43,18 @@ export async function GET(req: Request, context: { params: { id: string } }) {
 
 export async function DELETE(
   req: Request,
-  context: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
-  const { id } = context.params;
-
   try {
     const session = await auth();
     if (!session?.user || !session.user.isAdmin) {
       return new NextResponse("Unauthorized", { status: 401 });
     }
 
+    const paramsAwaited = await params;
+    const { id } = paramsAwaited;
+
+    // Get the signature
     const signature = await prisma.signedAgreement.findUnique({
       where: { id },
     });
@@ -61,15 +63,15 @@ export async function DELETE(
       return new NextResponse("Not Found", { status: 404 });
     }
 
-    // Delete file
-    const filePath = path.join(
-      process.cwd(),
-      "admin/signatures",
-      signature.path
-    );
-    await unlink(filePath);
+    // Delete the file
+    const filePath = path.join(process.cwd(), "admin/signatures", signature.path);
+    try {
+      await unlink(filePath);
+    } catch (error) {
+      console.error(`Error deleting signature file: ${signature.path}`, error);
+    }
 
-    // Delete from database
+    // Delete the database record
     await prisma.signedAgreement.delete({
       where: { id },
     });
