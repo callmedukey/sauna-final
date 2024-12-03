@@ -5,14 +5,18 @@ import path from "path";
 import { auth } from "@/auth";
 import prisma from "@/lib/prisma";
 
-export async function GET(req: Request, context: { params: { id: string } }) {
-  const { id } = context.params;
-
+export async function GET(
+  req: Request,
+  { params }: { params: Promise<{ id: string }> }
+) {
   try {
     const session = await auth();
     if (!session?.user || !session.user.isAdmin) {
       return new NextResponse("Unauthorized", { status: 401 });
     }
+
+    const paramsAwaited = await params;
+    const { id } = paramsAwaited;
 
     const signature = await prisma.signedAgreement.findUnique({
       where: { id },
