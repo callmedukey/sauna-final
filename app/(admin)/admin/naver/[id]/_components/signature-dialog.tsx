@@ -21,7 +21,11 @@ type Props = {
   naverReservationId: string;
 };
 
-export function SignatureDialog({ reservationId, userName, naverReservationId }: Props) {
+export function SignatureDialog({
+  reservationId,
+  userName,
+  naverReservationId,
+}: Props) {
   const [open, setOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const signaturePadRef = useRef<SignaturePad>(null);
@@ -86,10 +90,7 @@ export function SignatureDialog({ reservationId, userName, naverReservationId }:
 
           <div className="space-y-8">
             <div className="max-h-[40vh] overflow-y-auto rounded-md border p-4">
-              <ConditionsText
-                userName={userName}
-                reservationId={reservationId}
-              />
+              <ConditionsText />
             </div>
 
             <div className="space-y-4">
@@ -115,4 +116,4 @@ export function SignatureDialog({ reservationId, userName, naverReservationId }:
       </Dialog>
     </>
   );
-} 
+}
