@@ -7,11 +7,11 @@ import { SearchForm } from "./_components/search-form";
 
 const ITEMS_PER_PAGE = 100;
 
-export default async function HistoryPage({
-  searchParams,
-}: {
-  searchParams: { [key: string]: string | undefined };
-}) {
+interface PageProps {
+  searchParams: Promise<{ [key: string]: string | undefined }>;
+}
+
+export default async function HistoryPage({ searchParams }: PageProps) {
   const searchParamsAwaited = await searchParams;
   const today = new Date();
   const defaultStartDate = format(today, "yyyy-MM-dd");
