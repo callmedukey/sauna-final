@@ -3,13 +3,13 @@ import { redirect } from "next/navigation";
 import prisma from "@/lib/prisma";
 import { InquiriesTable } from "./_components/inquiries-table";
 
-interface Props {
-  searchParams: {
+interface PageProps {
+  searchParams: Promise<{
     page?: string;
-  };
+  }>;
 }
 
-export default async function AdminInquiriesPage({ searchParams }: Props) {
+export default async function AdminInquiriesPage({ searchParams }: PageProps) {
   const session = await auth();
 
   if (!session?.user?.isAdmin) {
@@ -17,7 +17,6 @@ export default async function AdminInquiriesPage({ searchParams }: Props) {
   }
 
   const searchParamsAwaited = await searchParams;
-
   const page = Number(searchParamsAwaited.page) || 1;
   const limit = 20;
 
