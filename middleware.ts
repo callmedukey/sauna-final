@@ -13,7 +13,7 @@ export async function middleware(request: NextRequest) {
   // Protect all routes under /account/
   if (request.nextUrl.pathname.startsWith("/account/")) {
     if (!session) {
-      return NextResponse.redirect(new URL("/sign-in", request.url));
+      return NextResponse.redirect(new URL("/", request.url));
     }
   }
 
