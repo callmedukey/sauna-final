@@ -1,16 +1,4 @@
-import { useState } from "react";
-import { pdf } from "@react-pdf/renderer";
-import { ConditionsPDF } from "./pdf/ConditionsPDF";
-
-interface ConditionsTextProps {
-  reservationId: string;
-  userName: string;
-}
-
-export function ConditionsText({
-  reservationId,
-  userName,
-}: ConditionsTextProps) {
+export function ConditionsText() {
   return (
     <div className="prose prose-sm max-w-none dark:prose-invert">
       <h2>제1장 총 칙</h2>

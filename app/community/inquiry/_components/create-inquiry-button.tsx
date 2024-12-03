@@ -27,10 +27,12 @@ import { Textarea } from "@/components/ui/textarea";
 import { createInquiry } from "../_actions";
 
 const formSchema = z.object({
-  title: z.string()
+  title: z
+    .string()
     .min(1, "제목을 입력해주세요")
     .max(100, "제목은 100자를 초과할 수 없습니다"),
-  content: z.string()
+  content: z
+    .string()
     .min(1, "내용을 입력해주세요")
     .max(1000, "내용은 1000자를 초과할 수 없습니다"),
 });
@@ -61,9 +63,7 @@ export function CreateInquiryButton() {
       <DialogContent className="max-w-screen-xl p-0">
         <div className="border-b border-gray-200 bg-gray-50 p-6">
           <DialogHeader>
-            <DialogTitle className="text-2xl font-bold">
-              문의하기
-            </DialogTitle>
+            <DialogTitle className="text-2xl font-bold">문의하기</DialogTitle>
           </DialogHeader>
         </div>
         <div className="p-6">
@@ -77,10 +77,10 @@ export function CreateInquiryButton() {
                     <FormLabel>제목</FormLabel>
                     <FormControl>
                       <div className="relative">
-                        <Input 
-                          placeholder="문의 제목" 
+                        <Input
+                          placeholder="문의 제목"
                           maxLength={100}
-                          {...field} 
+                          {...field}
                         />
                         <div className="absolute right-0 top-0 -translate-y-6 text-sm text-gray-500">
                           {field.value.length}/100
@@ -123,4 +123,4 @@ export function CreateInquiryButton() {
       </DialogContent>
     </Dialog>
   );
-} 
+}

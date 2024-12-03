@@ -5,10 +5,7 @@ import path from "path";
 import { auth } from "@/auth";
 import prisma from "@/lib/prisma";
 
-export async function PATCH(
-  req: Request,
-  context: { params: { id: string } }
-) {
+export async function PATCH(req: Request, context: { params: { id: string } }) {
   const { id } = context.params;
 
   try {
@@ -31,11 +28,18 @@ export async function PATCH(
 
     // Delete all signature files and database records
     for (const signature of reservation.signedAgreement) {
-      const filePath = path.join(process.cwd(), "admin/signatures", signature.path);
+      const filePath = path.join(
+        process.cwd(),
+        "admin/signatures",
+        signature.path
+      );
       try {
         await unlink(filePath);
       } catch (error) {
-        console.error(`Error deleting signature file: ${signature.path}`, error);
+        console.error(
+          `Error deleting signature file: ${signature.path}`,
+          error
+        );
       }
     }
 
@@ -55,4 +59,4 @@ export async function PATCH(
     console.error("Error canceling reservation:", error);
     return new NextResponse("Internal Server Error", { status: 500 });
   }
-} 
+}

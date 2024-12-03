@@ -49,7 +49,7 @@ export function InquiryView({ inquiry, index }: InquiryViewProps) {
     <>
       <TableRow className="border-black">
         <TableCell className="text-left lg:text-center">{index}</TableCell>
-        <TableCell 
+        <TableCell
           className="cursor-pointer text-left lg:text-center hover:underline"
           onClick={() => setIsOpen(true)}
         >
@@ -75,10 +75,7 @@ export function InquiryView({ inquiry, index }: InquiryViewProps) {
                   <div className="flex-shrink-0 mr-8">
                     <DropdownMenu>
                       <DropdownMenuTrigger asChild>
-                        <Button
-                          variant="ghost"
-                          className="h-8 w-8 p-0"
-                        >
+                        <Button variant="ghost" className="h-8 w-8 p-0">
                           <span className="sr-only">메뉴 열기</span>
                           <MoreHorizontal className="h-4 w-4" />
                         </Button>
@@ -98,7 +95,9 @@ export function InquiryView({ inquiry, index }: InquiryViewProps) {
               <div className="mt-1 flex items-center gap-4 text-sm text-gray-600">
                 <span>{inquiry.user.name}</span>
                 <span>·</span>
-                <span>{format(new Date(inquiry.createdAt), "yyyy년 MM월 dd일")}</span>
+                <span>
+                  {format(new Date(inquiry.createdAt), "yyyy년 MM월 dd일")}
+                </span>
               </div>
             </DialogHeader>
           </div>
@@ -112,7 +111,11 @@ export function InquiryView({ inquiry, index }: InquiryViewProps) {
                   <div className="mb-4">
                     <h3 className="font-bold">관리자 답변</h3>
                     <p className="mt-1 text-sm text-gray-600">
-                      {inquiry.answeredAt && format(new Date(inquiry.answeredAt), "yyyy년 MM월 dd일")}
+                      {inquiry.answeredAt &&
+                        format(
+                          new Date(inquiry.answeredAt),
+                          "yyyy년 MM월 dd일"
+                        )}
                     </p>
                   </div>
                   <div className="whitespace-pre-wrap text-base leading-relaxed text-gray-700">

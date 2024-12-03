@@ -32,7 +32,7 @@ export default async function RootLayout({
 }) {
   const session = await auth();
   const cookieStore = await cookies();
-  
+
   // Fetch popup content and cookie
   const [popupContent, hideUntil] = await Promise.all([
     prisma.content.findFirst({

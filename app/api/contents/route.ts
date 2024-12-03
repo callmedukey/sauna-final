@@ -11,10 +11,7 @@ export async function POST(request: NextRequest) {
   try {
     const session = await auth();
     if (!session?.user?.isAdmin) {
-      return NextResponse.json(
-        { error: "권한이 없습니다." },
-        { status: 401 }
-      );
+      return NextResponse.json({ error: "권한이 없습니다." }, { status: 401 });
     }
 
     const formData = await request.formData();
@@ -57,7 +54,9 @@ export async function POST(request: NextRequest) {
 
     if (existingContent) {
       try {
-        await unlink(path.join(process.cwd(), "public/contents", existingContent.path));
+        await unlink(
+          path.join(process.cwd(), "public/contents", existingContent.path)
+        );
       } catch (error) {
         console.error("Error deleting old file:", error);
       }
@@ -89,10 +88,7 @@ export async function DELETE(request: NextRequest) {
   try {
     const session = await auth();
     if (!session?.user?.isAdmin) {
-      return NextResponse.json(
-        { error: "권한이 없습니다." },
-        { status: 401 }
-      );
+      return NextResponse.json({ error: "권한이 없습니다." }, { status: 401 });
     }
 
     const { searchParams } = new URL(request.url);
@@ -136,4 +132,4 @@ export async function DELETE(request: NextRequest) {
       { status: 500 }
     );
   }
-} 
+}

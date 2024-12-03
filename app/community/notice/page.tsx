@@ -1,7 +1,6 @@
 import {
   Table,
   TableBody,
-  TableCell,
   TableHead,
   TableHeader,
   TableRow,
@@ -37,7 +36,9 @@ export default async function NoticePage() {
                 <TableHead className="w-40 text-left lg:text-center text-siteBlack">
                   번호
                 </TableHead>
-                <TableHead className="text-left lg:text-center text-siteBlack">제목</TableHead>
+                <TableHead className="text-left lg:text-center text-siteBlack">
+                  제목
+                </TableHead>
                 <TableHead className="w-40 text-left lg:text-center text-siteBlack">
                   날짜
                 </TableHead>
@@ -45,10 +46,10 @@ export default async function NoticePage() {
             </TableHeader>
             <TableBody>
               {notices.map((notice, index) => (
-                <NoticeView 
-                  key={notice.id} 
-                  notice={notice} 
-                  index={notices.length - index} 
+                <NoticeView
+                  key={notice.id}
+                  notice={notice}
+                  index={notices.length - index}
                 />
               ))}
             </TableBody>

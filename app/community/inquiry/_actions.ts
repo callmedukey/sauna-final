@@ -6,10 +6,12 @@ import { revalidatePath } from "next/cache";
 import { z } from "zod";
 
 const createInquirySchema = z.object({
-  title: z.string()
+  title: z
+    .string()
     .min(1, "제목을 입력해주세요")
     .max(100, "제목은 100자를 초과할 수 없습니다"),
-  content: z.string()
+  content: z
+    .string()
     .min(1, "내용을 입력해주세요")
     .max(1000, "내용은 1000자를 초과할 수 없습니다"),
 });
@@ -47,4 +49,4 @@ export async function createInquiry(data: CreateInquiryData) {
     }
     return { success: false, error: "문의 등록에 실패했습니다" };
   }
-} 
+}

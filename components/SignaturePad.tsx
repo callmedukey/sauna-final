@@ -47,4 +47,4 @@ export function SignaturePad({ onSave }: SignaturePadProps) {
       </div>
     </div>
   );
-} 
+}

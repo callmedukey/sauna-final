@@ -5,12 +5,9 @@ import path from "path";
 import { auth } from "@/auth";
 import prisma from "@/lib/prisma";
 
-export async function GET(
-  req: Request,
-  context: { params: { id: string } }
-) {
+export async function GET(req: Request, context: { params: { id: string } }) {
   const { id } = context.params;
-  
+
   try {
     const session = await auth();
     if (!session?.user || !session.user.isAdmin) {
@@ -25,7 +22,11 @@ export async function GET(
       return new NextResponse("Not Found", { status: 404 });
     }
 
-    const filePath = path.join(process.cwd(), "admin/signatures", signature.path);
+    const filePath = path.join(
+      process.cwd(),
+      "admin/signatures",
+      signature.path
+    );
     const file = await readFile(filePath);
 
     return new NextResponse(file, {
@@ -45,7 +46,7 @@ export async function DELETE(
   context: { params: { id: string } }
 ) {
   const { id } = context.params;
-  
+
   try {
     const session = await auth();
     if (!session?.user || !session.user.isAdmin) {
@@ -61,7 +62,11 @@ export async function DELETE(
     }
 
     // Delete file
-    const filePath = path.join(process.cwd(), "admin/signatures", signature.path);
+    const filePath = path.join(
+      process.cwd(),
+      "admin/signatures",
+      signature.path
+    );
     await unlink(filePath);
 
     // Delete from database
@@ -74,4 +79,4 @@ export async function DELETE(
     console.error("Error deleting signature:", error);
     return new NextResponse("Internal Server Error", { status: 500 });
   }
-} 
+}

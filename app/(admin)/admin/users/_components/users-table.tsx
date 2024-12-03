@@ -61,7 +61,9 @@ export function UsersTable({ users }: UsersTableProps) {
       setNewPoints("");
     } catch (error) {
       console.error("Error updating points:", error);
-      alert(error instanceof Error ? error.message : "포인트 수정에 실패했습니다.");
+      alert(
+        error instanceof Error ? error.message : "포인트 수정에 실패했습니다."
+      );
     }
   };
 
@@ -76,7 +78,9 @@ export function UsersTable({ users }: UsersTableProps) {
       }
     } catch (error) {
       console.error("Error deleting user:", error);
-      alert(error instanceof Error ? error.message : "사용자 삭제에 실패했습니다.");
+      alert(
+        error instanceof Error ? error.message : "사용자 삭제에 실패했습니다."
+      );
     }
   };
 
@@ -181,4 +185,4 @@ export function UsersTable({ users }: UsersTableProps) {
       </Dialog>
     </>
   );
-} 
+}

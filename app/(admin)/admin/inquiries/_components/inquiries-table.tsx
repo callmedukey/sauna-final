@@ -56,7 +56,7 @@ export function InquiriesTable({
       alert("답변은 1000자를 초과할 수 없습니다");
       return;
     }
-    
+
     const result = await answerInquiry(selectedInquiry.id, answer);
     if (result.success) {
       alert("답변이 등록되었습니다");
@@ -102,8 +102,10 @@ export function InquiriesTable({
           <TableBody>
             {inquiries.map((inquiry, index) => (
               <TableRow key={inquiry.id}>
-                <TableCell className="min-w-[100px]">{inquiries.length - index}</TableCell>
-                <TableCell 
+                <TableCell className="min-w-[100px]">
+                  {inquiries.length - index}
+                </TableCell>
+                <TableCell
                   className="cursor-pointer hover:underline min-w-[400px]"
                   onClick={() => {
                     setSelectedInquiry(inquiry);
@@ -139,10 +141,7 @@ export function InquiriesTable({
                     </Button>
                     <DropdownMenu>
                       <DropdownMenuTrigger asChild>
-                        <Button
-                          variant="ghost"
-                          className="h-8 w-8 p-0"
-                        >
+                        <Button variant="ghost" className="h-8 w-8 p-0">
                           <span className="sr-only">메뉴 열기</span>
                           <MoreHorizontal className="h-4 w-4" />
                         </Button>
@@ -179,8 +178,8 @@ export function InquiriesTable({
         </div>
       )}
 
-      <Dialog 
-        open={!!selectedInquiry} 
+      <Dialog
+        open={!!selectedInquiry}
         onOpenChange={(open) => {
           if (!open) {
             setSelectedInquiry(null);
@@ -199,10 +198,7 @@ export function InquiriesTable({
                 <div className="flex-shrink-0 mr-8">
                   <DropdownMenu>
                     <DropdownMenuTrigger asChild>
-                      <Button
-                        variant="ghost"
-                        className="h-8 w-8 p-0"
-                      >
+                      <Button variant="ghost" className="h-8 w-8 p-0">
                         <span className="sr-only">메뉴 열기</span>
                         <MoreHorizontal className="h-4 w-4" />
                       </Button>
@@ -210,7 +206,9 @@ export function InquiriesTable({
                     <DropdownMenuContent align="end">
                       <DropdownMenuItem
                         className="text-red-600"
-                        onClick={() => selectedInquiry && handleDelete(selectedInquiry.id)}
+                        onClick={() =>
+                          selectedInquiry && handleDelete(selectedInquiry.id)
+                        }
                       >
                         삭제
                       </DropdownMenuItem>
@@ -222,7 +220,11 @@ export function InquiriesTable({
                 <span>{selectedInquiry?.user.name}</span>
                 <span>·</span>
                 <span>
-                  {selectedInquiry && format(new Date(selectedInquiry.createdAt), "yyyy년 MM월 dd일")}
+                  {selectedInquiry &&
+                    format(
+                      new Date(selectedInquiry.createdAt),
+                      "yyyy년 MM월 dd일"
+                    )}
                 </span>
               </div>
             </DialogHeader>
@@ -237,7 +239,11 @@ export function InquiriesTable({
                   <div className="mb-4">
                     <h3 className="font-bold">관리자 답변</h3>
                     <p className="mt-1 text-sm text-gray-600">
-                      {selectedInquiry.answeredAt && format(new Date(selectedInquiry.answeredAt), "yyyy년 MM월 dd일")}
+                      {selectedInquiry.answeredAt &&
+                        format(
+                          new Date(selectedInquiry.answeredAt),
+                          "yyyy년 MM월 dd일"
+                        )}
                     </p>
                   </div>
                   <div className="whitespace-pre-wrap text-base leading-relaxed text-gray-700">

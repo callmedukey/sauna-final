@@ -49,20 +49,24 @@ const Step3 = ({
       new Date().toLocaleString("en-US", { timeZone: "Asia/Seoul" })
     );
     koreaToday.setHours(0, 0, 0, 0);
-    
+
     if (isBefore(koreaDate, koreaToday)) {
       return true;
     }
 
     // Then check if it's a blocked date
     const dateStr = format(date, "yyyy-MM-dd");
-    const specialDate = specialDates.find((sd) => sd.date.replace(/\//g, '-') === dateStr);
+    const specialDate = specialDates.find(
+      (sd) => sd.date.replace(/\//g, "-") === dateStr
+    );
     return specialDate?.type === "BLOCKED";
   };
 
   const renderDayContents = (day: number, date: Date) => {
     const dateStr = format(date, "yyyy-MM-dd");
-    const specialDate = specialDates.find((sd) => sd.date.replace(/\//g, '-') === dateStr);
+    const specialDate = specialDates.find(
+      (sd) => sd.date.replace(/\//g, "-") === dateStr
+    );
 
     if (specialDate?.type === "BLOCKED") {
       return (
@@ -216,7 +220,7 @@ const Step3 = ({
           disabled={isDateDisabled}
           modifiers={{ disabled: isDateDisabled }}
           modifiersClassNames={{
-            disabled: "text-gray-400 cursor-not-allowed"
+            disabled: "text-gray-400 cursor-not-allowed",
           }}
           className="mx-auto mt-5 rounded-md border sm:mx-[revert] sm:mt-0"
           locale={ko}
@@ -224,7 +228,7 @@ const Step3 = ({
             DayContent: ({ date, displayMonth }) => {
               const day = date.getDate();
               return renderDayContents(day, date);
-            }
+            },
           }}
         />
         <div className="mt-5 flex shrink flex-col ~gap-y-[1.25rem]/[1.69rem] sm:mt-0">

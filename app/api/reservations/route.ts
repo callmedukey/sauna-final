@@ -10,7 +10,9 @@ export async function POST(req: Request) {
 
     // Convert to Korean timezone for comparison
     const now = new Date();
-    const koreaTime = new Date(now.toLocaleString("en-US", { timeZone: "Asia/Seoul" }));
+    const koreaTime = new Date(
+      now.toLocaleString("en-US", { timeZone: "Asia/Seoul" })
+    );
     const koreaToday = format(koreaTime, "yyyy/MM/dd");
 
     // Check if the date is in the past
@@ -94,4 +96,4 @@ export async function POST(req: Request) {
       { status: 500 }
     );
   }
-} 
+}

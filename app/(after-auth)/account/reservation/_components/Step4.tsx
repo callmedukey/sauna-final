@@ -53,21 +53,25 @@ export default function Step4({
 
   // Calculate all prices
   const basePrice = selectedRoom.price;
-  const additionalFee = calculateAdditionalFee(persons, selectedRoom.type.includes("FAMILY"));
-  const subtotal = basePrice + additionalFee;
-  
-  const specialDate = specialDates.find(
-    (sd) => sd.date === selectedDate.replace(/\//g, '-')
+  const additionalFee = calculateAdditionalFee(
+    persons,
+    selectedRoom.type.includes("FAMILY")
   );
-  
-  const discountAmount = specialDate?.type === 'DISCOUNT' && specialDate.discount
-    ? Math.floor(subtotal * (specialDate.discount / 100))
-    : 0;
+  const subtotal = basePrice + additionalFee;
+
+  const specialDate = specialDates.find(
+    (sd) => sd.date === selectedDate.replace(/\//g, "-")
+  );
+
+  const discountAmount =
+    specialDate?.type === "DISCOUNT" && specialDate.discount
+      ? Math.floor(subtotal * (specialDate.discount / 100))
+      : 0;
 
   const finalPrice = subtotal - discountAmount - usedPoint;
 
   // Debug logs
-  console.log('Price calculations:', {
+  console.log("Price calculations:", {
     basePrice,
     additionalFee,
     subtotal,
@@ -84,7 +88,7 @@ export default function Step4({
     }
 
     // Debug log before submission
-    console.log('Submitting reservation with prices:', {
+    console.log("Submitting reservation with prices:", {
       price: subtotal,
       paidPrice: finalPrice,
       discount: specialDate?.discount,
@@ -201,7 +205,7 @@ export default function Step4({
               <span>추가 요금</span>
               <span>{additionalFee.toLocaleString()}원</span>
             </div>
-            {specialDate?.type === 'DISCOUNT' && (
+            {specialDate?.type === "DISCOUNT" && (
               <div className="flex w-full justify-between text-sm text-siteTextGray mt-2">
                 <span>{specialDate.discount}% 할인</span>
                 <span>-{discountAmount.toLocaleString()}원</span>
@@ -210,7 +214,7 @@ export default function Step4({
           </div>
 
           <hr className="col-span-full w-full border-siteOddGray ~my-[0.94rem]/[2.5rem]" />
-          
+
           <div className="flex">
             <div className="flex flex-col">
               <div>포인트 사용</div>
@@ -233,7 +237,8 @@ export default function Step4({
                 }
               }}
               onChange={(e) => {
-                const value = e.target.value === "" ? 0 : parseInt(e.target.value);
+                const value =
+                  e.target.value === "" ? 0 : parseInt(e.target.value);
                 if (isNaN(value) || value < 0) {
                   handleUsedPoint(0);
                 } else if (value > maxPoint) {

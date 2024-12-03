@@ -7,7 +7,7 @@ export async function POST(request: Request) {
     const { date, price } = body;
 
     // Convert date format from yyyy/MM/dd to yyyy-MM-dd
-    const formattedDate = date.replace(/\//g, '-');
+    const formattedDate = date.replace(/\//g, "-");
 
     // Check if date is blocked
     const specialDate = await prisma.specialDate.findFirst({
@@ -16,7 +16,7 @@ export async function POST(request: Request) {
       },
     });
 
-    if (specialDate?.type === 'BLOCKED') {
+    if (specialDate?.type === "BLOCKED") {
       return NextResponse.json(
         { error: "This date is not available for reservations" },
         { status: 400 }
@@ -24,8 +24,10 @@ export async function POST(request: Request) {
     }
 
     // Validate price with discount if applicable
-    if (specialDate?.type === 'DISCOUNT' && specialDate.discount) {
-      const expectedPrice = Math.floor(price * (1 - specialDate.discount / 100));
+    if (specialDate?.type === "DISCOUNT" && specialDate.discount) {
+      const expectedPrice = Math.floor(
+        price * (1 - specialDate.discount / 100)
+      );
       if (body.finalPrice !== expectedPrice) {
         return NextResponse.json(
           { error: "Invalid price calculation" },
@@ -41,4 +43,4 @@ export async function POST(request: Request) {
       { status: 500 }
     );
   }
-} 
+}

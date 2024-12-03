@@ -52,7 +52,7 @@ export function NoticesTable({ notices }: NoticesTableProps) {
           <TableBody>
             {notices.map((notice) => (
               <TableRow key={notice.id}>
-                <TableCell 
+                <TableCell
                   className="font-medium cursor-pointer hover:underline"
                   onClick={() => setSelectedNotice(notice)}
                 >
@@ -65,10 +65,7 @@ export function NoticesTable({ notices }: NoticesTableProps) {
                 <TableCell>
                   <DropdownMenu>
                     <DropdownMenuTrigger asChild>
-                      <Button
-                        variant="ghost"
-                        className="h-8 w-8 p-0"
-                      >
+                      <Button variant="ghost" className="h-8 w-8 p-0">
                         <span className="sr-only">메뉴 열기</span>
                         <MoreHorizontal className="h-4 w-4" />
                       </Button>
@@ -89,10 +86,15 @@ export function NoticesTable({ notices }: NoticesTableProps) {
         </Table>
       </div>
 
-      <Dialog open={!!selectedNotice} onOpenChange={() => setSelectedNotice(null)}>
+      <Dialog
+        open={!!selectedNotice}
+        onOpenChange={() => setSelectedNotice(null)}
+      >
         <DialogContent className="max-w-screen-xl">
           <DialogHeader>
-            <DialogTitle className="text-xl">{selectedNotice?.title}</DialogTitle>
+            <DialogTitle className="text-xl">
+              {selectedNotice?.title}
+            </DialogTitle>
           </DialogHeader>
           <div className="mt-4 min-h-[300px] whitespace-pre-wrap">
             {selectedNotice?.content}
@@ -101,4 +103,4 @@ export function NoticesTable({ notices }: NoticesTableProps) {
       </Dialog>
     </>
   );
-} 
+}

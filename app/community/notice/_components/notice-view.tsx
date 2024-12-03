@@ -26,7 +26,7 @@ export function NoticeView({ notice, index }: NoticeViewProps) {
     <>
       <TableRow className="border-black">
         <TableCell className="text-left lg:text-center">{index}</TableCell>
-        <TableCell 
+        <TableCell
           className="cursor-pointer text-left lg:text-center hover:underline"
           onClick={() => setIsOpen(true)}
         >
@@ -47,7 +47,9 @@ export function NoticeView({ notice, index }: NoticeViewProps) {
               <div className="mt-2 flex items-center gap-4 text-sm text-gray-600">
                 <span>{notice.user.name}</span>
                 <span>·</span>
-                <span>{format(new Date(notice.createdAt), "yyyy년 MM월 dd일")}</span>
+                <span>
+                  {format(new Date(notice.createdAt), "yyyy년 MM월 dd일")}
+                </span>
               </div>
             </DialogHeader>
           </div>
@@ -60,4 +62,4 @@ export function NoticeView({ notice, index }: NoticeViewProps) {
       </Dialog>
     </>
   );
-} 
+}

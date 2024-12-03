@@ -1,6 +1,6 @@
 "use client";
 
-import type { Reservation, SpecialDate } from "@prisma/client";
+import type { Reservation, RoomType, SpecialDate } from "@prisma/client";
 import { format } from "date-fns";
 import { AnimatePresence } from "motion/react";
 import { useState } from "react";
@@ -21,11 +21,7 @@ interface Props {
   specialDates: SpecialDate[];
 }
 
-const ReservationControl = ({
-  reservations,
-  points,
-  specialDates,
-}: Props) => {
+const ReservationControl = ({ reservations, points, specialDates }: Props) => {
   const [people, setPeople] = useState<{
     men: number;
     women: number;
@@ -73,12 +69,15 @@ const ReservationControl = ({
 
   const calculateFinalPrice = (basePrice: number) => {
     const selectedSpecialDate = specialDates.find(
-      (sd) => sd.date === date?.replace(/\//g, '-')
+      (sd) => sd.date === date?.replace(/\//g, "-")
     );
 
     let finalPrice = basePrice;
-    
-    if (selectedSpecialDate?.type === 'DISCOUNT' && selectedSpecialDate.discount) {
+
+    if (
+      selectedSpecialDate?.type === "DISCOUNT" &&
+      selectedSpecialDate.discount
+    ) {
       finalPrice = basePrice * (1 - selectedSpecialDate.discount / 100);
     }
 

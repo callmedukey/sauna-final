@@ -57,7 +57,9 @@ export default async function InquiryPage({ searchParams }: Props) {
                 <TableHead className="w-40 text-left lg:text-center text-siteBlack">
                   번호
                 </TableHead>
-                <TableHead className="text-left lg:text-center text-siteBlack">제목</TableHead>
+                <TableHead className="text-left lg:text-center text-siteBlack">
+                  제목
+                </TableHead>
                 <TableHead className="w-40 text-left lg:text-center text-siteBlack">
                   작성자
                 </TableHead>
@@ -68,29 +70,31 @@ export default async function InquiryPage({ searchParams }: Props) {
             </TableHeader>
             <TableBody>
               {inquiries.map((inquiry, index) => (
-                <InquiryView 
-                  key={inquiry.id} 
-                  inquiry={inquiry} 
-                  index={total - ((page - 1) * limit + index)} 
+                <InquiryView
+                  key={inquiry.id}
+                  inquiry={inquiry}
+                  index={total - ((page - 1) * limit + index)}
                 />
               ))}
             </TableBody>
           </Table>
           {totalPages > 1 && (
             <div className="mt-8 flex justify-center gap-2">
-              {Array.from({ length: totalPages }, (_, i) => i + 1).map((pageNum) => (
-                <a
-                  key={pageNum}
-                  href={`/community/inquiry?page=${pageNum}`}
-                  className={`inline-flex h-8 min-w-[2rem] items-center justify-center rounded-md px-3 text-sm ${
-                    pageNum === page
-                      ? "bg-black text-white"
-                      : "border border-gray-300 bg-white text-gray-700 hover:bg-gray-50"
-                  }`}
-                >
-                  {pageNum}
-                </a>
-              ))}
+              {Array.from({ length: totalPages }, (_, i) => i + 1).map(
+                (pageNum) => (
+                  <a
+                    key={pageNum}
+                    href={`/community/inquiry?page=${pageNum}`}
+                    className={`inline-flex h-8 min-w-[2rem] items-center justify-center rounded-md px-3 text-sm ${
+                      pageNum === page
+                        ? "bg-black text-white"
+                        : "border border-gray-300 bg-white text-gray-700 hover:bg-gray-50"
+                    }`}
+                  >
+                    {pageNum}
+                  </a>
+                )
+              )}
             </div>
           )}
         </div>

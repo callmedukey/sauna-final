@@ -17,32 +17,39 @@ export function ImageUploader({ currentImage }: ImageUploaderProps) {
   const [isUploading, setIsUploading] = useState(false);
   const router = useRouter();
 
-  const onDrop = useCallback(async (acceptedFiles: File[]) => {
-    if (acceptedFiles.length === 0) return;
+  const onDrop = useCallback(
+    async (acceptedFiles: File[]) => {
+      if (acceptedFiles.length === 0) return;
 
-    try {
-      setIsUploading(true);
-      const formData = new FormData();
-      formData.append("file", acceptedFiles[0]);
+      try {
+        setIsUploading(true);
+        const formData = new FormData();
+        formData.append("file", acceptedFiles[0]);
 
-      const response = await fetch("/api/contents", {
-        method: "POST",
-        body: formData,
-      });
+        const response = await fetch("/api/contents", {
+          method: "POST",
+          body: formData,
+        });
 
-      if (!response.ok) {
-        const data = await response.json();
-        throw new Error(data.error || "이미지 업로드에 실패했습니다.");
+        if (!response.ok) {
+          const data = await response.json();
+          throw new Error(data.error || "이미지 업로드에 실패했습니다.");
+        }
+
+        router.refresh();
+      } catch (error) {
+        console.error("Error uploading image:", error);
+        alert(
+          error instanceof Error
+            ? error.message
+            : "이미지 업로드에 실패했습니다."
+        );
+      } finally {
+        setIsUploading(false);
       }
-
-      router.refresh();
-    } catch (error) {
-      console.error("Error uploading image:", error);
-      alert(error instanceof Error ? error.message : "이미지 업로드에 실패했습니다.");
-    } finally {
-      setIsUploading(false);
-    }
-  }, [router]);
+    },
+    [router]
+  );
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
     onDrop,
@@ -69,7 +76,9 @@ export function ImageUploader({ currentImage }: ImageUploaderProps) {
       router.refresh();
     } catch (error) {
       console.error("Error deleting image:", error);
-      alert(error instanceof Error ? error.message : "이미지 삭제에 실패했습니다.");
+      alert(
+        error instanceof Error ? error.message : "이미지 삭제에 실패했습니다."
+      );
     }
   };
 
@@ -129,4 +138,4 @@ export function ImageUploader({ currentImage }: ImageUploaderProps) {
       )}
     </div>
   );
-} 
+}

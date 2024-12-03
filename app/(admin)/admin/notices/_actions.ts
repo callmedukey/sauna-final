@@ -38,4 +38,4 @@ export async function deleteNotice(id: string) {
   });
 
   revalidatePath("/admin/notices");
-} 
+}

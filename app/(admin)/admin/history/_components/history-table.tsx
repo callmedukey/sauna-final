@@ -32,16 +32,19 @@ interface HistoryTableProps {
   naverReservations: NaverReservation[];
 }
 
-export function HistoryTable({ regularReservations, naverReservations }: HistoryTableProps) {
+export function HistoryTable({
+  regularReservations,
+  naverReservations,
+}: HistoryTableProps) {
   // Combine and sort reservations
   const allReservations = [
-    ...regularReservations.map(r => ({
+    ...regularReservations.map((r) => ({
       ...r,
       type: "regular" as const,
       displayName: r.user.name,
       displayPhone: r.user.phone,
     })),
-    ...naverReservations.map(r => ({
+    ...naverReservations.map((r) => ({
       ...r,
       type: "naver" as const,
       displayName: r.name,
@@ -58,7 +61,12 @@ export function HistoryTable({ regularReservations, naverReservations }: History
     if (timeCompare !== 0) return timeCompare;
 
     // Then by room type (if both are regular reservations)
-    if (a.type === "regular" && b.type === "regular" && a.roomType && b.roomType) {
+    if (
+      a.type === "regular" &&
+      b.type === "regular" &&
+      a.roomType &&
+      b.roomType
+    ) {
       return a.roomType.localeCompare(b.roomType);
     }
 
@@ -66,7 +74,10 @@ export function HistoryTable({ regularReservations, naverReservations }: History
     return a.type === "regular" ? -1 : 1;
   });
 
-  const handleCancelReservation = async (id: string, type: "regular" | "naver") => {
+  const handleCancelReservation = async (
+    id: string,
+    type: "regular" | "naver"
+  ) => {
     if (!confirm("예약을 취소하시겠습니까?")) return;
 
     try {
@@ -113,7 +124,10 @@ export function HistoryTable({ regularReservations, naverReservations }: History
           </TableRow>
         ) : (
           allReservations.map((reservation) => (
-            <TableRow key={`${reservation.type}-${reservation.id}`} className="whitespace-nowrap">
+            <TableRow
+              key={`${reservation.type}-${reservation.id}`}
+              className="whitespace-nowrap"
+            >
               <TableCell className="min-w-[6.25rem]">
                 {reservation.displayName}
               </TableCell>
@@ -155,8 +169,8 @@ export function HistoryTable({ regularReservations, naverReservations }: History
                 {reservation.type === "regular" ? "일반" : "네이버"}
               </TableCell>
               <TableCell className="min-w-[6.25rem]">
-                {reservation.type === "naver" 
-                  ? (reservation as NaverReservation).reservationNumber 
+                {reservation.type === "naver"
+                  ? (reservation as NaverReservation).reservationNumber
                   : "-"}
               </TableCell>
               <TableCell className="w-[5rem]">
@@ -182,7 +196,12 @@ export function HistoryTable({ regularReservations, naverReservations }: History
                     </DropdownMenuItem>
                     <DropdownMenuItem
                       className="text-red-600 cursor-pointer"
-                      onClick={() => handleCancelReservation(reservation.id, reservation.type)}
+                      onClick={() =>
+                        handleCancelReservation(
+                          reservation.id,
+                          reservation.type
+                        )
+                      }
                     >
                       예약 취소
                     </DropdownMenuItem>
@@ -195,4 +214,4 @@ export function HistoryTable({ regularReservations, naverReservations }: History
       </TableBody>
     </Table>
   );
-} 
+}

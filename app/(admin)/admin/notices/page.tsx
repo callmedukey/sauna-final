@@ -33,4 +33,4 @@ export default async function NoticesPage() {
       <NoticesTable notices={notices} />
     </div>
   );
-} 
+}

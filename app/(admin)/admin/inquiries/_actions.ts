@@ -5,7 +5,8 @@ import prisma from "@/lib/prisma";
 import { revalidatePath } from "next/cache";
 import { z } from "zod";
 
-const answerSchema = z.string()
+const answerSchema = z
+  .string()
   .min(1, "답변을 입력해주세요")
   .max(1000, "답변은 1000자를 초과할 수 없습니다");
 
@@ -73,4 +74,4 @@ export async function deleteInquiry(id: string) {
   } catch (error) {
     return { success: false, error: "삭제에 실패했습니다" };
   }
-} 
+}

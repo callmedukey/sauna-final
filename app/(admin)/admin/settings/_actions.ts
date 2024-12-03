@@ -12,8 +12,8 @@ export async function addSpecialDate({
   type: "BLOCKED" | "DISCOUNT";
   discount: number | null;
 }) {
-  console.log('Received date in action:', date);
-  
+  console.log("Received date in action:", date);
+
   await prisma.specialDate.create({
     data: {
       date,
@@ -31,15 +31,15 @@ export async function getSpecialDates() {
     },
   });
 
-  console.log('Dates from database:', dates);
-  
-  const formattedDates = dates.map(date => ({
+  console.log("Dates from database:", dates);
+
+  const formattedDates = dates.map((date) => ({
     ...date,
-    date: date.date.replace(/-/g, '/')
+    date: date.date.replace(/-/g, "/"),
   }));
 
-  console.log('Formatted dates:', formattedDates);
-  
+  console.log("Formatted dates:", formattedDates);
+
   return formattedDates;
 }
 

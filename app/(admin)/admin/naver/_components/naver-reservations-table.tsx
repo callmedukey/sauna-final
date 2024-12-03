@@ -26,7 +26,9 @@ interface NaverReservationsTableProps {
   reservations: NaverReservation[];
 }
 
-export function NaverReservationsTable({ reservations }: NaverReservationsTableProps) {
+export function NaverReservationsTable({
+  reservations,
+}: NaverReservationsTableProps) {
   const handleCancelReservation = async (id: string) => {
     if (!confirm("예약을 취소하시겠습니까?")) return;
 
@@ -109,4 +111,4 @@ export function NaverReservationsTable({ reservations }: NaverReservationsTableP
       </TableBody>
     </Table>
   );
-} 
+}

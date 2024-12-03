@@ -37,9 +37,9 @@ export async function POST(req: Request) {
       data: {
         path: fileName,
         reservation: {
-          connect: { id: reservationId }
-        }
-      }
+          connect: { id: reservationId },
+        },
+      },
     });
 
     return NextResponse.json(signedAgreement);
@@ -47,4 +47,4 @@ export async function POST(req: Request) {
     console.error("Error saving signature:", error);
     return new NextResponse("Internal Server Error", { status: 500 });
   }
-} 
+}
