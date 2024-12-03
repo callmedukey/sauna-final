@@ -13,14 +13,15 @@ import CommunityAside from "../_components/CommunityAside";
 import { InquiryView } from "./_components/inquiry-view";
 import { CreateInquiryButton } from "./_components/create-inquiry-button";
 
-interface Props {
-  searchParams: {
+interface PageProps {
+  searchParams: Promise<{
     page?: string;
-  };
+  }>;
 }
 
-export default async function InquiryPage({ searchParams }: Props) {
-  const page = Number(searchParams.page) || 1;
+export default async function InquiryPage({ searchParams }: PageProps) {
+  const searchParamsAwaited = await searchParams;
+  const page = Number(searchParamsAwaited.page) || 1;
   const limit = 20;
 
   const [inquiries, total] = await Promise.all([
