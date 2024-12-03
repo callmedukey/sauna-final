@@ -84,10 +84,7 @@ export function SignatureDialog({ reservationId, userName }: Props) {
 
           <div className="space-y-8">
             <div className="max-h-[40vh] overflow-y-auto rounded-md border p-4">
-              <ConditionsText
-                userName={userName}
-                reservationId={reservationId}
-              />
+              <ConditionsText />
             </div>
 
             <div className="space-y-4">
