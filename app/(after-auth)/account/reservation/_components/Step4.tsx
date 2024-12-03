@@ -161,7 +161,7 @@ const Step4 = ({
               <div className="flex w-full">
                 <span className="flex-1">
                   {selectedDate
-                    .split("-")
+                    .split("/")
                     .map((part, i) => {
                       const num = parseInt(part, 10);
                       if (i === 0) return `${num}년 `;

@@ -30,7 +30,7 @@ const page = async () => {
   const reservations = await prisma.reservation.findMany({
     where: {
       date: {
-        gte: format(new Date(), "yyyy-MM-dd"),
+        gte: format(new Date(), "yyyy/MM/dd"),
       },
     },
     select: {

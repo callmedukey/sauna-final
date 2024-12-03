@@ -37,7 +37,7 @@ const ReservationControl = ({
     extra: "",
     last: "",
   });
-  const [date, setDate] = useState(format(new Date(), "yyyy-MM-dd"));
+  const [date, setDate] = useState(format(new Date(), "yyyy/MM/dd"));
   const [time, setTime] = useState("");
   const [usedPoint, setUsedPoint] = useState(0);
   const [message, setMessage] = useState("");
@@ -51,7 +51,7 @@ const ReservationControl = ({
       extra: "",
       last: "",
     });
-    setDate(format(new Date(), "yyyy-MM-dd"));
+    setDate(format(new Date(), "yyyy/MM/dd"));
     setTime("");
     setMessage("");
     setPeople({

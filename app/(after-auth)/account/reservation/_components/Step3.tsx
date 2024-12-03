@@ -34,7 +34,7 @@ const Step3 = ({
   const handleSelectDate = (date: Date | undefined) => {
     if (!date) return;
     setDate(date);
-    handleDate(format(date, "yyyy-MM-dd"));
+    handleDate(format(date, "yyyy/MM/dd"));
     handleTime("");
   };
 
@@ -51,7 +51,7 @@ const Step3 = ({
 
     // Check against all existing reservations
     for (const reservation of reservations) {
-      if (reservation.date !== format(date as Date, "yyyy-MM-dd")) continue;
+      if (reservation.date !== format(date as Date, "yyyy/MM/dd")) continue;
 
       const [resHours, resMinutes] = reservation.time.split(":").map(Number);
       const resStartTime = resHours * 60 + resMinutes;

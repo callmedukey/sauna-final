@@ -30,7 +30,7 @@ export default function Footer() {
               <div className="flex flex-col gap-1 xl:flex-row xl:items-center xl:gap-0 xl:[&>p:first-child]:pr-4 xl:[&>p:last-child]:pl-4 [&>p]:text-center sm:[&>p]:text-left">
                 <p className="border-black xl:border-r">
                   <span className="">사업자등록번호:</span>
-                  <span> 123-45-67890</span>
+                  <span> 618-13-36099</span>
                 </p>
                 <p>
                   <span className="">통신판매업신고번호:</span>
