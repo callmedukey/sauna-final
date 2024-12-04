@@ -220,11 +220,11 @@ const CarouselMainContainer = forwardRef<
   const { mainRef, orientation, direction } = useCarousel();
 
   return (
-    <div {...props} ref={mainRef} className="overflow-hidden" dir={direction}>
+    <div {...props} ref={mainRef} className="w-full overflow-hidden" dir={direction}>
       <div
         ref={ref}
         className={cn(
-          "flex",
+          "flex w-full",
           `${orientation === "vertical" ? "flex-col" : ""}`,
           className
         )}
@@ -244,11 +244,11 @@ const CarouselThumbsContainer = forwardRef<
   const { thumbsRef, orientation, direction } = useCarousel();
 
   return (
-    <div {...props} ref={thumbsRef} className="overflow-hidden" dir={direction}>
+    <div {...props} ref={thumbsRef} className="w-full overflow-hidden" dir={direction}>
       <div
         ref={ref}
         className={cn(
-          "flex",
+          "flex w-full",
           `${orientation === "vertical" ? "flex-col" : ""}`,
           className
         )}

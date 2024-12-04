@@ -8,9 +8,11 @@ export default function AdminClientLayout({
   children: React.ReactNode;
 }) {
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen pt-24">
       <AdminNav />
-      {children}
+      <div className="container mx-auto px-4">
+        {children}
+      </div>
     </div>
   );
 } 
