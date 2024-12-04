@@ -16,7 +16,11 @@ export async function GET(request: Request) {
 
   if (!paymentKey || !orderId || !amount) {
     return NextResponse.redirect(
-      `${url.origin}/account/reservation?error=INVALID_PAYMENT_PARAMS&message=${encodeURIComponent("결제 정보가 올바르지 않습니다.")}`
+      `${
+        url.origin
+      }/account/reservation?error=INVALID_PAYMENT_PARAMS&message=${encodeURIComponent(
+        "결제 정보가 올바르지 않습니다."
+      )}`
     );
   }
 
@@ -24,7 +28,11 @@ export async function GET(request: Request) {
     const session = await auth();
     if (!session?.user) {
       return NextResponse.redirect(
-        `${url.origin}/account/reservation?error=UNAUTHORIZED&message=${encodeURIComponent("로그인이 필요합니다.")}`
+        `${
+          url.origin
+        }/account/reservation?error=UNAUTHORIZED&message=${encodeURIComponent(
+          "로그인이 필요합니다."
+        )}`
       );
     }
 
@@ -32,7 +40,11 @@ export async function GET(request: Request) {
     const reservationDetails = await getPendingReservation(orderId);
     if (!reservationDetails) {
       return NextResponse.redirect(
-        `${url.origin}/account/reservation?error=RESERVATION_NOT_FOUND&message=${encodeURIComponent("예약 정보를 찾을 수 없습니다.")}`
+        `${
+          url.origin
+        }/account/reservation?error=RESERVATION_NOT_FOUND&message=${encodeURIComponent(
+          "예약 정보를 찾을 수 없습니다."
+        )}`
       );
     }
 
@@ -64,14 +76,22 @@ export async function GET(request: Request) {
       const error = await paymentConfirmation.json();
       console.error("Payment confirmation failed:", error);
       return NextResponse.redirect(
-        `${url.origin}/account/reservation?error=PAYMENT_CONFIRMATION_FAILED&message=${encodeURIComponent("결제 확인에 실패했습니다.")}`
+        `${
+          url.origin
+        }/account/reservation?error=PAYMENT_CONFIRMATION_FAILED&message=${encodeURIComponent(
+          "결제 확인에 실패했습니다."
+        )}`
       );
     }
 
     // Verify payment amount matches
     if (reservationDetails.paidPrice !== parseInt(amount)) {
       return NextResponse.redirect(
-        `${url.origin}/account/reservation?error=AMOUNT_MISMATCH&message=${encodeURIComponent("결제 금액이 일치하지 않습니다.")}`
+        `${
+          url.origin
+        }/account/reservation?error=AMOUNT_MISMATCH&message=${encodeURIComponent(
+          "결제 금액이 일치하지 않습니다."
+        )}`
       );
     }
 
@@ -135,9 +155,12 @@ export async function GET(request: Request) {
 
           // Check for time overlap
           if (
-            (requestedStartTime >= existingStartTime && requestedStartTime < existingEndTime) ||
-            (requestedEndTime > existingStartTime && requestedEndTime <= existingEndTime) ||
-            (requestedStartTime <= existingStartTime && requestedEndTime >= existingEndTime)
+            (requestedStartTime >= existingStartTime &&
+              requestedStartTime < existingEndTime) ||
+            (requestedEndTime > existingStartTime &&
+              requestedEndTime <= existingEndTime) ||
+            (requestedStartTime <= existingStartTime &&
+              requestedEndTime >= existingEndTime)
           ) {
             // If times overlap, apply room type restrictions
             // If there's a family room reservation, no other rooms can be booked
@@ -241,11 +264,19 @@ export async function GET(request: Request) {
       );
     }
 
-    return NextResponse.redirect(`${url.origin}/account/history?success=true&message=${encodeURIComponent("결제가 완료되었습니다.")}`);
+    return NextResponse.redirect(
+      `${url.origin}/account/history?success=true&message=${encodeURIComponent(
+        "결제가 완료되었습니다."
+      )}`
+    );
   } catch (err) {
     console.error("Payment success handler error:", err);
     return NextResponse.redirect(
-      `${url.origin}/account/reservation?error=PAYMENT_ERROR&message=${encodeURIComponent("결제 처리 중 오류가 발생했습니다.")}`
+      `${
+        url.origin
+      }/account/reservation?error=PAYMENT_ERROR&message=${encodeURIComponent(
+        "결제 처리 중 오류가 발생했습니다."
+      )}`
     );
   }
 }

@@ -21,8 +21,80 @@ const Pretendard = localFont({
 });
 
 export const metadata: Metadata = {
-  title: "솔로 사우나 - 프리미엄 한국식 사우나",
-  description: "현대적인 시설과 전통적인 한국식 사우나의 조화로운 만남",
+  metadataBase: new URL('https://solosaunalepo2.co.kr'),
+  title: {
+    default: '솔로사우나 레포 - 프리미엄 한국식 사우나',
+    template: '%s | 솔로사우나 레포'
+  },
+  description: '서울 최고급 한국식 사우나. 전통 찜질방과 현대적 스파의 완벽한 조화. 힐링, 마사지, 스파 프로그램으로 완벽한 휴식을 제공합니다.',
+  keywords: [
+    '솔로사우나 레포',
+    '한국식 사우나',
+    '찜질방',
+    '서울 스파',
+    '프리미엄 사우나',
+    '한국 전통 찜질방',
+    '힐링',
+    '마사지',
+    '휴식',
+    '스파 프로그램',
+    '한방 스파',
+    '럭셔리 스파',
+    '서울 웰니스',
+    '힐링 스파',
+    '프리미엄 스파',
+    '전통 찜질',
+    '황토방',
+    '불가마'
+  ],
+  authors: [{ name: '솔로사우나 레포' }],
+  creator: '솔로사우나 레포',
+  publisher: '솔로사우나 레포',
+  formatDetection: {
+    telephone: false,
+    email: false,
+    address: false,
+  },
+  openGraph: {
+    type: 'website',
+    locale: 'ko_KR',
+    siteName: '솔로사우나 레포',
+    title: '솔로사우나 레포 - 프리미엄 한국식 사우나',
+    description: '서울 최고급 한국식 사우나. 전통 찜질방과 현대적 스파의 완벽한 조화. 힐링, 마사지, 스파 프로그램으로 완벽한 휴식을 제공합니다.',
+    images: [
+      {
+        url: '/carousel-1.webp',
+        width: 1200,
+        height: 630,
+        alt: '솔로사우나 레포 시설 전경',
+        type: 'image/webp',
+      }
+    ],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: '솔로사우나 레포 - 프리미엄 한국식 사우나',
+    description: '서울 최고급 한국식 사우나. 전통 찜질방과 현대적 스파의 완벽한 조화.',
+    images: ['/carousel-1.webp'],
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      'max-video-preview': -1,
+      'max-image-preview': 'large',
+      'max-snippet': -1,
+    },
+  },
+  verification: {
+    google: 'your-google-site-verification',
+    other: {
+      'naver-site-verification': ['your-naver-site-verification']
+    }
+  },
+  category: '스파 & 웰니스',
 };
 
 export default async function RootLayout({
