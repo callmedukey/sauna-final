@@ -190,7 +190,7 @@ const page = async () => {
             <section className="w-full ~mt-[4rem]/[6rem] ~pt-[1.25rem]/[3.125rem]">
               <h4 className="page-title flex flex-col gap-1 ~mb-[1.5rem]/[2.5rem]">
                 1인 제공 품목
-                <span className="text-xs text-siteTextGray">
+                <span className="text-xs text-siteTextGray font-normal">
                   상황에 따라 제공품은 변동될 수 있습니다.
                 </span>
               </h4>
@@ -270,7 +270,7 @@ const page = async () => {
             <section className="w-full ~mt-[4rem]/[6rem] ~pt-[1.25rem]/[3.125rem]">
               <h4 className="page-title flex flex-col gap-1 ~mb-[1.5rem]/[2.5rem]">
                 1인 제공 품목
-                <span className="text-xs text-siteTextGray">
+                <span className="text-xs text-siteTextGray font-normal">
                   상황에 따라 제공품은 변동될 수 있습니다.
                 </span>
               </h4>
@@ -350,7 +350,7 @@ const page = async () => {
             <section className="w-full ~mt-[4rem]/[6rem] ~pt-[1.25rem]/[3.125rem]">
               <h4 className="page-title flex flex-col gap-1 ~mb-[1.5rem]/[2.5rem]">
                 1인 제공 품목
-                <span className="text-xs text-siteTextGray">
+                <span className="text-xs text-siteTextGray font-normal">
                   상황에 따라 제공품은 변동될 수 있습니다.
                 </span>
               </h4>

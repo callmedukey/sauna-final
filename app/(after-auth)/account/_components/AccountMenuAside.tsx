@@ -13,7 +13,7 @@ const AccountMenuAside = () => {
         href="/account/profile"
         className={cn(
           "hover:underline underline-offset-4 transition-all duration-300",
-          pathname === "/account/profile" && "underline"
+          pathname === "/account/profile" && "underline font-bold"
         )}
       >
         계정 정보
@@ -22,7 +22,7 @@ const AccountMenuAside = () => {
         href="/account/reservation"
         className={cn(
           "hover:underline underline-offset-4 transition-all duration-300",
-          pathname === "/account/reservation" && "underline"
+          pathname === "/account/reservation" && "underline font-bold"
         )}
       >
         예약 하기
@@ -31,7 +31,7 @@ const AccountMenuAside = () => {
         href="/account/history"
         className={cn(
           "hover:underline underline-offset-4 transition-all duration-300",
-          pathname === "/account/history" && "underline"
+          pathname === "/account/history" && "underline font-bold"
         )}
       >
         예약 내역
@@ -40,7 +40,7 @@ const AccountMenuAside = () => {
         href="/account/points"
         className={cn(
           "hover:underline underline-offset-4 transition-all duration-300",
-          pathname === "/account/points" && "underline"
+          pathname === "/account/points" && "underline font-bold"
         )}
       >
         포인트

@@ -104,14 +104,14 @@ export function HistoryTable({
     <Table>
       <TableHeader>
         <TableRow>
-          <TableHead>예약자</TableHead>
-          <TableHead>연락처</TableHead>
-          <TableHead>날짜</TableHead>
-          <TableHead>시간</TableHead>
-          <TableHead>룸타입</TableHead>
-          <TableHead>결제금액</TableHead>
-          <TableHead>예약 종류</TableHead>
-          <TableHead>예약 번호</TableHead>
+          <TableHead className="">예약자</TableHead>
+          <TableHead className="">연락처</TableHead>
+          <TableHead className="">날짜</TableHead>
+          <TableHead className="">시간</TableHead>
+          <TableHead className="">룸타입</TableHead>
+          <TableHead className="">결제금액</TableHead>
+          <TableHead className="">예약 종류</TableHead>
+          <TableHead className="">예약 번호</TableHead>
           <TableHead></TableHead>
         </TableRow>
       </TableHeader>

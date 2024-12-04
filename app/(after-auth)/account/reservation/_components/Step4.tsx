@@ -11,6 +11,7 @@ import { calculateAdditionalFee } from "@/lib/timeUtils";
 import { submitReservation } from "@/actions/submit";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
+import { useDialog } from "@/components/layout/Providers";
 
 interface Props {
   selectedRoom: {
@@ -50,6 +51,7 @@ export default function Step4({
 }: Props) {
   const [agreement, setAgreement] = useState(false);
   const router = useRouter();
+  const { openConditionsDialog } = useDialog();
 
   // Calculate all prices
   const basePrice = selectedRoom.price;
@@ -274,8 +276,14 @@ export default function Step4({
         <label htmlFor="agreement" className="~text-xs/base">
           예약과 관련된 모든{" "}
           <span className="underline underline-offset-2">주의사항</span> 및{" "}
-          <span className="underline underline-offset-2">약관</span>에
-          동의합니다
+          <button
+            type="button"
+            onClick={() => openConditionsDialog()}
+            className="underline underline-offset-2"
+          >
+            약관
+          </button>
+          에 동의합니다
         </label>
       </div>
       <Button

@@ -24,7 +24,7 @@ const page = async () => {
     <main className="px-4 ~pt-[3.75rem]/[12rem] ~pb-[4rem]/[6rem]">
       <AccountMenuAside />
       <article className="mx-auto min-h-[min(60vh,40rem)] max-w-[29rem] border border-siteBlack ~px-[1.5625rem]/[3.625rem] ~py-[1.875rem]/[2.8125rem] ">
-        <div className="mx-auto max-w-60 border-b border-siteBlack ~mb-[1.875rem]/[2.8125rem]">
+        <div className="mx-auto max-w-60 pb-[0.625rem] border-b border-siteBlack ~mb-[1.875rem]/[2.8125rem]">
           <h1 className="text-center font-bold ~text-xs/base">보유 포인트</h1>
           <p className="text-center font-bold ~text-base/[1.875rem]">
             {user?.point?.toLocaleString() ?? "0"}P

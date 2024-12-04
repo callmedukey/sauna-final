@@ -48,6 +48,7 @@ const MobileMenu = ({
                         type="button"
                         onClick={async () => {
                           await signOut({ redirectTo: "/" });
+                          setOpen(false);
                         }}
                       >
                         {link.label}
@@ -63,6 +64,9 @@ const MobileMenu = ({
                           : link.href
                       }
                       className="transition-all duration-300 hover:underline"
+                      onClick={() => {
+                        setOpen(false);
+                      }}
                     >
                       {link.label}
                     </Link>
@@ -91,7 +95,13 @@ const MobileMenu = ({
           </div>
           <div className="flex flex-col gap-8 px-6 text-base">
             {HeaderLinks.map((link) => (
-              <Link href={link.href} key={link.href}>
+              <Link
+                href={link.href}
+                key={link.href}
+                onClick={() => {
+                  setOpen(false);
+                }}
+              >
                 {link.label}
               </Link>
             ))}

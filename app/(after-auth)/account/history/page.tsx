@@ -42,14 +42,16 @@ const page = async () => {
         <Table>
           <TableHeader className="border-y border-black bg-white ">
             <TableRow className="border-black ~text-xs/base">
-              <TableHead className="w-40 text-center text-siteBlack">
+              <TableHead className="w-40 text-center text-siteBlack translate-y-1">
                 날짜
               </TableHead>
-              <TableHead className="text-center text-siteBlack">룸</TableHead>
-              <TableHead className="w-40 text-center text-siteBlack">
+              <TableHead className="text-center text-siteBlack translate-y-1">
+                룸
+              </TableHead>
+              <TableHead className="w-40 text-center text-siteBlack translate-y-1">
                 인원
               </TableHead>
-              <TableHead className="w-40 text-center text-siteBlack">
+              <TableHead className="w-40 text-center text-siteBlack translate-y-1">
                 이용 시간
               </TableHead>
             </TableRow>

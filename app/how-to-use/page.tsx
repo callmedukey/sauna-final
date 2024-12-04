@@ -95,7 +95,7 @@ const page = () => {
               <>
                 <p className="flex flex-col justify-center gap-y-8 md:pr-20">
                   <span className="text-3xl font-bold">{item.title}</span>
-                  <span className="text-pretty break-keep leading-[175%] text-siteTextGray">
+                  <span className="text-pretty break-keep leading-[175%] text-siteTextGray whitespace-pre-wrap">
                     {item.content}
                   </span>
                 </p>
@@ -106,7 +106,7 @@ const page = () => {
                     fill
                     quality={100}
                     sizes="100vw"
-                    className="object-cover object-center"
+                    className="object-cover object-center mt-6 md:mt-0"
                   />
                 </div>
               </>
@@ -119,10 +119,10 @@ const page = () => {
                     fill
                     quality={100}
                     sizes="100vw"
-                    className="object-cover object-center"
+                    className="object-cover object-center mt-6 md:mt-0"
                   />
                 </div>
-                <p className="flex flex-col justify-center gap-y-8 md:pl-20">
+                <p className="flex flex-col justify-center gap-y-8 md:pl-20 ">
                   <span className="text-3xl font-bold">{item.title}</span>
                   <span className="text-pretty break-keep leading-[175%] text-siteTextGray">
                     {item.content}

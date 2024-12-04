@@ -30,13 +30,6 @@ interface Props {
   handlePeopleConfirmed: (confirmed: boolean) => void;
   handleReset: () => void;
   confirmed: boolean;
-  reservations: {
-    date: string;
-    time: string;
-    id: string;
-    roomType: RoomType;
-  }[];
-  specialDates: SpecialDate[];
 }
 
 export default function Step1({
@@ -45,17 +38,7 @@ export default function Step1({
   handlePeopleConfirmed,
   handleReset,
   confirmed,
-  reservations,
-  specialDates,
 }: Props) {
-  const [selectedDate, setSelectedDate] = React.useState<string | null>(null);
-
-  const handleDateSelect = (date: Date) => {
-    const dateStr = format(date, "yyyy-MM-dd");
-    setSelectedDate(dateStr);
-    handlePeopleConfirmed(true);
-  };
-
   const handleUpdate = (
     type: "children" | "infants" | "men" | "women",
     value: number
@@ -70,56 +53,10 @@ export default function Step1({
     });
   };
 
-  const isDateDisabled = (date: Date) => {
-    const dateStr = format(date, "yyyy-MM-dd");
-    const specialDate = specialDates.find(
-      (sd) => sd.date.replace(/\//g, "-") === dateStr
-    );
-
-    if (specialDate?.type === "BLOCKED") {
-      return true;
-    }
-
-    return false;
-  };
-
-  const getDayClassNames = (date: Date) => {
-    const dateStr = format(date, "yyyy-MM-dd");
-    const specialDate = specialDates.find(
-      (sd) => sd.date.replace(/\//g, "-") === dateStr
-    );
-
-    let classes = "relative";
-
-    if (specialDate?.type === "DISCOUNT") {
-      classes += " bg-green-100";
-    }
-
-    return classes;
-  };
-
-  const renderDayContents = (day: number, date: Date) => {
-    const dateStr = format(date, "yyyy-MM-dd");
-    const specialDate = specialDates.find(
-      (sd) => sd.date.replace(/\//g, "-") === dateStr
-    );
-
-    return (
-      <div className="relative">
-        {day}
-        {specialDate?.type === "DISCOUNT" && (
-          <div className="absolute -bottom-4 left-0 right-0 text-xs text-green-600">
-            {specialDate.discount}% OFF
-          </div>
-        )}
-      </div>
-    );
-  };
-
   return (
     <div>
       <h1 className="step-title">
-        <span>step 1</span>
+        <span className="">step 1</span>
         <span className="font-bold">인원</span>
       </h1>
       <section className="flex flex-col justify-center ~mt-[1.625rem]/[3.5rem] sm:flex-row sm:flex-wrap">

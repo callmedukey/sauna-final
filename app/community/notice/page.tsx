@@ -31,20 +31,20 @@ export default async function NoticePage() {
       <article className="mx-auto max-w-screen-xl px-4">
         <div className="min-h-[min(50vh,30rem)]">
           <Table>
-            <TableHeader className="border-b border-t-2 border-black">
+            <TableHeader className="border-b border-t-2 border-black whitespace-nowrap">
               <TableRow className="border-black">
-                <TableHead className="w-40 text-left lg:text-center text-siteBlack">
+                <TableHead className="lg:w-40 text-left lg:text-center text-siteBlack whitespace-nowrap translate-y-1">
                   번호
                 </TableHead>
-                <TableHead className="text-left lg:text-center text-siteBlack">
+                <TableHead className="text-left lg:text-center text-siteBlack whitespace-nowrap max-w-[10rem] translate-y-1">
                   제목
                 </TableHead>
-                <TableHead className="w-40 text-left lg:text-center text-siteBlack">
+                <TableHead className="lg:w-40 text-left lg:text-center text-siteBlack whitespace-nowrap translate-y-1">
                   날짜
                 </TableHead>
               </TableRow>
             </TableHeader>
-            <TableBody>
+            <TableBody className="whitespace-nowrap">
               {notices.map((notice, index) => (
                 <NoticeView
                   key={notice.id}

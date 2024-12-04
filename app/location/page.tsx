@@ -20,7 +20,7 @@ const page = () => {
           찾기 어려우실 경우, 편하게 전화 주시면 안내해드리겠습니다.
         </p>
       </div>
-      <article className="grid ~mt-[3.75rem]/[5.5rem] ~gap-x-0/[4.81rem] md:grid-cols-2 [&>section>dl]:~mt-[1rem]/[1.25rem] md:[&>section>dl]:~mt-[8.5rem]/[12.5rem]">
+      <article className="grid ~mt-[3.75rem]/[5.5rem] ~gap-x-0/[4.81rem] md:grid-cols-2 [&>section>dl]:mt-[1.25rem] md:[&>section>dl]:~mt-[8.5rem]/[12.5rem]">
         <section className="[&>dl>dd]:text-siteTextGray [&>dl>dd]:~text-[0.75rem]/[1.25rem] [&>dl>dt]:font-bold [&>dl>dt]:text-siteBlack [&>dl>dt]:~text-[1.25rem]/[1.5rem]">
           <Image
             src={Map}
