@@ -6,7 +6,7 @@ import { SolapiMessageService } from "solapi";
 import { RecoverAccountSchema } from "@/definitions/zod";
 import { sendEmail } from "@/lib/email";
 import prisma from "@/lib/prisma";
-import { emailRateLimit, smsRateLimit } from "@/lib/redis";
+import { emailRateLimit, smsRateLimit } from "@/lib/redis.server";
 
 export const sendVerificationSMS = async (phone: string): ActionResponse => {
   const head = await headers();

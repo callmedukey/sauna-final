@@ -30,7 +30,7 @@ const Step3 = ({
     name: string;
   };
   selectedTime: string;
-  specialDates: SpecialDate[];
+  specialDates: Pick<SpecialDate, "date" | "type" | "discount">[];
 }) => {
   const [date, setDate] = useState<Date | undefined>(undefined);
 

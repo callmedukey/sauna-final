@@ -18,7 +18,7 @@ interface Props {
     roomType: RoomType;
   }[];
   points: number;
-  specialDates: SpecialDate[];
+  specialDates: Pick<SpecialDate, "date" | "type" | "discount">[];
 }
 
 const ReservationControl = ({ reservations, points, specialDates }: Props) => {

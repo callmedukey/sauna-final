@@ -14,6 +14,7 @@ import { parseRoomInfo } from "@/lib/parseRoomName";
 import prisma from "@/lib/prisma";
 
 import AccountMenuAside from "../_components/AccountMenuAside";
+import MessageHandler from "./_components/MessageHandler";
 
 const page = async () => {
   const session = await auth();
@@ -37,6 +38,7 @@ const page = async () => {
 
   return (
     <main className="px-4 ~pt-[3.75rem]/[12rem] ~pb-[4rem]/[6rem]">
+      <MessageHandler />
       <AccountMenuAside />
       <article className="mx-auto min-h-[min(60vh,40rem)] max-w-screen-md px-4">
         <Table>

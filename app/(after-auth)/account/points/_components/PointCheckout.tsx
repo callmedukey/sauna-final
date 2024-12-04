@@ -1,5 +1,8 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { loadTossPayments } from "@tosspayments/payment-sdk";
+import { nanoid } from "nanoid";
+import { useSearchParams } from "next/navigation";
 
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
@@ -11,24 +14,104 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { PointsOptions } from "@/definitions/constants";
+import { storePendingReservation } from "@/lib/payment";
+import { RoomType } from "@prisma/client";
 
 const PointCheckout = () => {
   const [selectedPoint, setSelectedPoint] = useState<string>("");
   const [isAgreement, setIsAgreement] = useState<boolean>(false);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const searchParams = useSearchParams();
+
+  useEffect(() => {
+    const error = searchParams.get("error");
+    const success = searchParams.get("success");
+    const message = searchParams.get("message");
+
+    if (message) {
+      if (success) {
+        alert(decodeURIComponent(message));
+      } else if (error) {
+        alert(decodeURIComponent(message));
+      }
+    }
+  }, [searchParams]);
 
   const handleValueChange = (value: string) => {
     setSelectedPoint(value);
   };
 
-  const handlePayment = () => {
+  const handlePayment = async () => {
     if (!isAgreement) {
       alert("이용 약관에 동의해주세요");
       return;
     }
     if (!selectedPoint) {
       alert("충전할 포인트 금액을 선택해주세요");
+      return;
+    }
+
+    try {
+      setIsLoading(true);
+      const selectedOption = PointsOptions.find(
+        option => (option.point + option.extraPoint).toString() === selectedPoint
+      );
+
+      if (!selectedOption) {
+        throw new Error("Invalid point option selected");
+      }
+
+      const paymentAmount = selectedOption.point - selectedOption.extraPoint;
+      const orderId = `POINT_${Date.now()}_${nanoid(10)}`;
+
+      const paymentData = {
+        amount: paymentAmount,
+        points: selectedOption.point + selectedOption.extraPoint,
+        orderId,
+        type: "POINT",
+        date: "",
+        time: "",
+        roomType: "MEN60" as RoomType,
+        men: 0,
+        women: 0,
+        children: 0,
+        infants: 0,
+        message: "",
+        price: paymentAmount,
+        paidPrice: paymentAmount,
+        usedPoint: 0,
+        isWeekend: false,
+        paymentKey: "",
+        paymentStatus: "PENDING",
+      };
+
+      await storePendingReservation(orderId, paymentData);
+
+      const tossPayments = await loadTossPayments(process.env.NEXT_PUBLIC_TOSS_CLIENT_ID!);
+
+      await tossPayments.requestPayment("카드", {
+        amount: paymentAmount,
+        orderId,
+        orderName: `포인트 충전 (${selectedOption.point + selectedOption.extraPoint}P)`,
+        successUrl: `${window.location.origin}/api/points/success`,
+        failUrl: `${window.location.origin}/account/points?error=PAYMENT_FAILED&message=${encodeURIComponent("결제가 취소되었습니다.")}`,
+      });
+    } catch (error) {
+      console.error("Payment initiation error:", error);
+      alert("결제 초기화 중 오류가 발생했습니다.");
+    } finally {
+      setIsLoading(false);
     }
   };
+
+  const getSelectedOptionDetails = () => {
+    if (!selectedPoint) return null;
+    return PointsOptions.find(
+      option => (option.point + option.extraPoint).toString() === selectedPoint
+    );
+  };
+
+  const selectedOption = getSelectedOptionDetails();
 
   return (
     <div className="mx-auto w-full ~mt-[1rem]/[1.875rem]">
@@ -51,7 +134,9 @@ const PointCheckout = () => {
       <div className="flex-all-center gap-4 font-bold ~text-xs/base ~mt-[4.8125rem]/[8.75rem]">
         <span className="~text-base/[1.25rem]">총 요금</span>
         <span className="~text-xs/base">
-          {selectedPoint ? Number(selectedPoint).toLocaleString() : "0"}원
+          {selectedOption ? 
+            (selectedOption.point - selectedOption.extraPoint).toLocaleString()
+            : "0"}원
         </span>
       </div>
       <div className="flex-all-center gap-2 ~mt-[1.875rem]/[3rem]">
@@ -68,11 +153,11 @@ const PointCheckout = () => {
       <Button
         variant={"ringHover"}
         onClick={handlePayment}
-        disabled={!isAgreement || !selectedPoint}
+        disabled={!isAgreement || !selectedPoint || isLoading}
         type="button"
         className="py-[0.1875rem]/[0.4375rem] mx-auto flex !w-fit bg-golden ~text-base/[1.25rem] ~mt-[1.875rem]/[3rem] ~px-[0.75rem]/[1.6875rem]"
       >
-        결제 하기
+        {isLoading ? "처리 중..." : "결제 하기"}
       </Button>
     </div>
   );

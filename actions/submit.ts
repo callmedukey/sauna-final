@@ -16,7 +16,7 @@ const checkTimeAvailability = async (
   tx: Prisma.TransactionClient,
   date: string,
   time: string,
-  roomType: string
+  roomType: RoomType
 ) => {
   const existingReservations = await tx.reservation.findMany({
     where: { date },
@@ -94,24 +94,9 @@ const checkTimeAvailability = async (
   return true;
 };
 
-interface ReservationParams {
-  date: string;
-  time: string;
-  roomType: RoomType;
-  men: number;
-  women: number;
-  children: number;
-  infants: number;
-  message: string;
-  usedPoint: number;
-  price: number;
-  paidPrice: number;
-  isWeekend: boolean;
-}
-
 export const submitReservation = async (
   reservation: z.infer<typeof ReservationSchema>
-): ActionResponse => {
+): Promise<{ success: boolean; message?: string; data?: any }> => {
   try {
     const session = await auth();
 
@@ -171,9 +156,10 @@ export const submitReservation = async (
         }
       }
 
+      // Determine the final room type based on weekend status
       const finalRoomType = validated.data.isWeekend
-        ? ((validated.data.roomType + "WEEKEND") as RoomType)
-        : (validated.data.roomType as RoomType);
+        ? `${validated.data.roomType}WEEKEND` as RoomType
+        : validated.data.roomType;
 
       // Check time availability
       const isAvailable = await checkTimeAvailability(
@@ -271,7 +257,8 @@ export const submitReservation = async (
     if (!result.success) {
       return {
         success: false,
-        message: result.message || "예약 제출에 실패하였습니다. 다시 시도해주세요.",
+        message:
+          result.message || "예약 제출에 실패하였습니다. 다시 시도해주세요.",
       };
     }
 

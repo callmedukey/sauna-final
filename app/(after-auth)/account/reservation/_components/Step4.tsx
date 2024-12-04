@@ -2,16 +2,20 @@
 
 import { RoomType } from "@prisma/client";
 import { isWeekend } from "date-fns";
+import { toZonedTime } from "date-fns-tz";
 import { motion } from "motion/react";
-import { useRouter } from "next/navigation";
-import React, { useState } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
+import React, { useState, useEffect } from "react";
 import type { SpecialDate } from "@prisma/client";
 import { calculateAdditionalFee } from "@/lib/timeUtils";
+import { loadTossPayments } from "@tosspayments/tosspayments-sdk";
+import { storePendingReservation } from "@/lib/payment";
 
-import { submitReservation } from "@/actions/submit";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import { useDialog } from "@/components/layout/Providers";
+
+const KOREAN_TIMEZONE = "Asia/Seoul";
 
 interface Props {
   selectedRoom: {
@@ -34,7 +38,7 @@ interface Props {
   selectedTime: string;
   currentMessage: string;
   handleUsedPoint: (point: number) => void;
-  specialDates: SpecialDate[];
+  specialDates: Pick<SpecialDate, "date" | "type" | "discount">[];
 }
 
 export default function Step4({
@@ -50,8 +54,19 @@ export default function Step4({
   specialDates,
 }: Props) {
   const [agreement, setAgreement] = useState(false);
+  const [isPaymentProcessing, setIsPaymentProcessing] = useState(false);
   const router = useRouter();
+  const searchParams = useSearchParams();
   const { openConditionsDialog } = useDialog();
+
+  // Check for payment errors
+  useEffect(() => {
+    const error = searchParams.get("error");
+    const message = searchParams.get("message");
+    if (error) {
+      alert(message || "결제 처리 중 오류가 발생했습니다.");
+    }
+  }, [searchParams]);
 
   // Calculate all prices
   const basePrice = selectedRoom.price;
@@ -72,51 +87,113 @@ export default function Step4({
 
   const finalPrice = subtotal - discountAmount - usedPoint;
 
-  // Debug logs
-  console.log("Price calculations:", {
-    basePrice,
-    additionalFee,
-    subtotal,
-    specialDate,
-    discountAmount,
-    usedPoint,
-    finalPrice,
-  });
-
   const handlePayment = async () => {
     if (!agreement) {
       alert("예약과 관련된 모든 주의사항 및 약관에 동의해주세요.");
       return;
     }
 
-    // Debug log before submission
-    console.log("Submitting reservation with prices:", {
-      price: subtotal,
-      paidPrice: finalPrice,
-      discount: specialDate?.discount,
-      usedPoint,
-    });
+    if (isPaymentProcessing) {
+      return;
+    }
 
-    const result = await submitReservation({
-      date: selectedDate,
-      time: selectedTime,
-      roomType: selectedRoom.type as RoomType,
-      men: persons.men,
-      women: persons.women,
-      children: persons.children,
-      infants: persons.infants,
-      message: currentMessage,
-      usedPoint,
-      price: subtotal,
-      paidPrice: finalPrice,
-      isWeekend: isWeekend(new Date(selectedDate)),
-    });
+    setIsPaymentProcessing(true);
 
-    if (result.success) {
-      alert("예약이 완료되었습니다.");
-      router.push("/account/history");
-    } else {
-      alert(result.message);
+    try {
+      // Initialize TossPayments
+      const clientKey = process.env.NEXT_PUBLIC_TOSS_CLIENT_ID;
+      if (!clientKey) {
+        console.error('Toss client key is not configured');
+        alert('결제 설정이 올바르지 않습니다. 관리자에게 문의해주세요.');
+        return;
+      }
+      console.log('Using client key:', clientKey);
+      
+      const tossPayments = await loadTossPayments(clientKey);
+      console.log('TossPayments initialized successfully');
+
+      // Generate a unique order ID
+      const orderId = `ORDER_${Date.now()}_${Math.random()
+        .toString(36)
+        .substr(2, 9)}`;
+      console.log('Generated order ID:', orderId);
+
+      // Convert date to Korean timezone for weekend check
+      const dateInKorea = toZonedTime(
+        new Date(selectedDate.replace(/\//g, "-")),
+        KOREAN_TIMEZONE
+      );
+
+      // Store reservation details
+      const reservationDetails = {
+        date: selectedDate,
+        time: selectedTime,
+        roomType: selectedRoom.type as RoomType,
+        men: persons.men,
+        women: persons.women,
+        children: persons.children,
+        infants: persons.infants,
+        message: currentMessage,
+        usedPoint,
+        price: subtotal,
+        paidPrice: finalPrice,
+        orderId,
+        paymentKey: "", // Will be filled by Toss
+        paymentStatus: "PENDING",
+        isWeekend: isWeekend(dateInKorea),
+      };
+      console.log('Reservation details:', reservationDetails);
+
+      // Store reservation details before initiating payment
+      try {
+        await storePendingReservation(orderId, reservationDetails);
+        console.log('Reservation details stored successfully');
+      } catch (storeError) {
+        console.error('Failed to store reservation:', storeError);
+        alert('예약 정보 저장에 실패했습니다. 다시 시도해주세요.');
+        return;
+      }
+
+      // Initialize payment
+      const payment = tossPayments.payment({
+        customerKey: orderId, // Using orderId as customerKey for simplicity
+      });
+      console.log('Payment initialized');
+
+      // Request payment
+      await payment.requestPayment({
+        method: "CARD",
+        amount: {
+          currency: "KRW",
+          value: finalPrice,
+        },
+        orderId: orderId,
+        orderName: `${selectedRoom.name} - ${selectedDate} ${selectedTime}`,
+        successUrl: `${window.location.origin}/api/payments/success`,
+        failUrl: `${window.location.origin}/api/payments/fail`,
+        customerEmail: "", // Optional: Add customer email if available
+        customerName: "", // Optional: Add customer name if available
+        card: {
+          useEscrow: false,
+          flowMode: "DEFAULT",
+          useCardPoint: false,
+          useAppCardOnly: false,
+        },
+      });
+    } catch (error) {
+      console.error("Payment error:", error);
+      if (error instanceof Error) {
+        console.error("Error details:", error.message);
+        if (error.message.includes('clientKey')) {
+          alert('결제 설정이 올바르지 않습니다. 관리자에게 문의해주세요.');
+        } else {
+          alert(`결제 중 오류가 발생했습니다: ${error.message}`);
+        }
+      } else {
+        alert("알 수 없는 오류가 발생했습니다. 다시 시도해주세요.");
+      }
+    } finally {
+      setIsPaymentProcessing(false);
     }
   };
 
@@ -289,11 +366,13 @@ export default function Step4({
       <Button
         variant="ringHover"
         type="button"
-        disabled={!agreement || !selectedTime || !selectedDate}
+        disabled={
+          !agreement || !selectedTime || !selectedDate || isPaymentProcessing
+        }
         className="py-[0.1875rem]/[0.4375rem] mx-auto flex !w-fit bg-golden ~text-base/[1.25rem] ~px-[0.75rem]/[1.6875rem]"
         onClick={handlePayment}
       >
-        결제하기
+        {isPaymentProcessing ? "결제 처리 중..." : "결제하기"}
       </Button>
     </motion.div>
   );

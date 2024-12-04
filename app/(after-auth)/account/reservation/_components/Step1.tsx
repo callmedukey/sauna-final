@@ -1,9 +1,7 @@
 import { MinusCircledIcon, PlusCircledIcon } from "@radix-ui/react-icons";
 import React from "react";
-import { format } from "date-fns";
 
 import { Button } from "@/components/ui/button";
-import { RoomType, SpecialDate } from "@prisma/client";
 
 const instructions = [
   "룸별 인원제한 - 일반룸 (1명~3명) / 일반룸+대형사우나 (3명~6명)",
