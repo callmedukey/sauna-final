@@ -54,10 +54,14 @@ const Header = () => {
     <>
       <header
         className={cn(
-          "bg-siteBgGray fixed w-full transition-transform duration-300",
-          pathname === "/" && "top-0 left-0 right-0 z-50 bg-transparent",
-          !isVisible && "-translate-y-full",
-          isVisible && "translate-y-0 z-50 bg-siteBgGray"
+          "bg-siteBgGray fixed w-full transition-transform duration-300 isolate",
+          pathname === "/" &&
+            isVisible &&
+            "top-0 left-0 right-0 z-50 bg-transparent",
+          isVisible &&
+            pathname !== "/" &&
+            "translate-y-0 z-50 bg-siteBgGray top-0 left-0 right-0 ",
+          !isVisible && "-translate-y-full"
         )}
       >
         <div
