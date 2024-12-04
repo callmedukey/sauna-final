@@ -345,7 +345,7 @@ CarouselIndicator.displayName = "CarouselIndicator";
 const CarouselPrevious = forwardRef<
   HTMLButtonElement,
   React.ComponentProps<typeof Button>
->(({ className, dir, variant = "outline", size = "icon", ...props }, ref) => {
+>(({ className, dir, variant = "ghost", size = "icon", ...props }, ref) => {
   const {
     canScrollNext,
     canScrollPrev,
@@ -363,17 +363,18 @@ const CarouselPrevious = forwardRef<
       variant={variant}
       size={size}
       className={cn(
-        "absolute h-6 w-6 rounded-full z-10",
+        "absolute z-10 p-0",
         orientation === "vertical"
           ? "-top-2 left-1/2 -translate-x-1/2 rotate-90"
-          : "-left-2 top-1/2 -translate-y-1/2",
+          : "left-0 top-1/2 -translate-y-1/2",
+        "hover:bg-transparent",
         className
       )}
       onClick={scroll}
       disabled={!canScroll}
       {...props}
     >
-      <ChevronLeftIcon className="h-4 w-4" />
+      <ChevronLeftIcon className="h-16 w-16 text-white" />
       <span className="sr-only">Previous slide</span>
     </Button>
   );
@@ -383,7 +384,7 @@ CarouselPrevious.displayName = "CarouselPrevious";
 const CarouselNext = forwardRef<
   HTMLButtonElement,
   React.ComponentProps<typeof Button>
->(({ className, dir, variant = "outline", size = "icon", ...props }, ref) => {
+>(({ className, dir, variant = "ghost", size = "icon", ...props }, ref) => {
   const {
     canScrollNext,
     canScrollPrev,
@@ -400,17 +401,18 @@ const CarouselNext = forwardRef<
       variant={variant}
       size={size}
       className={cn(
-        "absolute h-6 w-6 rounded-full z-10",
+        "absolute z-10 p-0",
         orientation === "vertical"
           ? "-bottom-2 left-1/2 -translate-x-1/2 rotate-90"
-          : "-right-2 top-1/2 -translate-y-1/2",
+          : "right-2 top-1/2 -translate-y-1/2",
+        "hover:bg-transparent",
         className
       )}
       onClick={scroll}
       disabled={!canScroll}
       {...props}
     >
-      <ChevronRightIcon className="h-4 w-4" />
+      <ChevronRightIcon className="h-16 w-16 text-white" />
       <span className="sr-only">Next slide</span>
     </Button>
   );

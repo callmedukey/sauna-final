@@ -4,7 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { signOut, useSession } from "next-auth/react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 import {
   AfterAuthLinks,
@@ -23,14 +23,41 @@ const Header = () => {
   const pathname = usePathname();
   const [isLoginOpen, setIsLoginOpen] = useState(false);
   const [isRegisterOpen, setIsRegisterOpen] = useState(false);
+  const [isVisible, setIsVisible] = useState(true);
+  const [lastScrollY, setLastScrollY] = useState(0);
   const session = useSession();
+
+  useEffect(() => {
+    const controlHeader = () => {
+      const currentScrollY = window.scrollY;
+
+      if (currentScrollY > lastScrollY) {
+        // scrolling down
+        setIsVisible(false);
+      } else {
+        // scrolling up
+        setIsVisible(true);
+      }
+
+      setLastScrollY(currentScrollY);
+    };
+
+    window.addEventListener("scroll", controlHeader);
+
+    // cleanup function
+    return () => {
+      window.removeEventListener("scroll", controlHeader);
+    };
+  }, [lastScrollY]);
+
   return (
     <>
       <header
         className={cn(
-          "bg-siteBgGray",
-          pathname === "/" &&
-            "absolute top-0 left-0 right-0 z-50 bg-transparent"
+          "bg-siteBgGray fixed w-full transition-transform duration-300",
+          pathname === "/" && "top-0 left-0 right-0 z-50 bg-transparent",
+          !isVisible && "-translate-y-full",
+          isVisible && "translate-y-0 z-50 bg-siteBgGray"
         )}
       >
         <div

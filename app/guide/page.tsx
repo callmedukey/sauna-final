@@ -5,6 +5,8 @@ import {
   SliderMainItem,
   CarouselThumbsContainer,
   SliderThumbItem,
+  CarouselNext,
+  CarouselPrevious,
   Carousel,
 } from "@/components/ui/extension/carousel";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -60,7 +62,7 @@ const tabData = {
     ],
     title: "남성 룸",
     description:
-      "1인 또는 3인이 이용할 수 있는 욕조 타입 룸으로 가족, 지인, 친구와 함께 [우리만의 프라이빗한 공간] 에서 지친 몸과 마음의 스트레스를 풀고, 일상 속에 힐링을 공유하며, 몸과 마음을 재충전할 수 있는 포근하고 따듯한 공간입니다.\n\n샤워실에는 모던한 타일 바탕에 플랜 테리어로, 식물의 녹색이 시각적인 안정감을 더해주며, 좀 더 자연에서 쉬는 듯한 느낌으로 보다 안락하게 목욕을 즐길 수 있습니다. 가족, 지인, 친구와 함께 샤워 후 사우나의 열에 익숙해진 몸을 시원하게 식히며, 보다 평온하고 행복한 시간을 보내시기 바랍니다.",
+      "1인 또는 3인이 이용할 수 있는 욕조 타입 룸으로 가족, 지인, 친구와 함께 [우리만의 프라이빗한 공간] 에서 지친 몸과 마음의 스트레스를 풀고, 일상 속에 힐링을 공유하며, 몸과 마음을 재충전할 수 있는 포근하고 따듯한 공간입니다.\n\n샤워실에는 모던한 타일 바탕에 플랜 테리어로, 식물의 녹색이 시각적인 안정감을 더해주며, 좀 더 자연에서 쉬는 듯한 느낌으로 보다 안락하게 목욕을 즐길 수 있습다. 가족, 지인, 친구와 함께 샤워 후 사우나의 열에 익숙해진 몸을 시원하게 식히며, 보다 평온하고 행복한 시간을 보내시기 바랍니다.",
     firstImage: MensInStore,
     secondImage: MensPerPerson,
   },
@@ -125,26 +127,30 @@ const page = async () => {
             </TabsTrigger>
           </TabsList>
           <TabsContent value="women">
-            <Carousel className="mx-auto max-w-screen-md ">
-              <CarouselMainContainer className="aspect-video min-h-[200px] lg:h-[500px]">
-                {tabData.women.carouselImages.map((image, index) => (
-                  <SliderMainItem
-                    key={index}
-                    className="relative bg-transparent"
-                  >
-                    <Image
-                      placeholder="blur"
-                      src={image.src}
-                      alt={image.alt}
-                      fill
-                      className="object-cover object-center"
-                      sizes="100vw"
-                      priority
-                      quality={100}
-                    />
-                  </SliderMainItem>
-                ))}
-              </CarouselMainContainer>
+            <Carousel className="mx-auto max-w-screen-md">
+              <div className="relative">
+                <CarouselNext className="absolute right-0 top-1/2 -translate-y-1/2 z-10" />
+                <CarouselPrevious className="absolute left-0 top-1/2 -translate-y-1/2 z-10" />
+                <CarouselMainContainer className="aspect-video min-h-[200px] lg:h-[500px]">
+                  {tabData.women.carouselImages.map((image, index) => (
+                    <SliderMainItem
+                      key={index}
+                      className="relative bg-transparent"
+                    >
+                      <Image
+                        placeholder="blur"
+                        src={image.src}
+                        alt={image.alt}
+                        fill
+                        className="object-cover object-center"
+                        sizes="100vw"
+                        priority
+                        quality={100}
+                      />
+                    </SliderMainItem>
+                  ))}
+                </CarouselMainContainer>
+              </div>
               <CarouselThumbsContainer className="relative">
                 {tabData.women.carouselImages.map((image, index) => (
                   <SliderThumbItem
@@ -205,26 +211,30 @@ const page = async () => {
             </section>
           </TabsContent>
           <TabsContent value="men">
-            <Carousel className="mx-auto max-w-screen-md ">
-              <CarouselMainContainer className="aspect-video min-h-[200px] lg:h-[500px]">
-                {tabData.men.carouselImages.map((image, index) => (
-                  <SliderMainItem
-                    key={index}
-                    className="relative bg-transparent"
-                  >
-                    <Image
-                      placeholder="blur"
-                      src={image.src}
-                      alt={image.alt}
-                      fill
-                      className="object-cover object-center"
-                      sizes="100vw"
-                      priority
-                      quality={100}
-                    />
-                  </SliderMainItem>
-                ))}
-              </CarouselMainContainer>
+            <Carousel className="mx-auto max-w-screen-md">
+              <div className="relative">
+                <CarouselNext className="absolute right-0 top-1/2 -translate-y-1/2 z-10" />
+                <CarouselPrevious className="absolute left-0 top-1/2 -translate-y-1/2 z-10" />
+                <CarouselMainContainer className="aspect-video min-h-[200px] lg:h-[500px]">
+                  {tabData.men.carouselImages.map((image, index) => (
+                    <SliderMainItem
+                      key={index}
+                      className="relative bg-transparent"
+                    >
+                      <Image
+                        placeholder="blur"
+                        src={image.src}
+                        alt={image.alt}
+                        fill
+                        className="object-cover object-center"
+                        sizes="100vw"
+                        priority
+                        quality={100}
+                      />
+                    </SliderMainItem>
+                  ))}
+                </CarouselMainContainer>
+              </div>
               <CarouselThumbsContainer className="relative">
                 {tabData.men.carouselImages.map((image, index) => (
                   <SliderThumbItem
@@ -286,25 +296,29 @@ const page = async () => {
           </TabsContent>
           <TabsContent value="family">
             <Carousel className="mx-auto max-w-screen-md">
-              <CarouselMainContainer className="aspect-video min-h-[200px] lg:h-[500px]">
-                {tabData.family.carouselImages.map((image, index) => (
-                  <SliderMainItem
-                    key={index}
-                    className="relative bg-transparent"
-                  >
-                    <Image
-                      placeholder="blur"
-                      src={image.src}
-                      alt={image.alt}
-                      fill
-                      className="object-cover object-center"
-                      sizes="100vw"
-                      priority
-                      quality={100}
-                    />
-                  </SliderMainItem>
-                ))}
-              </CarouselMainContainer>
+              <div className="relative">
+                <CarouselNext className="absolute right-0 top-1/2 -translate-y-1/2 z-10" />
+                <CarouselPrevious className="absolute left-0 top-1/2 -translate-y-1/2 z-10" />
+                <CarouselMainContainer className="aspect-video min-h-[200px] lg:h-[500px]">
+                  {tabData.family.carouselImages.map((image, index) => (
+                    <SliderMainItem
+                      key={index}
+                      className="relative bg-transparent"
+                    >
+                      <Image
+                        placeholder="blur"
+                        src={image.src}
+                        alt={image.alt}
+                        fill
+                        className="object-cover object-center"
+                        sizes="100vw"
+                        priority
+                        quality={100}
+                      />
+                    </SliderMainItem>
+                  ))}
+                </CarouselMainContainer>
+              </div>
               <CarouselThumbsContainer className="relative">
                 {tabData.family.carouselImages.map((image, index) => (
                   <SliderThumbItem
@@ -365,26 +379,30 @@ const page = async () => {
             </section>
           </TabsContent>
           <TabsContent value="powder">
-            <Carousel className="mx-auto max-w-screen-md ">
-              <CarouselMainContainer className="aspect-video min-h-[200px] lg:h-[500px]">
-                {tabData.powder.carouselImages.map((image, index) => (
-                  <SliderMainItem
-                    key={index}
-                    className="relative bg-transparent"
-                  >
-                    <Image
-                      placeholder="blur"
-                      src={image.src}
-                      alt={image.alt}
-                      fill
-                      className="object-cover object-center"
-                      sizes="100vw"
-                      priority
-                      quality={100}
-                    />
-                  </SliderMainItem>
-                ))}
-              </CarouselMainContainer>
+            <Carousel className="mx-auto max-w-screen-md">
+              <div className="relative">
+                <CarouselNext className="absolute right-0 top-1/2 -translate-y-1/2 z-10" />
+                <CarouselPrevious className="absolute left-0 top-1/2 -translate-y-1/2 z-10" />
+                <CarouselMainContainer className="aspect-video min-h-[200px] lg:h-[500px]">
+                  {tabData.powder.carouselImages.map((image, index) => (
+                    <SliderMainItem
+                      key={index}
+                      className="relative bg-transparent"
+                    >
+                      <Image
+                        placeholder="blur"
+                        src={image.src}
+                        alt={image.alt}
+                        fill
+                        className="object-cover object-center"
+                        sizes="100vw"
+                        priority
+                        quality={100}
+                      />
+                    </SliderMainItem>
+                  ))}
+                </CarouselMainContainer>
+              </div>
               <CarouselThumbsContainer className="relative">
                 {tabData.powder.carouselImages.map((image, index) => (
                   <SliderThumbItem

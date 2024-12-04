@@ -77,7 +77,7 @@ export default function Footer() {
               </button>
             </nav>
           </div>
-          <div className="order-1 mx-auto self-start border-siteBlack text-base sm:order-2 sm:ml-auto sm:mr-0 border-l pl-8 xl:order-3 xl:space-y-0 xl:border-none">
+          <div className="order-1 mx-auto self-start border-siteBlack text-base sm:order-2 sm:ml-auto sm:mr-0 border-l ~pl-4/8 xl:order-3 xl:space-y-0 xl:border-none">
             <div className="block xl:hidden">
               <Image
                 src={FooterLogo}
