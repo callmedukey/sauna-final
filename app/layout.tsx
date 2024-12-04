@@ -27,7 +27,7 @@ export const metadata: Metadata = {
     template: "%s | 솔로사우나_레포",
   },
   description:
-    "서울 최고급 한국식 사우나. 전통 찜질방과 현대적 스파의 완벽한 조화. 힐링, 마사지, 스파 프로그램으로 완벽한 휴식을 제공합니다.",
+    "서울 최고급 한국식 사우나. 전통 찜질방과 현대적 스파의 완벽한 조화. 힐링, 마사지, 스파 프로그램으로 ���벽한 휴식을 제공합니다.",
   keywords: [
     "솔로사우나 레포",
     "한국식 사우나",
@@ -117,7 +117,12 @@ export default async function RootLayout({
 
   return (
     <html lang="ko" suppressHydrationWarning>
-      <body className={cn(`${Pretendard.variable} isolate antialiased`)}>
+      <body 
+        className={cn(
+          `${Pretendard.variable}`,
+          "isolate antialiased"
+        )}
+      >
         <SessionProvider session={session}>
           <Providers>
             <Header />
