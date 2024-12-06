@@ -36,7 +36,7 @@ const MapContainer = () => {
       };
       const map = new naver.maps.Map(mapElement.current, mapOptions);
 
-      const content = "<div>솔로사우나레포</div>";
+      const content = `<div class="p-2">솔로사우나레포 노량진점</div>`;
 
       const marker = new naver.maps.Marker({
         position: location,
@@ -46,6 +46,10 @@ const MapContainer = () => {
       const infoWindow = new naver.maps.InfoWindow({
         content,
       });
+
+      if (infoWindow) {
+        infoWindow.open(map, marker);
+      }
 
       const markerClickListener = naver.maps.Event.addListener(
         marker,
