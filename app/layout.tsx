@@ -1,17 +1,17 @@
+import { ContentType } from "@prisma/client";
 import type { Metadata } from "next";
 import localFont from "next/font/local";
-import { SessionProvider } from "next-auth/react";
 import { cookies } from "next/headers";
+import { SessionProvider } from "next-auth/react";
 
 import "./globals.css";
 import { auth } from "@/auth";
-import prisma from "@/lib/prisma";
-import { ContentType } from "@prisma/client";
 import Footer from "@/components/layout/Footer";
 import Header from "@/components/layout/Header";
 import { Providers } from "@/components/layout/Providers";
-import { cn } from "@/lib/utils";
 import { PopupDialog } from "@/components/popup-dialog";
+import prisma from "@/lib/prisma";
+import { cn } from "@/lib/utils";
 
 const Pretendard = localFont({
   src: "./fonts/PretendardVariable.woff2",
@@ -117,12 +117,7 @@ export default async function RootLayout({
 
   return (
     <html lang="ko" suppressHydrationWarning>
-      <body 
-        className={cn(
-          `${Pretendard.variable}`,
-          "isolate antialiased"
-        )}
-      >
+      <body className={cn(`${Pretendard.variable}`, "isolate antialiased")}>
         <SessionProvider session={session}>
           <Providers>
             <Header />

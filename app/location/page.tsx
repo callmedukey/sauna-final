@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Script from "next/script";
 
 import Bus from "@/public/location/bus.webp";
 import Car from "@/public/location/car.webp";
@@ -7,12 +8,16 @@ import Map2 from "@/public/location/location-2.webp";
 import Subway from "@/public/location/train.webp";
 import Walk from "@/public/location/walk.webp";
 
+import MapContainer from "./_components/MapContainer";
+
 const page = () => {
   return (
     <main className="mx-auto max-w-screen-2xl px-4 ~pt-[3.75rem]/[5.62rem] ~pb-[3.79rem]/[15rem]">
-      <div className="flex-all-center w-full bg-gray-300 ~h-[15.125rem]/[30rem]">
-        <p>네이버 맵</p>
-      </div>
+      <Script
+        type="text/javascript"
+        src={`https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=${process.env.NEXT_PUBLIC_NAVER_CLIENT_ID}`}
+      />
+      <MapContainer />
       <div className="flex-all-center w-full flex-col font-bold ~text-[0.75rem]/base ~mt-[1.87rem]/[3.125rem]">
         <p>주소: 서울특별시 동작구 노들로 2길 7 (드림스퀘어 A동 206호)</p>
         <p>TEL: 070-8860-8553</p>
@@ -20,7 +25,7 @@ const page = () => {
           찾기 어려우실 경우, 편하게 전화 주시면 안내해드리겠습니다.
         </p>
       </div>
-      <article className="grid ~mt-[3.75rem]/[5.5rem] ~gap-x-0/[4.81rem] md:grid-cols-2 [&>section>dl]:mt-[1.25rem] md:[&>section>dl]:~mt-[8.5rem]/[12.5rem]">
+      <article className="grid ~mt-[3.75rem]/[5.5rem] ~gap-x-0/[4.81rem] md:grid-cols-2 [&>section>dl]:mt-5 md:[&>section>dl]:~mt-[8.5rem]/[12.5rem]">
         <section className="[&>dl>dd]:text-siteTextGray [&>dl>dd]:~text-[0.75rem]/[1.25rem] [&>dl>dt]:font-bold [&>dl>dt]:text-siteBlack [&>dl>dt]:~text-[1.25rem]/[1.5rem]">
           <Image
             src={Map}
