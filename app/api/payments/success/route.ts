@@ -320,7 +320,7 @@ export async function GET(request: Request) {
         result.data.infants
       }명
       예약일시 : ${result.data.date} ${result.data.time}
-      룸 : ${result.data.roomType}
+      룸 : ${parseRoomInfo(result.data.roomType).name}
       이용시간 : ${getRoomDuration(result.data.roomType)}분
       요청사항 : ${result.data.message || "없음"} 
       
