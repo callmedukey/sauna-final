@@ -338,7 +338,8 @@ export async function GET(request: Request) {
     await solapi.sendOne({
       to: process.env.SOLAPI_SENDER_PHONE_NUMBER!,
       from: process.env.SOLAPI_SENDER_PHONE_NUMBER!,
-      text: `1. ${result.data.user.name}
+      text: `
+      1. ${result.data.user.name}
       2. ${parseRoomInfo(result.data.roomType).name}  
       3. 남성 ${result.data.men}명/ 여성 ${result.data.women}명/ 어린이 ${
         result.data.children
@@ -347,7 +348,6 @@ export async function GET(request: Request) {
       5. ${result.data.user.phone}
       6. ${result.data.message || "없음"} 
       7. ${result.data.paidPrice}원
-
 `,
     });
 
