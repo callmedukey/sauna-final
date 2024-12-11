@@ -121,16 +121,13 @@ export default function Step4({
         alert("결제 설정이 올바르지 않습니다. 관리자에게 문의해주세요.");
         return;
       }
-      console.log("Using client key:", clientKey);
 
       const tossPayments = await loadTossPayments(clientKey);
-      console.log("TossPayments initialized successfully");
 
       // Generate a unique order ID
       const orderId = `ORDER_${Date.now()}_${Math.random()
         .toString(36)
         .substr(2, 9)}`;
-      console.log("Generated order ID:", orderId);
 
       // Convert date to Korean timezone for weekend check
       const dateInKorea = toZonedTime(
@@ -162,12 +159,10 @@ export default function Step4({
         paymentStatus: "PENDING",
         isWeekend: isWeekendDay,
       };
-      console.log("Reservation details:", reservationDetails);
 
       // Store reservation details before initiating payment
       try {
         await storePendingReservation(orderId, reservationDetails);
-        console.log("Reservation details stored successfully");
       } catch (storeError) {
         console.error("Failed to store reservation:", storeError);
         alert("예약 정보 저장에 실패했습니다. 다시 시도해주세요.");

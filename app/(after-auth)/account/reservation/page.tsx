@@ -5,9 +5,9 @@ import React from "react";
 
 import { auth } from "@/auth";
 import prisma from "@/lib/prisma";
-import MessageHandler from "../history/_components/MessageHandler";
 
 import ReservationControl from "./_components/ReservationControl";
+import MessageHandler from "../history/_components/MessageHandler";
 
 const KOREAN_TIMEZONE = "Asia/Seoul";
 

@@ -1,5 +1,4 @@
 import { RoomType } from "@prisma/client";
-import { Rooms } from "@/definitions/constants";
 
 export const parseRoomInfo = (roomType: RoomType) => {
   switch (roomType) {

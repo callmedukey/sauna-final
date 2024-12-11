@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
+
 import { auth } from "@/auth";
 import { storePendingReservation as _storePendingReservation } from "@/lib/redis.server";
-import { ReservationDetails } from "@/lib/payment";
 
 export async function POST(request: Request) {
   try {
@@ -21,4 +21,4 @@ export async function POST(request: Request) {
     console.error("Failed to store pending reservation:", error);
     return new NextResponse("Internal Server Error", { status: 500 });
   }
-} 
+}

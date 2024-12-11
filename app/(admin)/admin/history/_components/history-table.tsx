@@ -4,8 +4,8 @@ import { NaverReservation, Reservation, User } from "@prisma/client";
 import { MoreHorizontal } from "lucide-react";
 import Link from "next/link";
 
-import { cancelSignature } from "@/actions/signatures";
 import { cancelNaverReservation } from "@/actions/naver-reservations";
+import { cancelSignature } from "@/actions/signatures";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -173,12 +173,12 @@ export function HistoryTable({
                   ? (reservation as NaverReservation).reservationNumber
                   : "-"}
               </TableCell>
-              <TableCell className="w-[5rem]">
+              <TableCell className="w-20">
                 <DropdownMenu>
                   <DropdownMenuTrigger asChild>
-                    <Button variant="ghost" className="h-8 w-8 p-0">
+                    <Button variant="ghost" className="size-8 p-0">
                       <span className="sr-only">메뉴 열기</span>
-                      <MoreHorizontal className="h-4 w-4" />
+                      <MoreHorizontal className="size-4" />
                     </Button>
                   </DropdownMenuTrigger>
                   <DropdownMenuContent align="end">
@@ -195,7 +195,7 @@ export function HistoryTable({
                       </Link>
                     </DropdownMenuItem>
                     <DropdownMenuItem
-                      className="text-red-600 cursor-pointer"
+                      className="cursor-pointer text-red-600"
                       onClick={() =>
                         handleCancelReservation(
                           reservation.id,

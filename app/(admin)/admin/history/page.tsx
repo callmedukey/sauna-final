@@ -1,8 +1,9 @@
-import { format, addDays, subDays } from "date-fns";
+import { format, addDays } from "date-fns";
 
-import prisma from "@/lib/prisma";
-import { HistoryTable } from "./_components/history-table";
 import { PaginationBar } from "@/components/ui/pagination-bar";
+import prisma from "@/lib/prisma";
+
+import { HistoryTable } from "./_components/history-table";
 import { SearchForm } from "./_components/search-form";
 
 const ITEMS_PER_PAGE = 100;

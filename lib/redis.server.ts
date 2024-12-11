@@ -20,7 +20,7 @@ const redisClientSingleton = () => {
     commandTimeout: 5000,
     keepAlive: 10000,
     lazyConnect: false,
-    reconnectOnError: function(err) {
+    reconnectOnError: function (err) {
       const targetError = "READONLY";
       if (err.message.includes(targetError)) {
         return true;
@@ -168,4 +168,4 @@ export async function deletePendingReservation(orderId: string) {
   }
 }
 
-export { redis }; 
+export { redis };
