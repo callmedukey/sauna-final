@@ -287,7 +287,7 @@ const Step3 = ({
           }}
         />
         <div className="mt-5 flex shrink flex-col ~gap-y-[1.25rem]/[1.69rem] sm:mt-0">
-          <div className="text-base">문 시간 선택</div>
+          <div className="text-base">룸 시간 선택</div>
           <div className="grid grid-cols-3 ~gap-x-[1.87rem]/[2.5rem] ~gap-y-[1.25rem]/[0.63rem]">
             {availableTimes.map((time: TimeSlot) => (
               <button
