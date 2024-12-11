@@ -2,6 +2,7 @@
 import Autoplay from "embla-carousel-autoplay";
 import useEmblaCarousel from "embla-carousel-react";
 import Image from "next/image";
+import Link from "next/link";
 
 import Background1 from "@/public/home/carousel/carousel-1.webp";
 import Background2 from "@/public/home/carousel/carousel-2.webp";
@@ -41,8 +42,9 @@ const BackgroundCarousel = () => {
         <Button
           className="motion-preset-shake bg-transparent px-6 py-2 text-2xl font-normal ring-1 ring-white"
           variant={"gooeyLeft"}
+          asChild
         >
-          예약하기
+          <Link href="/account/reservation">예약하기</Link>
         </Button>
       </div>
       <div
