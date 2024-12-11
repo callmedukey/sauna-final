@@ -2,6 +2,7 @@ import { format } from "date-fns";
 import { toZonedTime } from "date-fns-tz";
 
 import prisma from "@/lib/prisma";
+
 import { ReservationsTable } from "./_components/reservations-table";
 
 export default async function ReservationsPage() {

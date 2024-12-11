@@ -1,12 +1,20 @@
 "use client";
 
 import { SignedAgreement } from "@prisma/client";
+import { format } from "date-fns";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
 
-interface SignatureListProps {
+import { Button } from "@/components/ui/button";
+
+interface Props {
   signatures: SignedAgreement[];
 }
 
-export function SignatureList({ signatures }: SignatureListProps) {
+export function SignatureList({ signatures }: Props) {
+  const router = useRouter();
+  const [isDeleting, setIsDeleting] = useState(false);
+
   const handleDownload = async (id: string) => {
     try {
       const response = await fetch(`/api/signatures/${id}`);
@@ -23,7 +31,31 @@ export function SignatureList({ signatures }: SignatureListProps) {
       window.URL.revokeObjectURL(url);
     } catch (error) {
       console.error('Error downloading signature:', error);
-      // Handle error (show error message to user)
+      alert('서명 다운로드 중 오류가 발생했습니다.');
+    }
+  };
+
+  const handleDelete = async (signatureId: string) => {
+    if (!confirm("서명을 삭제하시겠습니까?")) {
+      return;
+    }
+
+    try {
+      setIsDeleting(true);
+      const response = await fetch(`/api/signatures/${signatureId}`, {
+        method: "DELETE",
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to delete signature");
+      }
+
+      router.refresh();
+    } catch (error) {
+      console.error("Error deleting signature:", error);
+      alert("서명 삭제 중 오류가 발생했습니다.");
+    } finally {
+      setIsDeleting(false);
     }
   };
 
@@ -38,15 +70,25 @@ export function SignatureList({ signatures }: SignatureListProps) {
             <li key={signature.id} className="flex items-center justify-between py-4">
               <div>
                 <p className="font-medium">
-                  서명된 날짜: {new Date(signature.createdAt).toLocaleDateString('ko-KR')}
+                  서명된 날짜: {format(new Date(signature.createdAt), "yyyy/MM/dd")}
                 </p>
               </div>
-              <button
-                onClick={() => handleDownload(signature.id)}
-                className="rounded bg-primary px-4 py-2 text-white"
-              >
-                다운로드
-              </button>
+              <div className="flex gap-2">
+                <Button
+                  onClick={() => handleDownload(signature.id)}
+                  variant="outline"
+                >
+                  다운로드
+                </Button>
+                <Button
+                  onClick={() => handleDelete(signature.id)}
+                  variant="outline"
+                  className="text-red-500 hover:text-red-700"
+                  disabled={isDeleting}
+                >
+                  삭제
+                </Button>
+              </div>
             </li>
           ))}
         </ul>

@@ -3,6 +3,7 @@ import { auth } from "@/auth";
 import prisma from "@/lib/prisma";
 import { SignatureDialog } from "./_components/signature-dialog";
 import { SignatureList } from "./_components/signature-list";
+import { parseRoomInfo } from "@/lib/parseRoomName";
 
 interface PageProps {
   params: Promise<{
@@ -31,25 +32,35 @@ export default async function ReservationDetailPage({ params }: PageProps) {
     redirect("/admin/reservations");
   }
 
+  const roomInfo = parseRoomInfo(reservation.roomType);
+
   return (
     <main className="container mx-auto px-4 py-8">
       <div className="mb-8 flex items-center justify-between">
         <h1 className="text-2xl font-bold">예약 상세</h1>
         <SignatureDialog reservationId={id} userName={reservation.user.name} />
       </div>
-      <div className="space-y-4">
+      <div className="grid grid-cols-2 gap-4">
         <div>
-          <h2 className="font-semibold mb-2">예약자명</h2>
+          <h2 className="mb-1 font-semibold">예약자명</h2>
           <p>{reservation.user.name}</p>
         </div>
         <div>
-          <h2 className="font-semibold mb-2">예약일시</h2>
+          <h2 className="mb-1 font-semibold">예약일시</h2>
           <p>
             {reservation.date} {reservation.time}
           </p>
         </div>
         <div>
-          <h2 className="font-semibold mb-2">인원</h2>
+          <h2 className="mb-1 font-semibold">룸 타입</h2>
+          <p>{roomInfo.name}</p>
+        </div>
+        <div>
+          <h2 className="mb-1 font-semibold">이용 시간</h2>
+          <p>{roomInfo.time}분</p>
+        </div>
+        <div>
+          <h2 className="mb-1 font-semibold">인원</h2>
           <p>
             {reservation.men > 0 && `남자 ${reservation.men}명 `}
             {reservation.women > 0 && `여자 ${reservation.women}명 `}
@@ -58,18 +69,18 @@ export default async function ReservationDetailPage({ params }: PageProps) {
           </p>
         </div>
         <div>
-          <h2 className="font-semibold mb-2">요금</h2>
+          <h2 className="mb-1 font-semibold">요금</h2>
           <p>{reservation.price.toLocaleString()}원</p>
         </div>
         {reservation.message && (
-          <div>
-            <h2 className="font-semibold mb-2">메시지</h2>
-            <p>{reservation.message}</p>
+          <div className="col-span-2">
+            <h2 className="mb-1 font-semibold">메시지</h2>
+            <p className="whitespace-pre-wrap">{reservation.message}</p>
           </div>
         )}
       </div>
-      <div className="mt-12">
-        <h2 className="text-xl font-bold mb-4">서명 내역</h2>
+      <div className="mt-8">
+        <h2 className="mb-2 text-xl font-bold">서명 내역</h2>
         <SignatureList signatures={reservation.signedAgreement} />
       </div>
     </main>

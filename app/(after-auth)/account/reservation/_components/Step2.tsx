@@ -33,14 +33,29 @@ const Step2 = ({
   };
 }) => {
   const roomList = Object.values(RoomInfo).filter((room) => {
-    if (persons.men && persons.women) {
-      return room.name.includes("혼합룸");
+    const hasChildren = persons.children > 0 || persons.infants > 0;
+
+    if (persons.men > 0 && persons.women > 0) {
+      // When both men and women are selected, show MIX room
+      return room.type.includes("MIX");
     }
-    if (persons.men && !persons.women) {
-      return room.name.includes("남성룸") || room.name.includes("혼합룸");
+    if (persons.men > 0 && persons.women === 0) {
+      // Show men's rooms and men's family rooms for male groups
+      // Always show family rooms if there are children/infants
+      return (
+        room.name.includes("남성룸") ||
+        (hasChildren && room.name.includes("남성+가족룸")) ||
+        (!hasChildren && persons.men > 1 && room.name.includes("남성+가족룸"))
+      );
     }
-    if (!persons.men && persons.women) {
-      return room.name.includes("여성룸") || room.name.includes("혼합룸");
+    if (persons.men === 0 && persons.women > 0) {
+      // Show women's rooms and women's family rooms for female groups
+      // Always show family rooms if there are children/infants
+      return (
+        room.name.includes("여성룸") ||
+        (hasChildren && room.name.includes("여성+가족룸")) ||
+        (!hasChildren && persons.women > 1 && room.name.includes("여성+가족룸"))
+      );
     }
     return false;
   });
@@ -52,13 +67,40 @@ const Step2 = ({
     extra: string;
     last: string;
   }) => {
-    const totalPeople =
-      persons.men + persons.women + persons.children + persons.infants;
+    const adultCount = persons.men + persons.women;
+    const childCount = persons.children + persons.infants;
 
-    if (room.name.includes("혼합룸")) {
-      if (totalPeople > 6) return alert("최대 6명까지 가능합니다.");
-    } else {
-      if (totalPeople > 3) return alert("최대 3명까지 가능합니다.");
+    // Get base max capacity based on room type
+    const baseMaxCapacity = room.type.includes("MIX")
+      ? 6
+      : room.type.includes("FAMILY")
+      ? 4
+      : 3;
+
+    // For family rooms, one child/infant can count towards base capacity
+    const actualAdultCount = adultCount;
+    const childrenForBaseCapacity =
+      room.type.includes("FAMILY") && adultCount === 1 ? 1 : 0;
+
+    // Check if adults exceed base capacity
+    if (actualAdultCount > baseMaxCapacity) {
+      return alert(`성인은 최대 ${baseMaxCapacity}명까지 가능합니다.`);
+    }
+
+    // Calculate remaining capacity after base capacity is filled
+    const remainingCapacity = baseMaxCapacity - actualAdultCount;
+    const additionalChildrenCount = childCount - childrenForBaseCapacity;
+
+    // If room is at max capacity, then limit additional children/infants to 2
+    if (actualAdultCount === baseMaxCapacity && additionalChildrenCount > 2) {
+      return alert(
+        "최대 인원 초과 시 어린이와 유아는 합산 최대 2명까지 추가 가능합니다."
+      );
+    }
+
+    // If room is not at max capacity, allow more children/infants
+    if (additionalChildrenCount > remainingCapacity + 2) {
+      return alert(`현재 선택하신 인원이 최대 인원을 초과합니다.`);
     }
 
     return handleRoom(room);

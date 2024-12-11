@@ -40,7 +40,11 @@ export function SignatureDialog({ reservationId, userName }: Props) {
 
       // Generate PDF blob
       const blob = await pdf(
-        <ConditionsPDF signatureImage={signatureData} userName={userName} />
+        <ConditionsPDF 
+          key={new Date().getTime()}
+          signatureImage={signatureData} 
+          userName={userName} 
+        />
       ).toBlob();
 
       // Create FormData

@@ -149,7 +149,7 @@ export const Rooms = {
     { startingTime: "20:00", endingTime: "21:30" },
     { startingTime: "21:50", endingTime: "23:20" },
   ],
-  FAMILY100: [
+  WOMEN_FAMILY: [
     { startingTime: "9:30", endingTime: "11:10" },
     { startingTime: "11:50", endingTime: "13:30" },
     { startingTime: "14:10", endingTime: "15:50" },
@@ -157,7 +157,41 @@ export const Rooms = {
     { startingTime: "18:50", endingTime: "20:30" },
     { startingTime: "21:10", endingTime: "22:50" },
   ],
-  FAMILY100WEEKEND: [
+  MEN_FAMILY: [
+    { startingTime: "9:30", endingTime: "11:10" },
+    { startingTime: "11:50", endingTime: "13:30" },
+    { startingTime: "14:10", endingTime: "15:50" },
+    { startingTime: "16:30", endingTime: "18:10" },
+    { startingTime: "18:50", endingTime: "20:30" },
+    { startingTime: "21:10", endingTime: "22:50" },
+  ],
+  MIX: [
+    { startingTime: "9:30", endingTime: "11:10" },
+    { startingTime: "11:50", endingTime: "13:30" },
+    { startingTime: "14:10", endingTime: "15:50" },
+    { startingTime: "16:30", endingTime: "18:10" },
+    { startingTime: "18:50", endingTime: "20:30" },
+    { startingTime: "21:10", endingTime: "22:50" },
+  ],
+  WOMEN_FAMILY_WEEKEND: [
+    { startingTime: "8:30", endingTime: "10:10" },
+    { startingTime: "10:50", endingTime: "12:30" },
+    { startingTime: "13:10", endingTime: "14:50" },
+    { startingTime: "15:30", endingTime: "17:10" },
+    { startingTime: "17:50", endingTime: "19:30" },
+    { startingTime: "20:10", endingTime: "21:50" },
+    { startingTime: "22:30", endingTime: "0:10" },
+  ],
+  MEN_FAMILY_WEEKEND: [
+    { startingTime: "8:30", endingTime: "10:10" },
+    { startingTime: "10:50", endingTime: "12:30" },
+    { startingTime: "13:10", endingTime: "14:50" },
+    { startingTime: "15:30", endingTime: "17:10" },
+    { startingTime: "17:50", endingTime: "19:30" },
+    { startingTime: "20:10", endingTime: "21:50" },
+    { startingTime: "22:30", endingTime: "0:10" },
+  ],
+  MIX_WEEKEND: [
     { startingTime: "8:30", endingTime: "10:10" },
     { startingTime: "10:50", endingTime: "12:30" },
     { startingTime: "13:10", endingTime: "14:50" },
@@ -169,11 +203,13 @@ export const Rooms = {
 };
 
 export const WeekendRooms = {
-  FAMILY100: "FAMILY100WEEKEND",
   WOMEN60: "WOMEN60WEEKEND",
   WOMEN90: "WOMEN90WEEKEND",
   MEN60: "MEN60WEEKEND",
   MEN90: "MEN90WEEKEND",
+  WOMEN_FAMILY: "WOMEN_FAMILY_WEEKEND",
+  MEN_FAMILY: "MEN_FAMILY_WEEKEND",
+  MIX: "MIX_WEEKEND",
 };
 
 export const PointsOptions = [
@@ -217,43 +253,50 @@ export const RoomInfo = {
   MEN60: {
     name: "남성룸[60분]",
     price: 45000,
-    extra: "(기본 1인)",
+    extra: "(기본 1인) - 최대 2명 추가 가능",
     last: "인원추가 시 1인당 35,000 추가",
     type: "MEN60",
   },
   MEN90: {
     name: "남성룸[90분]",
     price: 55000,
-    extra: "(기본 1인)",
+    extra: "(기본 1인) - 최대 2명 추가 가능",
     last: "인원추가 시 1인당 35,000 추가",
     type: "MEN90",
-  },
-  FAMILY100: {
-    name: "혼합룸,여성+가족룸,남성+가족룸[100분]",
-    price: 120000,
-    extra: "(기본 2인)",
-    last: "인원추가 시 1인당 35,000 추가",
-    type: "FAMILY100",
-  },
-  FAMILY100MOBILE: {
-    name: "혼합룸+대형사우나룸[100분]",
-    price: 120000,
-    extra: "(기본 2인)",
-    last: "인원추가 시 1인당 35,000 추가",
-    type: "FAMILY100",
   },
   WOMEN60: {
     name: "여성룸[60분]",
     price: 45000,
-    extra: "(기본 1인)",
+    extra: "(기본 1인) - 최대 2명 추가 가능",
     last: "인원추가 시 1인당 35,000 추가",
     type: "WOMEN60",
   },
   WOMEN90: {
     name: "여성룸[90분]",
     price: 55000,
-    extra: "(기본 1인)",
+    extra: "(기본 1인) - 최대 2명 추가 가능",
     last: "인원추가 시 1인당 35,000 추가",
     type: "WOMEN90",
+  },
+  MEN_FAMILY: {
+    name: "남성+가족룸[100분]",
+    price: 120000,
+    extra: "(기본 2인) - 최대 2명 추가 가능",
+    last: "인원추가 시 1인당 45,000 추가",
+    type: "MEN_FAMILY",
+  },
+  WOMEN_FAMILY: {
+    name: "여성+가족룸[100분]",
+    price: 120000,
+    extra: "(기본 2인) - 최대 2명 추가 가능",
+    last: "인원추가 시 1인당 45,000 추가",
+    type: "WOMEN_FAMILY",
+  },
+  MIX: {
+    name: "혼성룸+대형사우나룸[100분]",
+    price: 120000,
+    extra: "(기본 2인) - 최대 4명 추가 가능",
+    last: "인원추가 시 1인당 45,000 추가",
+    type: "MIX",
   },
 };

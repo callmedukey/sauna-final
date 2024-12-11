@@ -1,19 +1,18 @@
 "use client";
 
 import { RoomType } from "@prisma/client";
+import type { SpecialDate } from "@prisma/client";
+import { loadTossPayments } from "@tosspayments/tosspayments-sdk";
 import { isWeekend } from "date-fns";
 import { toZonedTime } from "date-fns-tz";
 import { motion } from "motion/react";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useSearchParams } from "next/navigation";
 import React, { useState, useEffect } from "react";
-import type { SpecialDate } from "@prisma/client";
-import { calculateAdditionalFee } from "@/lib/timeUtils";
-import { loadTossPayments } from "@tosspayments/tosspayments-sdk";
-import { storePendingReservation } from "@/lib/payment";
 
+import { useDialog } from "@/components/layout/Providers";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
-import { useDialog } from "@/components/layout/Providers";
+import { storePendingReservation } from "@/lib/payment";
 
 const KOREAN_TIMEZONE = "Asia/Seoul";
 
@@ -55,7 +54,6 @@ export default function Step4({
 }: Props) {
   const [agreement, setAgreement] = useState(false);
   const [isPaymentProcessing, setIsPaymentProcessing] = useState(false);
-  const router = useRouter();
   const searchParams = useSearchParams();
   const { openConditionsDialog } = useDialog();
 
@@ -70,11 +68,27 @@ export default function Step4({
 
   // Calculate all prices
   const basePrice = selectedRoom.price;
-  const additionalFee = calculateAdditionalFee(
-    persons,
-    selectedRoom.type.includes("FAMILY")
-  );
-  const subtotal = basePrice + additionalFee;
+  const adultCount = persons.men + persons.women;
+  const childCount = persons.children;
+  const infantCount = persons.infants;
+
+  // Get base included adult count based on room type
+  // Family rooms (MEN_FAMILY, WOMEN_FAMILY) and MIX room include 2 adults in base price
+  const isFamilyOrMixRoom =
+    selectedRoom.type.includes("FAMILY") || selectedRoom.type.includes("MIX");
+  const baseIncludedAdults = isFamilyOrMixRoom ? 2 : 1;
+
+  // Only charge for adults beyond the base included count
+  const additionalAdults = Math.max(0, adultCount - baseIncludedAdults);
+
+  // Family rooms and MIX room charge 45,000 per additional adult
+  // Regular rooms charge 35,000 per additional adult
+  const adultFee = additionalAdults * (isFamilyOrMixRoom ? 45000 : 35000);
+
+  // Children are charged 20,000 each, infants are free
+  const childFee = childCount * 20000;
+
+  const subtotal = basePrice + adultFee + childFee;
 
   const specialDate = specialDates.find(
     (sd) => sd.date === selectedDate.replace(/\//g, "-")
@@ -103,32 +117,38 @@ export default function Step4({
       // Initialize TossPayments
       const clientKey = process.env.NEXT_PUBLIC_TOSS_CLIENT_ID;
       if (!clientKey) {
-        console.error('Toss client key is not configured');
-        alert('결제 설정이 올바르지 않습니다. 관리자에게 문의해주세요.');
+        console.error("Toss client key is not configured");
+        alert("결제 설정이 올바르지 않습니다. 관리자에게 문의해주세요.");
         return;
       }
-      console.log('Using client key:', clientKey);
-      
+      console.log("Using client key:", clientKey);
+
       const tossPayments = await loadTossPayments(clientKey);
-      console.log('TossPayments initialized successfully');
+      console.log("TossPayments initialized successfully");
 
       // Generate a unique order ID
       const orderId = `ORDER_${Date.now()}_${Math.random()
         .toString(36)
         .substr(2, 9)}`;
-      console.log('Generated order ID:', orderId);
+      console.log("Generated order ID:", orderId);
 
       // Convert date to Korean timezone for weekend check
       const dateInKorea = toZonedTime(
         new Date(selectedDate.replace(/\//g, "-")),
         KOREAN_TIMEZONE
       );
+      const isWeekendDay = isWeekend(dateInKorea);
+
+      // Determine the correct room type based on whether it's a weekend
+      const roomType = isWeekendDay
+        ? (`${selectedRoom.type}WEEKEND` as RoomType)
+        : (selectedRoom.type as RoomType);
 
       // Store reservation details
       const reservationDetails = {
         date: selectedDate,
         time: selectedTime,
-        roomType: selectedRoom.type as RoomType,
+        roomType,
         men: persons.men,
         women: persons.women,
         children: persons.children,
@@ -140,17 +160,17 @@ export default function Step4({
         orderId,
         paymentKey: "", // Will be filled by Toss
         paymentStatus: "PENDING",
-        isWeekend: isWeekend(dateInKorea),
+        isWeekend: isWeekendDay,
       };
-      console.log('Reservation details:', reservationDetails);
+      console.log("Reservation details:", reservationDetails);
 
       // Store reservation details before initiating payment
       try {
         await storePendingReservation(orderId, reservationDetails);
-        console.log('Reservation details stored successfully');
+        console.log("Reservation details stored successfully");
       } catch (storeError) {
-        console.error('Failed to store reservation:', storeError);
-        alert('예약 정보 저장에 실패했습니다. 다시 시도해주세요.');
+        console.error("Failed to store reservation:", storeError);
+        alert("예약 정보 저장에 실패했습니다. 다시 시도해주세요.");
         return;
       }
 
@@ -158,7 +178,6 @@ export default function Step4({
       const payment = tossPayments.payment({
         customerKey: orderId, // Using orderId as customerKey for simplicity
       });
-      console.log('Payment initialized');
 
       // Request payment
       await payment.requestPayment({
@@ -167,7 +186,7 @@ export default function Step4({
           currency: "KRW",
           value: finalPrice,
         },
-        orderId: orderId,
+        orderId,
         orderName: `${selectedRoom.name} - ${selectedDate} ${selectedTime}`,
         successUrl: `${window.location.origin}/api/payments/success`,
         failUrl: `${window.location.origin}/api/payments/fail`,
@@ -184,13 +203,13 @@ export default function Step4({
       console.error("Payment error:", error);
       if (error instanceof Error) {
         console.error("Error details:", error.message);
-        if (error.message.includes('clientKey')) {
-          alert('결제 설정이 올바르지 않습니다. 관리자에게 문의해주세요.');
+        if (error.message.includes("clientKey")) {
+          alert("결제 설정이 올바르지 않습니다. 관리자에게 문의해주세요.");
         } else {
           alert(`결제 중 오류가 발생했습니다: ${error.message}`);
         }
       } else {
-        alert("알 수 없는 오류가 발생했습니다. 다시 시도해주세요.");
+        alert("알 수 없는 오류가 생했습니다. 다시 도해주세요.");
       }
     } finally {
       setIsPaymentProcessing(false);
@@ -281,11 +300,29 @@ export default function Step4({
 
           <div className="~mt-[1.25rem]/[2.8rem]">
             <div className="flex w-full justify-between">
-              <span>추가 요금</span>
-              <span>{additionalFee.toLocaleString()}원</span>
+              <span>기본 요금 (성인 {baseIncludedAdults}인 포함)</span>
+              <span>{basePrice.toLocaleString()}원</span>
             </div>
+            {adultFee > 0 && (
+              <div className="flex w-full justify-between">
+                <span>성인 추가 요금 ({additionalAdults}인)</span>
+                <span>{adultFee.toLocaleString()}원</span>
+              </div>
+            )}
+            {childFee > 0 && (
+              <div className="flex w-full justify-between">
+                <span>어린이 추가 요금 ({childCount}인)</span>
+                <span>{childFee.toLocaleString()}원</span>
+              </div>
+            )}
+            {infantCount > 0 && (
+              <div className="flex w-full justify-between text-sm text-siteTextGray">
+                <span>유아 ({infantCount}인)</span>
+                <span>무료</span>
+              </div>
+            )}
             {specialDate?.type === "DISCOUNT" && (
-              <div className="flex w-full justify-between text-sm text-siteTextGray mt-2">
+              <div className="mt-2 flex w-full justify-between text-sm text-siteTextGray">
                 <span>{specialDate.discount}% 할인</span>
                 <span>-{discountAmount.toLocaleString()}원</span>
               </div>

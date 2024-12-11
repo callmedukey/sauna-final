@@ -209,9 +209,7 @@ export async function GET(request: Request) {
         data: {
           date: reservationDetails.date,
           time: reservationDetails.time,
-          roomType: reservationDetails.isWeekend
-            ? (`${reservationDetails.roomType}WEEKEND` as RoomType)
-            : reservationDetails.roomType,
+          roomType: reservationDetails.roomType as RoomType,
           men: reservationDetails.men,
           women: reservationDetails.women,
           children: reservationDetails.children,
