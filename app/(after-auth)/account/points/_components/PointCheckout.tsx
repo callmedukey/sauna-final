@@ -1,9 +1,12 @@
 "use client";
-import React, { useState, useEffect } from "react";
+import { RoomType } from "@prisma/client";
 import { loadTossPayments } from "@tosspayments/payment-sdk";
 import { nanoid } from "nanoid";
 import { useSearchParams } from "next/navigation";
+import React, { useState, useEffect } from "react";
 
+import { useDialog } from "@/components/layout/Providers";
+import { useWarning } from "@/components/layout/WarningProvider";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import {
@@ -15,14 +18,12 @@ import {
 } from "@/components/ui/select";
 import { PointsOptions } from "@/definitions/constants";
 import { storePendingReservation } from "@/lib/payment";
-import { RoomType } from "@prisma/client";
-
 const PointCheckout = () => {
   const [selectedPoint, setSelectedPoint] = useState<string>("");
   const [isAgreement, setIsAgreement] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const searchParams = useSearchParams();
-
+  const { openConditionsDialog } = useDialog();
   useEffect(() => {
     const error = searchParams.get("error");
     const success = searchParams.get("success");
@@ -36,6 +37,7 @@ const PointCheckout = () => {
       }
     }
   }, [searchParams]);
+  const { setWarningOpen } = useWarning();
 
   const handleValueChange = (value: string) => {
     setSelectedPoint(value);
@@ -60,6 +62,7 @@ const PointCheckout = () => {
       if (!selectedOption) {
         throw new Error("Invalid point option selected");
       }
+   
 
       const paymentAmount = selectedOption.point - selectedOption.extraPoint;
       const orderId = `POINT_${Date.now()}_${nanoid(10)}`;
@@ -147,7 +150,19 @@ const PointCheckout = () => {
           onCheckedChange={(checked) => setIsAgreement(checked as boolean)}
         />
         <label htmlFor="point-agreement" className="~text-[0.5rem]/base">
-          예약과 관련된 모든 주의사항 및 약관에 동의합니다
+          예약과 관련된 모든 
+          <button
+          type="button"
+          onClick={() => setWarningOpen(true)}
+          className="underline underline-offset-2"
+          >주의사항
+          </button>
+           및 
+           <button
+           type="button"
+           onClick={() => openConditionsDialog()}
+           className="underline underline-offset-2"
+           >약관</button>에 동의합니다
         </label>
       </div>
       <Button
