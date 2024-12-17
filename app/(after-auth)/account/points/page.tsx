@@ -3,10 +3,11 @@ import React from "react";
 
 import { auth } from "@/auth";
 import prisma from "@/lib/prisma";
-import MessageHandler from "../history/_components/MessageHandler";
+
 
 import AccountMenuAside from "../_components/AccountMenuAside";
 import PointCheckout from "./_components/PointCheckout";
+import MessageHandler from "../history/_components/MessageHandler";
 
 const page = async () => {
   const session = await auth();
@@ -27,7 +28,7 @@ const page = async () => {
       <MessageHandler />
       <AccountMenuAside />
       <article className="mx-auto min-h-[min(60vh,40rem)] max-w-[29rem] border border-siteBlack ~px-[1.5625rem]/[3.625rem] ~py-[1.875rem]/[2.8125rem] ">
-        <div className="mx-auto max-w-60 pb-[0.625rem] border-b border-siteBlack ~mb-[1.875rem]/[2.8125rem]">
+        <div className="mx-auto max-w-60 border-b border-siteBlack pb-2.5 ~mb-[1.875rem]/[2.8125rem]">
           <h1 className="text-center font-bold ~text-xs/base">보유 포인트</h1>
           <p className="text-center font-bold ~text-base/[1.875rem]">
             {user?.point?.toLocaleString() ?? "0"}P

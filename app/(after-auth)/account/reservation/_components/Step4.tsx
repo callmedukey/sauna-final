@@ -7,9 +7,11 @@ import { isWeekend } from "date-fns";
 import { toZonedTime } from "date-fns-tz";
 import { motion } from "motion/react";
 import { useSearchParams } from "next/navigation";
+import { split } from "postcss/lib/list";
 import React, { useState, useEffect } from "react";
 
 import { useDialog } from "@/components/layout/Providers";
+import { useWarning } from "@/components/layout/WarningProvider";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import { storePendingReservation } from "@/lib/payment";
@@ -56,6 +58,7 @@ export default function Step4({
   const [isPaymentProcessing, setIsPaymentProcessing] = useState(false);
   const searchParams = useSearchParams();
   const { openConditionsDialog } = useDialog();
+  const { setWarningOpen } = useWarning();
 
   // Check for payment errors
   useEffect(() => {
@@ -384,7 +387,14 @@ export default function Step4({
         />
         <label htmlFor="agreement" className="~text-xs/base">
           예약과 관련된 모든{" "}
-          <span className="underline underline-offset-2">주의사항</span> 및{" "}
+          <button
+          type="button"
+            onClick={() => setWarningOpen(true)}
+            className="underline underline-offset-2"
+          >
+            주의사항
+          </button>{" "}
+          및{" "}
           <button
             type="button"
             onClick={() => openConditionsDialog()}
