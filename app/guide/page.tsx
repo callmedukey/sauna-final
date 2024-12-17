@@ -98,9 +98,9 @@ const page = async () => {
   return (
     <main className="page-padding px-0">
       <h1 className="page-title">솔로 사우나 레포만의 시설 안내</h1>
-      <article className="px-4 ~mt-[2rem]/[4rem]">
+      <article className="px-4 ~mt-[2rem]/[9.375rem]">
         <Tabs defaultValue="women" className="w-full">
-          <TabsList className="mx-auto grid w-full max-w-screen-md grid-cols-4 bg-transparent ~mb-[4rem]/[6rem]">
+          <TabsList className="mx-auto grid w-full max-w-screen-md grid-cols-4 bg-transparent ~mb-[4rem]/[9.375rem]">
             <TabsTrigger
               value="women"
               className="font-medium underline-offset-4 ~text-base/[1.875rem] data-[state=active]:font-bold data-[state=active]:underline data-[state=active]:shadow-none"
@@ -129,9 +129,9 @@ const page = async () => {
           <TabsContent value="women">
             <Carousel className="mx-auto w-full max-w-screen-md">
               <div className="relative w-full">
-                <CarouselNext className="absolute right-0 top-1/2 -translate-y-1/2 z-10" />
-                <CarouselPrevious className="absolute left-0 top-1/2 -translate-y-1/2 z-10" />
-                <CarouselMainContainer className="aspect-video min-h-[200px] max-h-[500px]">
+                <CarouselNext className="absolute right-0 top-1/2 z-10 -translate-y-1/2" />
+                <CarouselPrevious className="absolute left-0 top-1/2 z-10 -translate-y-1/2" />
+                <CarouselMainContainer className="aspect-video max-h-[500px] min-h-[200px]">
                   {tabData.women.carouselImages.map((image, index) => (
                     <SliderMainItem
                       key={index}
@@ -196,7 +196,7 @@ const page = async () => {
             <section className="w-full ~mt-[4rem]/[6rem] ~pt-[1.25rem]/[3.125rem]">
               <h4 className="page-title flex flex-col gap-1 ~mb-[1.5rem]/[2.5rem]">
                 1인 제공 품목
-                <span className="text-xs text-siteTextGray font-normal">
+                <span className="text-xs font-normal text-siteTextGray">
                   상황에 따라 제공품은 변동될 수 있습니다.
                 </span>
               </h4>
@@ -213,9 +213,9 @@ const page = async () => {
           <TabsContent value="men">
             <Carousel className="mx-auto w-full max-w-screen-md">
               <div className="relative w-full">
-                <CarouselNext className="absolute right-0 top-1/2 -translate-y-1/2 z-10" />
-                <CarouselPrevious className="absolute left-0 top-1/2 -translate-y-1/2 z-10" />
-                <CarouselMainContainer className="aspect-video min-h-[200px] max-h-[500px]">
+                <CarouselNext className="absolute right-0 top-1/2 z-10 -translate-y-1/2" />
+                <CarouselPrevious className="absolute left-0 top-1/2 z-10 -translate-y-1/2" />
+                <CarouselMainContainer className="aspect-video max-h-[500px] min-h-[200px]">
                   {tabData.men.carouselImages.map((image, index) => (
                     <SliderMainItem
                       key={index}
@@ -280,7 +280,7 @@ const page = async () => {
             <section className="w-full ~mt-[4rem]/[6rem] ~pt-[1.25rem]/[3.125rem]">
               <h4 className="page-title flex flex-col gap-1 ~mb-[1.5rem]/[2.5rem]">
                 1인 제공 품목
-                <span className="text-xs text-siteTextGray font-normal">
+                <span className="text-xs font-normal text-siteTextGray">
                   상황에 따라 제공품은 변동될 수 있습니다.
                 </span>
               </h4>
@@ -297,9 +297,9 @@ const page = async () => {
           <TabsContent value="family">
             <Carousel className="mx-auto w-full max-w-screen-md">
               <div className="relative w-full">
-                <CarouselNext className="absolute right-0 top-1/2 -translate-y-1/2 z-10" />
-                <CarouselPrevious className="absolute left-0 top-1/2 -translate-y-1/2 z-10" />
-                <CarouselMainContainer className="aspect-video min-h-[200px] max-h-[500px]">
+                <CarouselNext className="absolute right-0 top-1/2 z-10 -translate-y-1/2" />
+                <CarouselPrevious className="absolute left-0 top-1/2 z-10 -translate-y-1/2" />
+                <CarouselMainContainer className="aspect-video max-h-[500px] min-h-[200px]">
                   {tabData.family.carouselImages.map((image, index) => (
                     <SliderMainItem
                       key={index}
@@ -364,7 +364,7 @@ const page = async () => {
             <section className="w-full ~mt-[4rem]/[6rem] ~pt-[1.25rem]/[3.125rem]">
               <h4 className="page-title flex flex-col gap-1 ~mb-[1.5rem]/[2.5rem]">
                 1인 제공 품목
-                <span className="text-xs text-siteTextGray font-normal">
+                <span className="text-xs font-normal text-siteTextGray">
                   상황에 따라 제공품은 변동될 수 있습니다.
                 </span>
               </h4>
@@ -381,9 +381,9 @@ const page = async () => {
           <TabsContent value="powder">
             <Carousel className="mx-auto w-full max-w-screen-md">
               <div className="relative w-full">
-                <CarouselNext className="absolute right-0 top-1/2 -translate-y-1/2 z-10" />
-                <CarouselPrevious className="absolute left-0 top-1/2 -translate-y-1/2 z-10" />
-                <CarouselMainContainer className="aspect-video min-h-[200px] max-h-[500px]">
+                <CarouselNext className="absolute right-0 top-1/2 z-10 -translate-y-1/2" />
+                <CarouselPrevious className="absolute left-0 top-1/2 z-10 -translate-y-1/2" />
+                <CarouselMainContainer className="aspect-video max-h-[500px] min-h-[200px]">
                   {tabData.powder.carouselImages.map((image, index) => (
                     <SliderMainItem
                       key={index}

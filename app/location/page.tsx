@@ -33,7 +33,7 @@ const page = () => {
             className="w-full ~h-[15rem]/[25rem]"
           />
           <dl className="">
-            <dt className="flex items-center gap-2">
+            <dt className="flex items-center gap-4">
               <Image
                 src={Car}
                 alt="차량 아이콘"
@@ -55,7 +55,7 @@ const page = () => {
             className="w-full ~h-[15rem]/[25rem]"
           />
           <dl className="[&>dt:not(:first-child)]:~mt-[1rem]/[1.25rem]">
-            <dt className="flex items-center gap-2">
+            <dt className="flex items-center gap-4">
               <Image
                 src={Walk}
                 alt="도보 아이콘"
@@ -67,7 +67,7 @@ const page = () => {
               (노량진 수산시장 방향)지하도를 통해 들어오신 후, 에스컬레이터
               맞은편에 위치한 엘리베이터를 이용해 2층으로 올라오시면 됩니다.
             </dd>
-            <dt className="flex items-center gap-2">
+            <dt className="flex items-center gap-4">
               <Image
                 src={Subway}
                 alt="지하철 아이콘"
@@ -78,7 +78,7 @@ const page = () => {
             <dd className="~mt-[1rem]/[1.25rem]">
               1,9호선 노량진역 하차 후 9번출구,7번출구,6번출구 도보 5분거리
             </dd>
-            <dt className="flex items-center gap-2">
+            <dt className="flex items-center gap-4">
               <Image
                 src={Bus}
                 alt="버스 아이콘"

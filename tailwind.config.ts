@@ -95,6 +95,7 @@ export default {
     require("@tailwindcss/typography"),
     require("tailwindcss-animate"),
     require("tailwindcss-motion"),
+    require("tailwind-scrollbar-hide"),
     fluid,
   ],
 } satisfies Config;

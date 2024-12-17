@@ -77,7 +77,7 @@ const data = [
 
 const page = () => {
   return (
-    <main className="px-4 ~pt-[3.75rem]/[12rem] ~pb-[4rem]/[6rem]">
+    <main className="px-4 ~pt-[8rem]/[16.875rem] ~pb-[4rem]/[6rem]">
       <h1 className="page-title text-center ~mb-[1rem]/[2rem]">이용방법</h1>
       <p className="whitespace-pre-wrap text-center leading-[175%] text-siteTextGray ~/md:~text-xs/base">
         {`‘솔로 사우나_레포(노량진점)’은 100% 예약제로 운영되고 있습니다.\n사전예약 후 이용 가능합니다.\n\n당사 예약 페이지에서 원하는 날짜와 시간을 예약해 주시기 바랍니다.\n네이버 및 전화예약 가능합니다.\n*방문 당일에는 대기시간 없이 이용 가능합니다`}
@@ -95,7 +95,7 @@ const page = () => {
               <>
                 <p className="flex flex-col justify-center gap-y-8 md:pr-20">
                   <span className="text-3xl font-bold">{item.title}</span>
-                  <span className="text-pretty break-keep leading-[175%] text-siteTextGray whitespace-pre-wrap">
+                  <span className="whitespace-pre-wrap text-pretty break-keep leading-[175%] text-siteTextGray">
                     {item.content}
                   </span>
                 </p>
@@ -106,7 +106,7 @@ const page = () => {
                     fill
                     quality={100}
                     sizes="100vw"
-                    className="object-cover object-center mt-6 md:mt-0"
+                    className="mt-6 object-cover object-center md:mt-0"
                   />
                 </div>
               </>
@@ -119,7 +119,7 @@ const page = () => {
                     fill
                     quality={100}
                     sizes="100vw"
-                    className="object-cover object-center mt-6 md:mt-0"
+                    className="mt-6 object-cover object-center md:mt-0"
                   />
                 </div>
                 <p className="flex flex-col justify-center gap-y-8 md:pl-20 ">

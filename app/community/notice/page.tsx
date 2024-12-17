@@ -5,7 +5,6 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { format } from "date-fns";
 import prisma from "@/lib/prisma";
 
 import CommunityAside from "../_components/CommunityAside";
@@ -26,25 +25,25 @@ export default async function NoticePage() {
   });
 
   return (
-    <main className="px-4 ~pt-[3.75rem]/[12rem] ~pb-[4rem]/[6rem]">
+    <main className="px-4 ~pt-[8rem]/[16.875rem] ~pb-[4rem]/[6rem]">
       <CommunityAside />
       <article className="mx-auto max-w-screen-xl px-4">
         <div className="min-h-[min(50vh,30rem)]">
-          <Table>
-            <TableHeader className="border-b border-t-2 border-black whitespace-nowrap">
+          <Table className="overflow-hidden scrollbar-hide">
+            <TableHeader className="whitespace-nowrap border-b border-t-2 border-black">
               <TableRow className="border-black">
-                <TableHead className="lg:w-40 text-left lg:text-center text-siteBlack whitespace-nowrap translate-y-1">
+                <TableHead className="translate-y-1 whitespace-nowrap text-left text-siteBlack lg:w-40 lg:text-center">
                   번호
                 </TableHead>
-                <TableHead className="text-left lg:text-center text-siteBlack whitespace-nowrap max-w-[10rem] translate-y-1">
+                <TableHead className="max-w-40 translate-y-1 whitespace-nowrap text-left text-siteBlack lg:text-center">
                   제목
                 </TableHead>
-                <TableHead className="lg:w-40 text-left lg:text-center text-siteBlack whitespace-nowrap translate-y-1">
+                <TableHead className="translate-y-1 whitespace-nowrap text-left text-siteBlack lg:w-40 lg:text-center">
                   날짜
                 </TableHead>
               </TableRow>
             </TableHeader>
-            <TableBody className="whitespace-nowrap">
+            <TableBody className="whitespace-nowrap scrollbar-hide">
               {notices.map((notice, index) => (
                 <NoticeView
                   key={notice.id}

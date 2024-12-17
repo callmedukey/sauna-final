@@ -5,8 +5,8 @@ import { cn } from "@/lib/utils";
 
 const page = () => {
   return (
-    <main className="px-4 ~pt-[3.75rem]/[12rem] ~pb-[4rem]/[6rem]">
-      <aside className="page-title mx-auto flex max-w-screen-2xl justify-center font-normal ~mb-[2rem]/[4rem] ~gap-[3.75rem]/[12rem]">
+    <main className="px-4 ~pt-[8rem]/[16.875rem] ~pb-[4rem]/[6rem]">
+      <aside className="page-title mx-auto flex max-w-screen-xl justify-center font-normal ~mb-[2rem]/[4rem] ~gap-[3.75rem]/[12rem]">
         <Link
           href="/community/notice"
           className={cn("hover:motion-preset-shake")}

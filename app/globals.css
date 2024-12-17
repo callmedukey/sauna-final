@@ -6,7 +6,8 @@ html {
   overflow-y: scroll;
 }
 
-html, body {
+html,
+body {
   width: 100%;
   margin: 0;
   padding: 0;
@@ -113,7 +114,7 @@ body {
   }
 
   .page-padding {
-    @apply px-4 ~pt-[4rem]/48 ~pb-[4rem]/[6rem];
+    @apply px-4 ~pt-[8rem]/[16.875rem] ~pb-[4rem]/[6rem];
   }
 
   .step-title {

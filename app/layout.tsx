@@ -8,7 +8,10 @@ import "./globals.css";
 import { auth } from "@/auth";
 import Footer from "@/components/layout/Footer";
 import Header from "@/components/layout/Header";
+import LoginRegisterProvider from "@/components/layout/LoginRegisterProvider";
 import { Providers } from "@/components/layout/Providers";
+import WarningDialog from "@/components/layout/WarningDialog";
+import WarningProvider from "@/components/layout/WarningProvider";
 import { PopupDialog } from "@/components/popup-dialog";
 import prisma from "@/lib/prisma";
 import { cn } from "@/lib/utils";
@@ -120,9 +123,14 @@ export default async function RootLayout({
       <body className={cn(`${Pretendard.variable}`, "isolate antialiased")}>
         <SessionProvider session={session}>
           <Providers>
-            <Header />
-            {children}
-            <Footer />
+            <LoginRegisterProvider>
+              <WarningProvider>
+                <Header />
+                {children}
+                <Footer />
+                <WarningDialog />
+              </WarningProvider>
+            </LoginRegisterProvider>
           </Providers>
         </SessionProvider>
         <PopupDialog content={popupContent} hideUntil={hideUntil} />

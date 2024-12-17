@@ -1,17 +1,15 @@
 import {
   Table,
   TableBody,
-  TableCell,
   TableHead,
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { format } from "date-fns";
 import prisma from "@/lib/prisma";
 
 import CommunityAside from "../_components/CommunityAside";
-import { InquiryView } from "./_components/inquiry-view";
 import { CreateInquiryButton } from "./_components/create-inquiry-button";
+import { InquiryView } from "./_components/inquiry-view";
 
 interface PageProps {
   searchParams: Promise<{
@@ -45,7 +43,7 @@ export default async function InquiryPage({ searchParams }: PageProps) {
   const totalPages = Math.ceil(total / limit);
 
   return (
-    <main className="px-4 ~pt-[3.75rem]/[12rem] ~pb-[4rem]/[6rem]">
+    <main className="px-4 ~pt-[8rem]/[16.875rem] ~pb-[4rem]/[6rem]">
       <CommunityAside />
       <article className="mx-auto max-w-screen-xl px-4">
         <div className="mb-4 flex justify-end">
@@ -53,18 +51,18 @@ export default async function InquiryPage({ searchParams }: PageProps) {
         </div>
         <div className="min-h-[min(50vh,30rem)]">
           <Table>
-            <TableHeader className="border-b border-t-2 border-black">
+            <TableHeader className="overflow-hidden border-b border-t-2 border-black">
               <TableRow className="border-black">
-                <TableHead className="w-40 text-left lg:text-center text-siteBlack">
+                <TableHead className="w-40 text-left text-siteBlack lg:text-center">
                   번호
                 </TableHead>
-                <TableHead className="text-left lg:text-center text-siteBlack">
+                <TableHead className="text-left text-siteBlack lg:text-center">
                   제목
                 </TableHead>
-                <TableHead className="w-40 text-left lg:text-center text-siteBlack">
+                <TableHead className="w-40 text-left text-siteBlack lg:text-center">
                   작성자
                 </TableHead>
-                <TableHead className="w-40 text-left lg:text-center text-siteBlack">
+                <TableHead className="w-40 text-left text-siteBlack lg:text-center">
                   날짜
                 </TableHead>
               </TableRow>
@@ -86,7 +84,7 @@ export default async function InquiryPage({ searchParams }: PageProps) {
                   <a
                     key={pageNum}
                     href={`/community/inquiry?page=${pageNum}`}
-                    className={`inline-flex h-8 min-w-[2rem] items-center justify-center rounded-md px-3 text-sm ${
+                    className={`inline-flex h-8 min-w-8 items-center justify-center rounded-md px-3 text-sm ${
                       pageNum === page
                         ? "bg-black text-white"
                         : "border border-gray-300 bg-white text-gray-700 hover:bg-gray-50"

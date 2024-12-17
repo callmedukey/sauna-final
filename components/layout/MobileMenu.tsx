@@ -12,14 +12,17 @@ import {
   HeaderLinks,
 } from "@/definitions/constants";
 
+import { useLoginRegister } from "./LoginRegisterProvider";
+
 const MobileMenu = ({
-  setIsLoginOpen,
-  setIsRegisterOpen,
+  setLoginOpen,
+  setRegisterOpen,
 }: {
-  setIsLoginOpen: (isLoginOpen: boolean) => void;
-  setIsRegisterOpen: (isRegisterOpen: boolean) => void;
+  setLoginOpen: (loginOpen: boolean) => void;
+  setRegisterOpen: (registerOpen: boolean) => void;
 }) => {
-  const [open, setOpen] = useState(false);
+  const { loginOpen } = useLoginRegister();
+  const [open, setOpen] = useState(loginOpen);
   const session = useSession();
   return (
     <Drawer direction="right" open={open} onOpenChange={setOpen}>
@@ -79,12 +82,12 @@ const MobileMenu = ({
                     type="button"
                     onClick={() => {
                       if (link.href === "/login") {
-                        setIsLoginOpen(true);
-                        setIsRegisterOpen(false);
+                        setLoginOpen(true);
+                        setRegisterOpen(false);
                         setOpen(false);
                       } else if (link.href === "/signup") {
-                        setIsRegisterOpen(true);
-                        setIsLoginOpen(false);
+                        setRegisterOpen(true);
+                        setLoginOpen(false);
                         setOpen(false);
                       }
                     }}

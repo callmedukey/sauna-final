@@ -16,13 +16,14 @@ import HeaderLogo from "@/public/header/header-logo.svg";
 
 import CommunityDropdown from "./CommunityDropdown";
 import LoginModal from "./LoginModal";
+import { useLoginRegister } from "./LoginRegisterProvider";
 import MobileMenu from "./MobileMenu";
 import RegisterModal from "./RegisterModal";
 
 const Header = () => {
   const pathname = usePathname();
-  const [isLoginOpen, setIsLoginOpen] = useState(false);
-  const [isRegisterOpen, setIsRegisterOpen] = useState(false);
+  const { loginOpen, setLoginOpen, registerOpen, setRegisterOpen } =
+    useLoginRegister();
   const [isVisible, setIsVisible] = useState(true);
   const [lastScrollY, setLastScrollY] = useState(0);
   const session = useSession();
@@ -95,7 +96,7 @@ const Header = () => {
                     onClick={(e) => {
                       if (!session || !session.data?.user) {
                         e.preventDefault();
-                        setIsLoginOpen(true);
+                        setLoginOpen(true);
                       }
                     }}
                     className={cn(
@@ -168,11 +169,11 @@ const Header = () => {
                     type="button"
                     onClick={() => {
                       if (link.href === "/login") {
-                        setIsLoginOpen(true);
-                        setIsRegisterOpen(false);
+                        setLoginOpen(true);
+                        setRegisterOpen(false);
                       } else if (link.href === "/signup") {
-                        setIsRegisterOpen(true);
-                        setIsLoginOpen(false);
+                        setRegisterOpen(true);
+                        setLoginOpen(false);
                       }
                     }}
                   >
@@ -181,20 +182,20 @@ const Header = () => {
                 ))}
           </nav>
           <MobileMenu
-            setIsLoginOpen={setIsLoginOpen}
-            setIsRegisterOpen={setIsRegisterOpen}
+            setLoginOpen={setLoginOpen}
+            setRegisterOpen={setRegisterOpen}
           />
         </div>
       </header>
       <LoginModal
-        isOpen={isLoginOpen}
-        setIsOpen={setIsLoginOpen}
-        setIsRegisterOpen={setIsRegisterOpen}
+        isOpen={loginOpen}
+        setIsOpen={setLoginOpen}
+        setIsRegisterOpen={setRegisterOpen}
       />
       <RegisterModal
-        isOpen={isRegisterOpen}
-        setIsOpen={setIsRegisterOpen}
-        setLoginOpen={setIsLoginOpen}
+        isOpen={registerOpen}
+        setIsOpen={setRegisterOpen}
+        setLoginOpen={setLoginOpen}
       />
     </>
   );
