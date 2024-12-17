@@ -56,13 +56,13 @@ const PointCheckout = () => {
     try {
       setIsLoading(true);
       const selectedOption = PointsOptions.find(
-        option => (option.point + option.extraPoint).toString() === selectedPoint
+        (option) =>
+          (option.point + option.extraPoint).toString() === selectedPoint
       );
 
       if (!selectedOption) {
         throw new Error("Invalid point option selected");
       }
-   
 
       const paymentAmount = selectedOption.point - selectedOption.extraPoint;
       const orderId = `POINT_${Date.now()}_${nanoid(10)}`;
@@ -90,14 +90,22 @@ const PointCheckout = () => {
 
       await storePendingReservation(orderId, paymentData);
 
-      const tossPayments = await loadTossPayments(process.env.NEXT_PUBLIC_TOSS_CLIENT_ID!);
+      const tossPayments = await loadTossPayments(
+        process.env.NEXT_PUBLIC_TOSS_CLIENT_ID!
+      );
 
       await tossPayments.requestPayment("카드", {
         amount: paymentAmount,
         orderId,
-        orderName: `포인트 충전 (${selectedOption.point + selectedOption.extraPoint}P)`,
+        orderName: `포인트 충전 (${
+          selectedOption.point + selectedOption.extraPoint
+        }P)`,
         successUrl: `${window.location.origin}/api/points/success`,
-        failUrl: `${window.location.origin}/account/points?error=PAYMENT_FAILED&message=${encodeURIComponent("결제가 취소되었습니다.")}`,
+        failUrl: `${
+          window.location.origin
+        }/account/points?error=PAYMENT_FAILED&message=${encodeURIComponent(
+          "결제가 취소되었습니다."
+        )}`,
       });
     } catch (error) {
       console.error("Payment initiation error:", error);
@@ -110,7 +118,8 @@ const PointCheckout = () => {
   const getSelectedOptionDetails = () => {
     if (!selectedPoint) return null;
     return PointsOptions.find(
-      option => (option.point + option.extraPoint).toString() === selectedPoint
+      (option) =>
+        (option.point + option.extraPoint).toString() === selectedPoint
     );
   };
 
@@ -137,9 +146,12 @@ const PointCheckout = () => {
       <div className="flex-all-center gap-4 font-bold ~text-xs/base ~mt-[4.8125rem]/[8.75rem]">
         <span className="~text-base/[1.25rem]">총 요금</span>
         <span className="~text-xs/base">
-          {selectedOption ? 
-            (selectedOption.point - selectedOption.extraPoint).toLocaleString()
-            : "0"}원
+          {selectedOption
+            ? (
+                selectedOption.point - selectedOption.extraPoint
+              ).toLocaleString()
+            : "0"}
+          원
         </span>
       </div>
       <div className="flex-all-center gap-2 ~mt-[1.875rem]/[3rem]">
@@ -150,19 +162,23 @@ const PointCheckout = () => {
           onCheckedChange={(checked) => setIsAgreement(checked as boolean)}
         />
         <label htmlFor="point-agreement" className="~text-[0.5rem]/base">
-          예약과 관련된 모든 
+          예약과 관련된 모든{" "}
           <button
-          type="button"
-          onClick={() => setWarningOpen(true)}
-          className="underline underline-offset-2"
-          >주의사항
+            type="button"
+            onClick={() => setWarningOpen(true)}
+            className="underline underline-offset-2"
+          >
+            주의사항
+          </button>{" "}
+          및{" "}
+          <button
+            type="button"
+            onClick={() => openConditionsDialog()}
+            className="underline underline-offset-2"
+          >
+            약관
           </button>
-           및 
-           <button
-           type="button"
-           onClick={() => openConditionsDialog()}
-           className="underline underline-offset-2"
-           >약관</button>에 동의합니다
+          에 동의합니다
         </label>
       </div>
       <Button

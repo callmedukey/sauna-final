@@ -7,7 +7,6 @@ import { isWeekend } from "date-fns";
 import { toZonedTime } from "date-fns-tz";
 import { motion } from "motion/react";
 import { useSearchParams } from "next/navigation";
-import { split } from "postcss/lib/list";
 import React, { useState, useEffect } from "react";
 
 import { useDialog } from "@/components/layout/Providers";
@@ -388,8 +387,10 @@ export default function Step4({
         <label htmlFor="agreement" className="~text-xs/base">
           예약과 관련된 모든{" "}
           <button
-          type="button"
-            onClick={() => setWarningOpen(true)}
+            type="button"
+            onClick={() => {
+              setWarningOpen(true);
+            }}
             className="underline underline-offset-2"
           >
             주의사항
