@@ -156,63 +156,33 @@ const Step3 = ({
       );
 
       if (hasOverlap) {
-        // Rule 2: When 혼성룸 is selected or reserved, no other rooms allowed
-        if (
-          reservation.roomType.includes("MIX") ||
-          selectedRoom.type.includes("MIX")
-        ) {
+        // Rule 4: When MIX room is active, no other rooms can be active
+        if (reservation.roomType.includes("MIX") || selectedRoom.type.includes("MIX")) {
           return false;
         }
 
-        // Rule 1: 60/90 minute room restrictions
-        if (reservation.roomType.includes("MEN")) {
-          // If men's 60 is reserved, block men's 90 and vice versa
-          if (
-            reservation.roomType.includes("60") &&
-            selectedRoom.type.includes("MEN")
-          ) {
-            return false;
-          }
-          // Block women's family and mix rooms when men's room is reserved
-          if (
-            selectedRoom.type.includes("WOMEN_FAMILY") ||
-            selectedRoom.type.includes("MIX")
-          ) {
+        // Rule 1: Women's room restrictions
+        if (selectedRoom.type.includes("WOMEN") && !selectedRoom.type.includes("FAMILY")) {
+          if (reservation.roomType.includes("MIX") || 
+              reservation.roomType.includes("WOMEN_FAMILY")) {
             return false;
           }
         }
 
-        if (reservation.roomType.includes("WOMEN")) {
-          // If women's 60 is reserved, block women's 90 and vice versa
-          if (
-            reservation.roomType.includes("60") &&
-            selectedRoom.type.includes("WOMEN")
-          ) {
-            return false;
-          }
-          // Block men's family and mix rooms when women's room is reserved
-          if (
-            selectedRoom.type.includes("MEN_FAMILY") ||
-            selectedRoom.type.includes("MIX")
-          ) {
+        // Rule 2: Men's room restrictions
+        if (selectedRoom.type.includes("MEN") && !selectedRoom.type.includes("FAMILY")) {
+          if (reservation.roomType.includes("MIX") || 
+              reservation.roomType.includes("MEN_FAMILY")) {
             return false;
           }
         }
 
-        // Rule 3: Family room exceptions
-        if (reservation.roomType.includes("FAMILY")) {
-          // Allow opposite sex 60/90 rooms with family rooms
-          if (reservation.roomType.includes("MEN_FAMILY")) {
-            return (
-              selectedRoom.type.includes("WOMEN60") ||
-              selectedRoom.type.includes("WOMEN90")
-            );
-          }
-          if (reservation.roomType.includes("WOMEN_FAMILY")) {
-            return (
-              selectedRoom.type.includes("MEN60") ||
-              selectedRoom.type.includes("MEN90")
-            );
+        // Rule 3: Women's and Men's 60/90 rooms can overlap
+        if ((selectedRoom.type.includes("WOMEN") && reservation.roomType.includes("MEN")) ||
+            (selectedRoom.type.includes("MEN") && reservation.roomType.includes("WOMEN"))) {
+          if (!selectedRoom.type.includes("FAMILY") && 
+              !reservation.roomType.includes("FAMILY")) {
+            return true;
           }
         }
 

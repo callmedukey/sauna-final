@@ -64,27 +64,45 @@ const checkTimeAvailability = async (
         },
       });
 
-      // If there's a family room reservation, no other rooms can be booked
-      if (reservation.roomType.includes("FAMILY")) {
+      // Rule 4: When MIX room is active, no other rooms can be active
+      if (reservation.roomType.includes("MIX") || roomType.includes("MIX")) {
         return false;
       }
 
-      // If requesting family room and there's any existing reservation
-      if (roomType.includes("FAMILY")) {
-        return false;
+      // Rule 1: Women's room restrictions
+      if (roomType.includes("WOMEN") && !roomType.includes("FAMILY")) {
+        if (
+          reservation.roomType.includes("MIX") ||
+          reservation.roomType.includes("WOMEN_FAMILY")
+        ) {
+          return false;
+        }
       }
 
-      // If there's a men's room reservation, only women's room can be booked
-      if (reservation.roomType.includes("MEN") && !roomType.includes("WOMEN")) {
-        return false;
+      // Rule 2: Men's room restrictions
+      if (roomType.includes("MEN") && !roomType.includes("FAMILY")) {
+        if (
+          reservation.roomType.includes("MIX") ||
+          reservation.roomType.includes("MEN_FAMILY")
+        ) {
+          return false;
+        }
       }
 
-      // If there's a women's room reservation, only men's room can be booked
-      if (reservation.roomType.includes("WOMEN") && !roomType.includes("MEN")) {
-        return false;
+      // Rule 3: Women's and Men's 60/90 rooms can overlap
+      if (
+        (roomType.includes("WOMEN") && reservation.roomType.includes("MEN")) ||
+        (roomType.includes("MEN") && reservation.roomType.includes("WOMEN"))
+      ) {
+        if (
+          !roomType.includes("FAMILY") &&
+          !reservation.roomType.includes("FAMILY")
+        ) {
+          return true;
+        }
       }
 
-      // Direct time slot conflict for same room type
+      // Block same room type
       if (reservation.roomType === roomType) {
         return false;
       }
@@ -158,7 +176,7 @@ export const submitReservation = async (
 
       // Determine the final room type based on weekend status
       const finalRoomType = validated.data.isWeekend
-        ? `${validated.data.roomType}WEEKEND` as RoomType
+        ? (`${validated.data.roomType}WEEKEND` as RoomType)
         : validated.data.roomType;
 
       // Check time availability
