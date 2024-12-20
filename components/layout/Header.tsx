@@ -100,7 +100,6 @@ const Header = () => {
                       }
                     }}
                     className={cn(
-                      "hover:motion-preset-shake",
                       link.href === pathname &&
                         "underline underline-offset-4 font-bold"
                     )}
@@ -114,7 +113,7 @@ const Header = () => {
                   key={link.href}
                   href={link.href}
                   className={cn(
-                    "hover:motion-preset-shake",
+
                     link.href === pathname &&
                       "underline underline-offset-4 font-bold"
                   )}
