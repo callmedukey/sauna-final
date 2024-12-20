@@ -10,7 +10,7 @@ const page = async () => {
   redirect("/account/profile");
 
   // return (
-  //   <main className="px-4 ~pt-[3.75rem]/[12rem] ~pb-[4rem]/[6rem]">
+  //   <main className="px-4 ~pb-[4rem]/[6rem]">
   //     <aside className="mx-auto grid max-w-screen-lg grid-cols-2 place-items-center items-center justify-center gap-y-3.5 font-normal ~text-[1.25rem]/[1.5rem] ~mb-[2rem]/[4rem] ~gap-x-[5.625rem]/[6.25rem] lg:flex">
   //       <Link
   //         href="/account/profile"

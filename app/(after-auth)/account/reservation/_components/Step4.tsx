@@ -7,13 +7,9 @@ import { isWeekend } from "date-fns";
 import { toZonedTime } from "date-fns-tz";
 import { motion } from "motion/react";
 import { useSearchParams } from "next/navigation";
-import { split } from "postcss/lib/list";
 import React, { useState, useEffect } from "react";
 
-import { useDialog } from "@/components/layout/Providers";
-import { useWarning } from "@/components/layout/WarningProvider";
 import { Button } from "@/components/ui/button";
-import { Checkbox } from "@/components/ui/checkbox";
 import { storePendingReservation } from "@/lib/payment";
 
 const KOREAN_TIMEZONE = "Asia/Seoul";
@@ -54,12 +50,10 @@ export default function Step4({
   handleUsedPoint,
   specialDates,
 }: Props) {
-  const [agreement, setAgreement] = useState(false);
+
   const [isPaymentProcessing, setIsPaymentProcessing] = useState(false);
   const searchParams = useSearchParams();
-  const { openConditionsDialog } = useDialog();
-  const { setWarningOpen } = useWarning();
-
+ 
   // Check for payment errors
   useEffect(() => {
     const error = searchParams.get("error");
@@ -105,10 +99,7 @@ export default function Step4({
   const finalPrice = subtotal - discountAmount - usedPoint;
 
   const handlePayment = async () => {
-    if (!agreement) {
-      alert("예약과 관련된 모든 주의사항 및 약관에 동의해주세요.");
-      return;
-    }
+
 
     if (isPaymentProcessing) {
       return;
@@ -332,7 +323,7 @@ export default function Step4({
           <div className="flex">
             <div className="flex flex-col">
               <div>포인트 사용</div>
-              <div>보유 포인트 {maxPoint ?? 0}P</div>
+              <div>보유 포인트 ({maxPoint ?? 0}P)</div>
             </div>
             <input
               type="number"
@@ -361,7 +352,7 @@ export default function Step4({
                   handleUsedPoint(value);
                 }
               }}
-              className="ml-auto mr-0 h-8 w-20 border border-siteBlack bg-white px-2 sm:w-24"
+              className="ml-auto mr-0 h-8 w-20 rounded border-[3px] border-siteBlack bg-white px-2 sm:w-24"
             />
           </div>
 
@@ -377,45 +368,17 @@ export default function Step4({
             </div>
           </div>
         </div>
-      </article>
-      <div className="mx-[-2.81rem] flex w-[calc(100%+5.62rem)] items-center justify-center gap-x-[0.63rem] text-nowrap ~mt-[1.25rem]/[6.25rem] ~mb-[1.25rem]/[3.12rem]">
-        <Checkbox
-          id="agreement"
-          className="rounded-none border-siteTextGray"
-          checked={agreement}
-          onCheckedChange={(checked) => setAgreement(checked as boolean)}
-        />
-        <label htmlFor="agreement" className="~text-xs/base">
-          예약과 관련된 모든{" "}
-          <button
-          type="button"
-            onClick={() => setWarningOpen(true)}
-            className="underline underline-offset-2"
-          >
-            주의사항
-          </button>{" "}
-          및{" "}
-          <button
+
+        <div className="flex w-full justify-center ~mt-8/20">
+          <Button
             type="button"
-            onClick={() => openConditionsDialog()}
-            className="underline underline-offset-2"
+            className="py-[0.1875rem]/[0.4375rem] flex !w-fit bg-[#998465] ~text-base/[1.25rem] ~px-[0.75rem]/[1.6875rem]"
+            onClick={handlePayment}
           >
-            약관
-          </button>
-          에 동의합니다
-        </label>
-      </div>
-      <Button
-        variant="ringHover"
-        type="button"
-        disabled={
-          !agreement || !selectedTime || !selectedDate || isPaymentProcessing
-        }
-        className="py-[0.1875rem]/[0.4375rem] mx-auto flex !w-fit bg-golden ~text-base/[1.25rem] ~px-[0.75rem]/[1.6875rem]"
-        onClick={handlePayment}
-      >
-        {isPaymentProcessing ? "결제 처리 중..." : "결제하기"}
-      </Button>
+            {isPaymentProcessing ? "결제 처리 중..." : "결제하기"}
+          </Button>
+        </div>
+      </article>
     </motion.div>
   );
 }

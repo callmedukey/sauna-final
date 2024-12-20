@@ -37,12 +37,12 @@ const page = async () => {
   });
 
   return (
-    <main className="px-4 ~pt-[3.75rem]/[12rem] ~pb-[4rem]/[6rem]">
+    <main className="px-4  ~pb-[4rem]/[6rem]">
       <MessageHandler />
       <AccountMenuAside />
       <article className="mx-auto min-h-[min(60vh,40rem)] max-w-screen-md px-4">
         <Table>
-          <TableHeader className="border-y border-black bg-white">
+          <TableHeader className=" whitespace-nowrap border-y border-black bg-white">
             <TableRow className="border-black ~text-xs/[1.25rem]">
               <TableHead className="w-40 translate-y-1 text-center text-siteBlack">
                 날짜

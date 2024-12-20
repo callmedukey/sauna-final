@@ -24,7 +24,7 @@ const page = async () => {
   if (!user) return redirect("/");
 
   return (
-    <main className="px-4 ~pt-[3.75rem]/[12rem] ~pb-[4rem]/[6rem]">
+    <main className="px-4  ~pb-[4rem]/[6rem]">
       <AccountMenuAside />
       <article className="mx-auto max-w-screen-md px-4">
         <ProfileUpdateForm user={user} />
