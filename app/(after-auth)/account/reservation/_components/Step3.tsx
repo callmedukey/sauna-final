@@ -1,6 +1,6 @@
 "use client";
 import type { Reservation, SpecialDate } from "@prisma/client";
-import { format, isWeekend, isBefore } from "date-fns";
+import { format, isWeekend, isBefore, isAfter } from "date-fns";
 import { ko } from "date-fns/locale";
 import { Clock } from "lucide-react";
 import { motion } from "motion/react";
@@ -51,7 +51,11 @@ const Step3 = ({
     );
     koreaToday.setHours(0, 0, 0, 0);
 
-    if (isBefore(koreaDate, koreaToday)) {
+    // Check if date is more than 6 months in the future
+    const sixMonthsFromNow = new Date(koreaToday);
+    sixMonthsFromNow.setMonth(sixMonthsFromNow.getMonth() + 6);
+
+    if (isBefore(koreaDate, koreaToday) || isAfter(koreaDate, sixMonthsFromNow)) {
       return true;
     }
 

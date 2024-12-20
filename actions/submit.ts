@@ -1,6 +1,7 @@
 "use server";
 
 import { Prisma, RoomType } from "@prisma/client";
+import { isAfter } from "date-fns";
 import { z } from "zod";
 
 import { auth } from "@/auth";
@@ -135,6 +136,21 @@ export const submitReservation = async (
 
     // Execute as transaction
     const result = await prisma.$transaction(async (tx) => {
+      // Check if the selected date is within 6 months
+      const selectedDate = new Date(validated.data.date.replace(/\//g, "-"));
+      const koreaToday = new Date(
+        new Date().toLocaleString("en-US", { timeZone: "Asia/Seoul" })
+      );
+      const sixMonthsFromNow = new Date(koreaToday);
+      sixMonthsFromNow.setMonth(sixMonthsFromNow.getMonth() + 6);
+
+      if (isAfter(selectedDate, sixMonthsFromNow)) {
+        return {
+          success: false,
+          message: "예약 가능한 날짜는 6개월 이내입니다.",
+        };
+      }
+
       // Check for blocked dates first
       const formattedDate = validated.data.date.replace(/\//g, "-");
       const specialDate = await tx.specialDate.findFirst({
