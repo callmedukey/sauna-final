@@ -20,10 +20,10 @@ const page = () => {
       <MapContainer />
       <div className="flex-all-center w-full flex-col font-bold ~text-[0.75rem]/base ~mt-[1.87rem]/[3.125rem]">
         <p>주소: 서울특별시 동작구 노들로 2길 7 (드림스퀘어 A동 206호)</p>
-        <p>TEL: 070-8860-8553</p>
-        <p className="~mt-4/8">
+        <p className=" ~mt-4/8">
           찾기 어려우실 경우, 편하게 전화 주시면 안내해드리겠습니다.
         </p>
+        <p>TEL: 070-8860-8553</p>
       </div>
       <article className="grid ~mt-[3.75rem]/[5.5rem] ~gap-x-0/[4.81rem] md:grid-cols-2 [&>section>dl]:mt-5 md:[&>section>dl]:~mt-[8.5rem]/[12.5rem]">
         <section className="[&>dl>dd]:text-siteTextGray [&>dl>dd]:~text-[0.75rem]/[1.25rem] [&>dl>dt]:font-bold [&>dl>dt]:text-siteBlack [&>dl>dt]:~text-[1.25rem]/[1.5rem]">
