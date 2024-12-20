@@ -45,9 +45,16 @@ export default function Step1({
       handleReset();
     }
 
+    const newValue = people[type] + value;
+    
+    // Return early if trying to exceed maximum limits
+    if ((type === "men" || type === "women") && newValue > 4) return;
+    if (type === "children" && newValue > 2) return;
+    if (type === "infants" && newValue > 2) return;
+
     handlePeople({
       ...people,
-      [type]: Math.max(0, people[type] + value),
+      [type]: Math.max(0, newValue),
     });
   };
 
@@ -134,11 +141,15 @@ export default function Step1({
           </Button>
         </div>
       </section>
-      <ul className=" list-outside list-disc border-b-2 border-b-siteBlack border-t-siteOddGray px-4 pb-[3.12rem] pt-0 text-xs text-siteTextGray ~mt-[1.25rem]/[3.125rem] sm:border-t sm:px-0 sm:py-5">
+      <ul className="list-outside list-disc border-b-2 border-b-siteBlack border-t-siteOddGray px-4  py-0 text-xs text-siteTextGray ~mt-[1.25rem]/[3.125rem] sm:border-t sm:px-0 sm:py-5">
         {instructions.map((instruction, index) => (
           <li
             key={index}
-            className="mx-auto max-w-[27.5rem] whitespace-pre-line leading-[140%] tracking-[0.0075rem] sm:mx-[revert]"
+            className={`mx-auto max-w-[27.5rem] whitespace-pre-line leading-[140%] tracking-[0.0075rem] sm:mx-[revert] ${
+              index === 0 ? 'pt-[1.875rem]' : ''
+            } ${
+              index === instructions.length - 1 ? 'pb-20' : ''
+            }`}
           >
             {instruction}
           </li>

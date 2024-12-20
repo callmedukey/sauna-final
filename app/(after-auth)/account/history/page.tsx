@@ -42,18 +42,18 @@ const page = async () => {
       <AccountMenuAside />
       <article className="mx-auto min-h-[min(60vh,40rem)] max-w-screen-md px-4">
         <Table>
-          <TableHeader className="border-y border-black bg-white ">
-            <TableRow className="border-black ~text-xs/base">
-              <TableHead className="w-40 text-center text-siteBlack translate-y-1">
+          <TableHeader className="border-y border-black bg-white">
+            <TableRow className="border-black ~text-xs/[1.25rem]">
+              <TableHead className="w-40 translate-y-1 text-center text-siteBlack">
                 날짜
               </TableHead>
-              <TableHead className="text-center text-siteBlack translate-y-1">
+              <TableHead className="translate-y-1 text-center text-siteBlack">
                 룸
               </TableHead>
-              <TableHead className="w-40 text-center text-siteBlack translate-y-1">
+              <TableHead className="w-40 translate-y-1 text-center text-siteBlack">
                 인원
               </TableHead>
-              <TableHead className="w-40 text-center text-siteBlack translate-y-1">
+              <TableHead className="w-40 translate-y-1 text-center text-siteBlack">
                 이용 시간
               </TableHead>
             </TableRow>

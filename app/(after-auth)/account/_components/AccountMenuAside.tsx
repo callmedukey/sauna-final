@@ -19,15 +19,6 @@ const AccountMenuAside = () => {
         계정 정보
       </Link>
       <Link
-        href="/account/reservation"
-        className={cn(
-          "hover:underline underline-offset-4 transition-all duration-300",
-          pathname === "/account/reservation" && "underline font-bold"
-        )}
-      >
-        예약 하기
-      </Link>
-      <Link
         href="/account/history"
         className={cn(
           "hover:underline underline-offset-4 transition-all duration-300",
