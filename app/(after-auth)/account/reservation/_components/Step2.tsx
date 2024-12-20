@@ -108,7 +108,7 @@ const Step2 = ({
 
   return (
     <motion.div
-      className="border-b-2 border-siteBlack py-[3.12rem]"
+      className="border-b-2 border-siteBlack py-20"
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
@@ -124,7 +124,7 @@ const Step2 = ({
             onClick={() => handleRoomLogic(room)}
             key={room.name}
             className={cn(
-              "min-w-0 flex-none transition duration-300 basis-[17.5rem] w-[17.5rem] max-w-full ~py-[0.625rem]/[0.75rem] flex-all-center flex-col text-center ~text-xs/base border border-siteTextGray gap-y-[0.625rem] sm:gap-y-[revert]",
+              "min-w-0 flex-none transition duration-300 rounded-[0.3125rem] basis-[17.5rem] w-[17.5rem] max-w-full ~py-[0.625rem]/[0.75rem] flex-all-center flex-col text-center ~text-xs/base border border-siteTextGray gap-y-[0.625rem] sm:gap-y-[revert]",
               room.name === "혼합룸+대형사우나룸[100분]" && "sm:hidden",
               room.name === "혼합룸,여성+가족룸,남성+가족룸[100분]" &&
                 "hidden sm:block",

@@ -207,7 +207,7 @@ export default function Step4({
 
   return (
     <motion.div
-      className="border-t-2 border-siteBlack py-[3.12rem]"
+      className="border-t-2 border-siteBlack py-20"
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}

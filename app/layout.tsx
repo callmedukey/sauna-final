@@ -10,7 +10,6 @@ import Footer from "@/components/layout/Footer";
 import Header from "@/components/layout/Header";
 import LoginRegisterProvider from "@/components/layout/LoginRegisterProvider";
 import { Providers } from "@/components/layout/Providers";
-import WarningDialog from "@/components/layout/WarningDialog";
 import WarningProvider from "@/components/layout/WarningProvider";
 import { PopupDialog } from "@/components/popup-dialog";
 import prisma from "@/lib/prisma";
@@ -128,7 +127,6 @@ export default async function RootLayout({
                 <Header />
                 {children}
                 <Footer />
-                <WarningDialog />
               </WarningProvider>
             </LoginRegisterProvider>
           </Providers>
