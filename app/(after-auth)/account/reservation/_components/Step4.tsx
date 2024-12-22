@@ -351,7 +351,7 @@ export default function Step4({
                   handleUsedPoint(value);
                 }
               }}
-              className="ml-auto mr-0 h-8 w-20 rounded border-[3px] border-siteBlack bg-white px-2 sm:w-24"
+              className="ml-auto mr-0 h-8 w-20 rounded border border-siteBlack bg-white px-2 sm:w-24"
             />
           </div>
 
