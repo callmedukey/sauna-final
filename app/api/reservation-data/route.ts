@@ -65,4 +65,4 @@ export async function GET() {
     points: user.point,
     specialDates,
   });
-} 
+}

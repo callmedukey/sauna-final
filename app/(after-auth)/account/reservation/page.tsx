@@ -40,7 +40,7 @@ const ReservationPage = () => {
   // Reservation content component
   const ReservationContent = () => {
     if (!reservationData) {
-      return <div>Loading...</div>;
+      return null;
     }
 
     return (
@@ -59,7 +59,7 @@ const ReservationPage = () => {
   const PrecautionsContent = () => {
     return (
       <div className="mx-auto max-w-[90%] 2xl:max-w-screen-2xl">
-        <h1 className="text-center font-bold ~text-[1.5rem]/[2.25rem] ~mt-[7.5rem]/[15.625rem] ~mb-[4rem]/[6.25rem]">
+        <h1 className="text-center font-bold ~text-[1.5rem]/[2.25rem] ~mt-[7.5rem]/[11.625rem] ~mb-[4rem]/[6.25rem]">
           예약하기
         </h1>
         <div className="flex flex-col items-center justify-center gap-4 text-pretty break-keep border bg-[#e5e5e5] text-center ~p-[1.5rem]/[3.75rem]">
