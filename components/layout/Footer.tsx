@@ -11,15 +11,15 @@ export default function Footer() {
   return (
     <>
       <footer className="bg-siteBgGray px-4 py-6 text-siteBlack ~text-[0.5rem]/[0.75rem]">
-        <div className="mx-auto flex max-w-screen-xl items-start xl:items-center justify-center sm:gap-8 sm:[&>*]:w-full xl:[&>*]:w-[revert]">
+        <div className="mx-auto flex max-w-screen-xl items-start justify-center sm:gap-8 xl:items-center sm:[&>*]:w-full xl:[&>*]:w-[revert]">
           {/* Logo section */}
           <div className="hidden xl:block">
             <Image src={FooterLogo} alt="Footer Logo" width={215} height={37} />
           </div>
 
-          <div className="order-1 space-y-1 xl:order-2 xl:ml-6 xl:space-y-2 pr-2 sm:pr-0">
+          <div className="order-1 space-y-1 pr-2 sm:pr-0 xl:order-2 xl:ml-6 xl:space-y-2">
             {/* Company information and contact details */}
-            <address className="flex flex-col space-y-1 not-italic items-start xl:space-y-2">
+            <address className="flex flex-col items-start space-y-1 not-italic xl:space-y-2">
               {/* Company representative */}
               <p>
                 <span className="">대표:</span>
@@ -27,7 +27,7 @@ export default function Footer() {
               </p>
 
               {/* Business registration details */}
-              <div className="flex flex-col gap-1 xl:flex-row xl:items-center xl:gap-0 xl:[&>p:first-child]:pr-4 xl:[&>p:last-child]:pl-4 text-left">
+              <div className="flex flex-col gap-1 text-left xl:flex-row xl:items-center xl:gap-0 xl:[&>p:first-child]:pr-4 xl:[&>p:last-child]:pl-4">
                 <p className="border-black xl:border-r">
                   <span className="">사업자등록번호:</span>
                   <span> 618-13-36099</span>
@@ -56,7 +56,7 @@ export default function Footer() {
 
             {/* Legal links navigation */}
             <nav
-              className="flex items-center justify-start xl:text-siteGray [&>button:first-child]:border-r [&>button:first-child]:pr-4 [&>button:last-child]:pl-4 text-left"
+              className="flex items-center justify-start text-left xl:text-siteGray [&>button:first-child]:border-r [&>button:first-child]:pr-4 [&>button:last-child]:pl-4"
               aria-label="법적 링크"
             >
               <button
@@ -77,7 +77,7 @@ export default function Footer() {
               </button>
             </nav>
           </div>
-          <div className="order-1 mx-auto self-start border-siteBlack text-base sm:order-2 sm:ml-auto sm:mr-0 border-l ~pl-4/8 xl:order-3 xl:space-y-0 xl:border-none">
+          <div className="order-1 mx-auto self-start border-l border-siteBlack text-base ~pl-4/8 sm:order-2 sm:ml-auto sm:mr-0 xl:order-3 xl:space-y-0 xl:border-none">
             <div className="block xl:hidden">
               <Image
                 src={FooterLogo}
@@ -86,14 +86,14 @@ export default function Footer() {
                 height={37}
               />
             </div>
-            <p className="flex flex-col items-start xl:gap-1 ">
-              <span className="hidden font-bold xl:block ~text-[0.5rem]/base">
+            <p className="flex min-h-full flex-col items-start xl:gap-1  xl:pt-4">
+              <span className="hidden font-bold ~text-[0.5rem]/base xl:block">
                 고객센터
               </span>
-              <span className="order-last xl:order-2 ~text-[0.5rem]/base text-siteBlack">
+              <span className="order-last text-siteBlack ~text-[0.5rem]/base xl:order-2">
                 TEL: 070-8860-8553
               </span>
-              <span className="flex ~text-[0.5rem]/[0.75rem] xl:order-3 text-[#989898]">
+              <span className="flex text-[#989898] ~text-[0.5rem]/[0.75rem] xl:order-3">
                 <span>운영시간:</span>
                 <span className="ml-2 flex flex-col">
                   <span>월 - 목 9:00 - 23:00</span>

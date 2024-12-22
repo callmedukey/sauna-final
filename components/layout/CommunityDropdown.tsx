@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
@@ -11,7 +11,6 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { cn } from "@/lib/utils";
 
-
 const CommunityDropdown = () => {
   const [isOpen, setIsOpen] = useState(false);
   const pathname = usePathname();
@@ -19,7 +18,12 @@ const CommunityDropdown = () => {
     <DropdownMenu open={isOpen} onOpenChange={setIsOpen}>
       <DropdownMenuTrigger asChild>
         <button
-          className={cn("inline-flex justify-center whitespace-nowrap", isOpen && "underline underline-offset-4 font-bold", pathname.includes ("/community") && "underline underline-offset-4 font-bold")}
+          className={cn(
+            "inline-flex justify-center whitespace-nowrap hover:underline hover:underline-offset-4",
+            isOpen && "underline underline-offset-4 font-bold",
+            pathname.includes("/community") &&
+              "underline underline-offset-4 font-bold"
+          )}
           aria-haspopup="true"
           aria-expanded="false"
           aria-label="커뮤니티 메뉴 열기"
@@ -27,7 +31,7 @@ const CommunityDropdown = () => {
           커뮤니티
         </button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent 
+      <DropdownMenuContent
         className="min-w-24 bg-siteBgGray py-1 text-center"
         align="center"
         sideOffset={8}

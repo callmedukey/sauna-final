@@ -101,7 +101,8 @@ const Header = () => {
                     }}
                     className={cn(
                       link.href === pathname &&
-                        "underline underline-offset-4 font-bold"
+                        "underline underline-offset-4 font-bold",
+                      "hover:underline hover:underline-offset-4"
                     )}
                   >
                     {link.label}
@@ -113,9 +114,9 @@ const Header = () => {
                   key={link.href}
                   href={link.href}
                   className={cn(
-
                     link.href === pathname &&
-                      "underline underline-offset-4 font-bold"
+                      "underline underline-offset-4 font-bold",
+                    "hover:underline hover:underline-offset-4"
                   )}
                 >
                   {link.label}
