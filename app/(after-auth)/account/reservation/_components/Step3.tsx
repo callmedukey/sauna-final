@@ -231,7 +231,7 @@ const Step3 = ({
 
   return (
     <motion.div
-      className="border-b-2 border-siteBlack py-[3.12rem]"
+      className="border-b-2 border-siteBlack py-20"
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
@@ -261,12 +261,12 @@ const Step3 = ({
           }}
         />
         <div className="mt-5 flex shrink flex-col ~gap-y-[1.25rem]/[1.69rem] sm:mt-0">
-          <div className="text-base">룸 시간 선택</div>
+          <div className="text-base">방문 시간 선택</div>
           <div className="grid grid-cols-3 ~gap-x-[1.87rem]/[2.5rem] ~gap-y-[1.25rem]/[0.63rem]">
             {availableTimes.map((time: TimeSlot) => (
               <button
                 className={cn(
-                  "flex items-center rounded-none transition duration-100 min-h-[3.125rem] max-w-[5.5rem] basis-[4rem] border border-siteOddGray ~gap-[0.31rem]/[0.62rem] ~px-[0.56rem]/[0.7rem] ~py-[0.81]/[1rem]",
+                  "flex items-center rounded-[0.3125rem] transition duration-100 min-h-[3.125rem] max-w-[5.5rem] basis-[4rem] border border-siteOddGray ~gap-[0.31rem]/[0.62rem] ~px-[0.56rem]/[0.7rem] ~py-[0.81]/[1rem]",
                   time.startingTime === selectedTime &&
                     "bg-golden text-white border-golden",
                   !isTimeSlotAvailable(time) && "opacity-40 cursor-not-allowed"

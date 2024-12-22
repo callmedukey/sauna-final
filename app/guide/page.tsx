@@ -103,25 +103,25 @@ const page = async () => {
           <TabsList className="mx-auto grid w-full max-w-screen-md grid-cols-4 bg-transparent ~mb-[4rem]/[9.375rem]">
             <TabsTrigger
               value="women"
-              className="font-medium underline-offset-4 ~text-base/[1.875rem] data-[state=active]:font-bold data-[state=active]:underline data-[state=active]:shadow-none"
+              className="font-medium underline-offset-4 ~text-base/[1.5625rem] data-[state=active]:font-bold data-[state=active]:underline data-[state=active]:shadow-none"
             >
               여성 룸
             </TabsTrigger>
             <TabsTrigger
               value="men"
-              className="font-medium underline-offset-4 ~text-base/[1.875rem] data-[state=active]:font-bold data-[state=active]:underline data-[state=active]:shadow-none"
+              className="font-medium underline-offset-4 ~text-base/[1.5625rem] data-[state=active]:font-bold data-[state=active]:underline data-[state=active]:shadow-none"
             >
               남성 룸
             </TabsTrigger>
             <TabsTrigger
               value="family"
-              className="font-medium underline-offset-4 ~text-base/[1.875rem] data-[state=active]:font-bold data-[state=active]:underline data-[state=active]:shadow-none"
+              className="font-medium underline-offset-4 ~text-base/[1.5625rem] data-[state=active]:font-bold data-[state=active]:underline data-[state=active]:shadow-none"
             >
               가족 룸
             </TabsTrigger>
             <TabsTrigger
               value="powder"
-              className="font-medium underline-offset-4 ~text-base/[1.875rem] data-[state=active]:font-bold data-[state=active]:underline data-[state=active]:shadow-none"
+              className="font-medium underline-offset-4 ~text-base/[1.5625rem] data-[state=active]:font-bold data-[state=active]:underline data-[state=active]:shadow-none"
             >
               파우더 룸
             </TabsTrigger>
@@ -173,7 +173,7 @@ const page = async () => {
               </CarouselThumbsContainer>
             </Carousel>
             <section className="w-full ~my-[4rem]/[6rem]">
-              <h2 className="page-title ~mb-[1.5rem]/[2.5rem]">
+              <h2 className="page-title ~mb-[1.5rem]/[2.5rem]  lg:text-[1.5625rem]">
                 {tabData.women.title}
               </h2>
               <p className="mx-auto max-w-[38.75rem] whitespace-pre-wrap leading-[175%] text-siteTextGray ~/md:~text-xs/base">
@@ -181,7 +181,7 @@ const page = async () => {
               </p>
             </section>
             <section className="-mx-4 min-w-full bg-siteBgGray px-4 ~my-[4rem]/[6rem] ~py-[1.25rem]/[3.125rem]">
-              <h3 className="page-title ~mb-[1.5rem]/[2.5rem]">
+              <h3 className="page-title ~mb-[1.5rem]/[2.5rem] lg:text-[1.5625rem]">
                 실내 구비 품목
               </h3>
               <div className="mx-auto max-w-screen-md whitespace-pre-wrap leading-[175%] text-siteTextGray ~/md:~text-xs/base">
@@ -194,7 +194,7 @@ const page = async () => {
               </div>
             </section>
             <section className="w-full ~mt-[4rem]/[6rem] ~pt-[1.25rem]/[3.125rem]">
-              <h4 className="page-title flex flex-col gap-1 ~mb-[1.5rem]/[2.5rem]">
+              <h4 className="page-title flex flex-col gap-1 ~mb-[1.5rem]/[2.5rem] lg:text-[1.5625rem]">
                 1인 제공 품목
                 <span className="text-xs font-normal text-siteTextGray">
                   상황에 따라 제공품은 변동될 수 있습니다.
@@ -257,7 +257,7 @@ const page = async () => {
               </CarouselThumbsContainer>
             </Carousel>
             <section className="w-full ~my-[4rem]/[6rem]">
-              <h2 className="page-title ~mb-[1.5rem]/[2.5rem]">
+              <h2 className="page-title ~mb-[1.5rem]/[2.5rem] lg:text-[1.5625rem]">
                 {tabData.men.title}
               </h2>
               <p className="mx-auto max-w-[38.75rem] whitespace-pre-wrap leading-[175%] text-siteTextGray ~/md:~text-xs/base">
@@ -265,7 +265,7 @@ const page = async () => {
               </p>
             </section>
             <section className="-mx-4 min-w-full bg-siteBgGray px-4 ~my-[4rem]/[6rem] ~py-[1.25rem]/[3.125rem]">
-              <h3 className="page-title ~mb-[1.5rem]/[2.5rem]">
+              <h3 className="page-title ~mb-[1.5rem]/[2.5rem] lg:text-[1.5625rem]">
                 실내 구비 품목
               </h3>
               <div className="mx-auto max-w-screen-md whitespace-pre-wrap leading-[175%] text-siteTextGray ~/md:~text-xs/base">
@@ -278,7 +278,7 @@ const page = async () => {
               </div>
             </section>
             <section className="w-full ~mt-[4rem]/[6rem] ~pt-[1.25rem]/[3.125rem]">
-              <h4 className="page-title flex flex-col gap-1 ~mb-[1.5rem]/[2.5rem]">
+              <h4 className="page-title flex flex-col gap-1 ~mb-[1.5rem]/[2.5rem] lg:text-[1.5625rem]">
                 1인 제공 품목
                 <span className="text-xs font-normal text-siteTextGray">
                   상황에 따라 제공품은 변동될 수 있습니다.
@@ -341,7 +341,7 @@ const page = async () => {
               </CarouselThumbsContainer>
             </Carousel>
             <section className="w-full ~my-[4rem]/[6rem]">
-              <h2 className="page-title ~mb-[1.5rem]/[2.5rem]">
+              <h2 className="page-title ~mb-[1.5rem]/[2.5rem] lg:text-[1.5625rem]">
                 {tabData.family.title}
               </h2>
               <p className="mx-auto max-w-[38.75rem] whitespace-pre-wrap leading-[175%] text-siteTextGray ~/md:~text-xs/base">
@@ -349,7 +349,7 @@ const page = async () => {
               </p>
             </section>
             <section className="-mx-4 min-w-full bg-siteBgGray px-4 ~my-[4rem]/[6rem] ~py-[1.25rem]/[3.125rem]">
-              <h3 className="page-title ~mb-[1.5rem]/[2.5rem]">
+              <h3 className="page-title ~mb-[1.5rem]/[2.5rem] lg:text-[1.5625rem]">
                 실내 구비 품목
               </h3>
               <div className="mx-auto max-w-screen-md whitespace-pre-wrap leading-[175%] text-siteTextGray ~/md:~text-xs/base">
@@ -362,7 +362,7 @@ const page = async () => {
               </div>
             </section>
             <section className="w-full ~mt-[4rem]/[6rem] ~pt-[1.25rem]/[3.125rem]">
-              <h4 className="page-title flex flex-col gap-1 ~mb-[1.5rem]/[2.5rem]">
+              <h4 className="page-title flex flex-col gap-1 ~mb-[1.5rem]/[2.5rem] lg:text-[1.5625rem]">
                 1인 제공 품목
                 <span className="text-xs font-normal text-siteTextGray">
                   상황에 따라 제공품은 변동될 수 있습니다.
@@ -425,7 +425,7 @@ const page = async () => {
               </CarouselThumbsContainer>
             </Carousel>
             <section className="w-full ~my-[4rem]/[6rem]">
-              <h2 className="page-title ~mb-[1.5rem]/[2.5rem]">
+              <h2 className="page-title ~mb-[1.5rem]/[2.5rem] lg:text-[1.5625rem]">
                 {tabData.powder.title}
               </h2>
               <p className="mx-auto max-w-[38.75rem] whitespace-pre-wrap text-center leading-[175%] text-siteTextGray ~/md:~text-xs/base">
@@ -433,7 +433,7 @@ const page = async () => {
               </p>
             </section>
             <section className="-mx-4 min-w-full bg-siteBgGray px-4 ~mt-[4rem]/[6rem] ~py-[1.25rem]/[3.125rem]">
-              <h3 className="page-title ~mb-[1.5rem]/[2.5rem]">
+              <h3 className="page-title ~mb-[1.5rem]/[2.5rem] lg:text-[1.5625rem]">
                 실내 구비 품목
               </h3>
               <div className="mx-auto max-w-screen-md whitespace-pre-wrap leading-[175%] text-siteTextGray ~/md:~text-xs/base">
