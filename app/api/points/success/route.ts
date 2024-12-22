@@ -1,11 +1,12 @@
-import { NextResponse } from "next/server";
-import { auth } from "@/auth";
-import prisma from "@/lib/prisma";
 import { revalidatePath } from "next/cache";
+import { NextResponse } from "next/server";
+
+import { auth } from "@/auth";
 import {
   getPendingReservation,
   deletePendingReservation,
 } from "@/lib/payment.server";
+import prisma from "@/lib/prisma";
 
 export async function GET(request: Request) {
   const url = new URL(request.url);
@@ -15,7 +16,11 @@ export async function GET(request: Request) {
 
   if (!paymentKey || !orderId || !amount) {
     return NextResponse.redirect(
-      `${url.origin}/account/points?error=INVALID_PAYMENT_PARAMS&message=${encodeURIComponent("결제 정보가 올바르지 않습니다.")}`
+      `${
+        url.origin
+      }/account/points?error=INVALID_PAYMENT_PARAMS&message=${encodeURIComponent(
+        "결제 정보가 올바르지 않습니다."
+      )}`
     );
   }
 
@@ -23,7 +28,11 @@ export async function GET(request: Request) {
     const session = await auth();
     if (!session?.user) {
       return NextResponse.redirect(
-        `${url.origin}/account/points?error=UNAUTHORIZED&message=${encodeURIComponent("로그인이 필요합니다.")}`
+        `${
+          url.origin
+        }/account/points?error=UNAUTHORIZED&message=${encodeURIComponent(
+          "로그인이 필요합니다."
+        )}`
       );
     }
 
@@ -31,7 +40,11 @@ export async function GET(request: Request) {
     const paymentDetails = await getPendingReservation(orderId);
     if (!paymentDetails || paymentDetails.type !== "POINT") {
       return NextResponse.redirect(
-        `${url.origin}/account/points?error=PAYMENT_NOT_FOUND&message=${encodeURIComponent("결제 정보를 찾을 수 없습니다.")}`
+        `${
+          url.origin
+        }/account/points?error=PAYMENT_NOT_FOUND&message=${encodeURIComponent(
+          "결제 정보를 찾을 수 없습니다."
+        )}`
       );
     }
 
@@ -63,14 +76,22 @@ export async function GET(request: Request) {
       const error = await paymentConfirmation.json();
       console.error("Payment confirmation failed:", error);
       return NextResponse.redirect(
-        `${url.origin}/account/points?error=PAYMENT_CONFIRMATION_FAILED&message=${encodeURIComponent("결제 확인에 실패했습니다.")}`
+        `${
+          url.origin
+        }/account/points?error=PAYMENT_CONFIRMATION_FAILED&message=${encodeURIComponent(
+          "결제 확인에 실패했습니다."
+        )}`
       );
     }
 
     // Verify payment amount matches
     if (paymentDetails.amount !== parseInt(amount)) {
       return NextResponse.redirect(
-        `${url.origin}/account/points?error=AMOUNT_MISMATCH&message=${encodeURIComponent("결제 금액이 일치하지 않습니다.")}`
+        `${
+          url.origin
+        }/account/points?error=AMOUNT_MISMATCH&message=${encodeURIComponent(
+          "결제 금액이 일치하지 않습니다."
+        )}`
       );
     }
 
@@ -89,6 +110,7 @@ export async function GET(request: Request) {
               id: session.user.id,
             },
           },
+          pointType: "PAYMENT",
         },
       });
 
@@ -104,7 +126,15 @@ export async function GET(request: Request) {
 
       return { success: true, data: pointPayment };
     });
-
+    if (!result.success) {
+      return NextResponse.redirect(
+        `${
+          url.origin
+        }/account/points?error=PAYMENT_ERROR&message=${encodeURIComponent(
+          "결제 처리 중 오류가 발생했습니다."
+        )}`
+      );
+    }
     // Clean up stored point purchase
     await deletePendingReservation(orderId);
 
@@ -112,12 +142,18 @@ export async function GET(request: Request) {
     revalidatePath("/account/points");
 
     return NextResponse.redirect(
-      `${url.origin}/account/points?success=true&message=${encodeURIComponent("포인트 충전이 완료되었습니다.")}`
+      `${url.origin}/account/points?success=true&message=${encodeURIComponent(
+        "포인트 충전이 완료되었습니다."
+      )}`
     );
   } catch (err) {
     console.error("Point payment success handler error:", err);
     return NextResponse.redirect(
-      `${url.origin}/account/points?error=PAYMENT_ERROR&message=${encodeURIComponent("결제 처리 중 오류가 발생했습니다.")}`
+      `${
+        url.origin
+      }/account/points?error=PAYMENT_ERROR&message=${encodeURIComponent(
+        "결제 처리 중 오류가 발생했습니다."
+      )}`
     );
   }
-} 
+}

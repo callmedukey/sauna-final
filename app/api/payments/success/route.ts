@@ -267,6 +267,12 @@ export async function GET(request: Request) {
             point: {
               decrement: reservationDetails.usedPoint,
             },
+            pointHistory: {
+              create: {
+                point: reservationDetails.usedPoint,
+                type: "USED",
+              },
+            },
           },
         });
       }

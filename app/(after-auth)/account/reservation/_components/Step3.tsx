@@ -55,7 +55,10 @@ const Step3 = ({
     const sixMonthsFromNow = new Date(koreaToday);
     sixMonthsFromNow.setMonth(sixMonthsFromNow.getMonth() + 6);
 
-    if (isBefore(koreaDate, koreaToday) || isAfter(koreaDate, sixMonthsFromNow)) {
+    if (
+      isBefore(koreaDate, koreaToday) ||
+      isAfter(koreaDate, sixMonthsFromNow)
+    ) {
       return true;
     }
 
@@ -161,31 +164,50 @@ const Step3 = ({
 
       if (hasOverlap) {
         // Rule 4: When MIX room is active, no other rooms can be active
-        if (reservation.roomType.includes("MIX") || selectedRoom.type.includes("MIX")) {
+        if (
+          reservation.roomType.includes("MIX") ||
+          selectedRoom.type.includes("MIX")
+        ) {
           return false;
         }
 
         // Rule 1: Women's room restrictions
-        if (selectedRoom.type.includes("WOMEN") && !selectedRoom.type.includes("FAMILY")) {
-          if (reservation.roomType.includes("MIX") || 
-              reservation.roomType.includes("WOMEN_FAMILY")) {
+        if (
+          selectedRoom.type.includes("WOMEN") &&
+          !selectedRoom.type.includes("FAMILY")
+        ) {
+          if (
+            reservation.roomType.includes("MIX") ||
+            reservation.roomType.includes("WOMEN_FAMILY")
+          ) {
             return false;
           }
         }
 
         // Rule 2: Men's room restrictions
-        if (selectedRoom.type.includes("MEN") && !selectedRoom.type.includes("FAMILY")) {
-          if (reservation.roomType.includes("MIX") || 
-              reservation.roomType.includes("MEN_FAMILY")) {
+        if (
+          selectedRoom.type.includes("MEN") &&
+          !selectedRoom.type.includes("FAMILY")
+        ) {
+          if (
+            reservation.roomType.includes("MIX") ||
+            reservation.roomType.includes("MEN_FAMILY")
+          ) {
             return false;
           }
         }
 
         // Rule 3: Women's and Men's 60/90 rooms can overlap
-        if ((selectedRoom.type.includes("WOMEN") && reservation.roomType.includes("MEN")) ||
-            (selectedRoom.type.includes("MEN") && reservation.roomType.includes("WOMEN"))) {
-          if (!selectedRoom.type.includes("FAMILY") && 
-              !reservation.roomType.includes("FAMILY")) {
+        if (
+          (selectedRoom.type.includes("WOMEN") &&
+            reservation.roomType.includes("MEN")) ||
+          (selectedRoom.type.includes("MEN") &&
+            reservation.roomType.includes("WOMEN"))
+        ) {
+          if (
+            !selectedRoom.type.includes("FAMILY") &&
+            !reservation.roomType.includes("FAMILY")
+          ) {
             return true;
           }
         }
@@ -241,7 +263,7 @@ const Step3 = ({
         <span>step 3</span>
         <span className="font-bold">예약 일시 선택</span>
       </h2>
-      <article className="mx-auto flex w-fit flex-col gap-x-[4.31rem] sm:w-full sm:flex-row">
+      <article className="mx-auto flex w-fit flex-col gap-x-[4.31rem] sm:w-full sm:flex-row md:gap-x-24 xl:gap-x-32">
         <Calendar
           mode="single"
           selected={date}

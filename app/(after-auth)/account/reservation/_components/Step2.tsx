@@ -124,7 +124,7 @@ const Step2 = ({
         <span>step 2</span>
         <span className="font-bold">룸 선택</span>
       </h2>
-      <div className="grid grid-cols-2 ~gap-[1.25rem]/[0.31rem] sm:flex sm:flex-wrap">
+      <div className="grid grid-cols-2 ~gap-[1.25rem]/[0.31rem] sm:grid-cols-3">
         {roomList.map((room) => (
           <button
             onClick={() => handleRoomLogic(room)}

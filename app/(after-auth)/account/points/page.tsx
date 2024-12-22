@@ -23,6 +23,7 @@ const Page = async () => {
         include: {
           usedOn: { select: { id: true, createdAt: true } },
         },
+        orderBy: { createdAt: "asc" },
       },
     },
   });
@@ -36,13 +37,13 @@ const Page = async () => {
         {
           date: format(user.createdAt, "yyyy/MM/dd"),
           description: "회원가입 축하",
-          points: "3000P",
+          points: 3000,
           pointType: "SIGNUP",
         },
         ...user?.pointPayments.map((payment) => ({
           date: format(payment.createdAt, "yyyy/MM/dd"),
           description: PointTypeMapping[payment.pointType],
-          points: `${payment.points}P`,
+          points: payment.points,
           pointType: payment.pointType,
           reservationId: payment.reservationId ?? undefined,
         })),

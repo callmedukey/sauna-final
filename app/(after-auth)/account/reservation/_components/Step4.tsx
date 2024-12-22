@@ -2,7 +2,6 @@
 
 import { RoomType } from "@prisma/client";
 import type { SpecialDate } from "@prisma/client";
-import { Checkbox } from "@radix-ui/react-checkbox";
 import { loadTossPayments } from "@tosspayments/tosspayments-sdk";
 import { isWeekend } from "date-fns";
 import { toZonedTime } from "date-fns-tz";
@@ -323,7 +322,7 @@ export default function Step4({
           <div className="flex">
             <div className="flex flex-col">
               <div>포인트 사용</div>
-              <div>보유 포인트 ({maxPoint ?? 0}P)</div>
+              <div>보유 포인트 ({maxPoint.toLocaleString()}P)</div>
             </div>
             <input
               type="number"
@@ -370,30 +369,13 @@ export default function Step4({
         </div>
       </article>
       <div className="mx-[-2.81rem] flex w-[calc(100%+5.62rem)] items-center justify-center gap-x-[0.63rem] text-nowrap ~mt-[1.25rem]/[6.25rem] ~mb-[1.25rem]/[3.12rem]">
-        <Checkbox
-          id="agreement"
-          className="rounded-none border-siteTextGray"
-          checked={agreement}
-          onCheckedChange={(checked) => setAgreement(checked as boolean)}
-        />
-        <label htmlFor="agreement" className="~text-xs/base">
-          예약과 관련된 모든{" "}
-          <button
-            type="button"
-            onClick={() => setWarningOpen(true)}
-            className="underline underline-offset-2"
-          >
-            주의사항
-          </button>{" "}
-          및{" "}
-          <button
-            type="button"
-            className="py-[0.1875rem]/[0.4375rem] flex !w-fit bg-[#998465] ~text-base/[1.25rem] ~px-[0.75rem]/[1.6875rem]"
-            onClick={handlePayment}
-          >
-            {isPaymentProcessing ? "결제 처리 중..." : "결제하기"}
-          </button>
-        </label>
+        <button
+          type="button"
+          className="flex !w-fit rounded-lg bg-[#998465] py-1 text-white ~text-base/[1.25rem] ~px-[0.75rem]/[1.6875rem]"
+          onClick={handlePayment}
+        >
+          {isPaymentProcessing ? "결제 처리 중..." : "결제하기"}
+        </button>
       </div>
     </motion.div>
   );

@@ -19,7 +19,7 @@ import MessageHandler from "../../history/_components/MessageHandler";
 interface PointTransaction {
   date: string;
   description: string;
-  points: string;
+  points: number;
   pointType: PointType;
   reservationId?: string;
 }
@@ -40,7 +40,7 @@ const PointsClient = ({ user, transactions }: PointsClientProps) => {
       <AccountMenuAside />
       <article className="mx-auto min-h-[min(60vh,40rem)] max-w-screen-md px-4">
         <div className="mb-8">
-          <div className="flex items-center justify-between">
+          <div className="flex flex-wrap items-center justify-between gap-4">
             <div>
               <h1 className="mb-2 text-xl font-bold">현재 보유한 포인트는?</h1>
               <p className="text-2xl font-bold">
@@ -48,8 +48,13 @@ const PointsClient = ({ user, transactions }: PointsClientProps) => {
               </p>
             </div>
             <button
-              className="rounded-[10px] bg-[#998465] px-5 py-2 text-[1.25rem] text-white"
-              onClick={() => setIsPopupOpen(true)}
+              type="button"
+              className="rounded-[10px] bg-[#998465] px-5 py-2 text-white ~text-base/[1.25rem]"
+              onClick={(e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                setIsPopupOpen(true);
+              }}
             >
               포인트 충전
             </button>
@@ -84,7 +89,7 @@ const PointsClient = ({ user, transactions }: PointsClientProps) => {
                     {transaction.description}
                   </TableCell>
                   <TableCell className="border-none text-right">
-                    {transaction.points}
+                    {transaction.points.toLocaleString()}P
                   </TableCell>
                 </TableRow>
               ))

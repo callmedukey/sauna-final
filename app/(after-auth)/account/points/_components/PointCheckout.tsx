@@ -69,7 +69,7 @@ const PointCheckout = () => {
 
       const paymentData = {
         amount: paymentAmount,
-        points: selectedOption.point + selectedOption.extraPoint,
+        points: selectedOption.point,
         orderId,
         type: "POINT",
         date: "",

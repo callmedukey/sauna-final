@@ -68,7 +68,7 @@ const ReservationControl = ({ reservations, points, specialDates }: Props) => {
   };
 
   return (
-    <article className="mx-auto  max-w-[875px] py-[3.125rem] ~px-[0rem]/[4.5rem]">
+    <article className="mx-auto max-w-[60rem] py-[3.125rem] ~px-[0rem]/[4.5rem]">
       <AnimatePresence>
         <Step1
           key="step1"
