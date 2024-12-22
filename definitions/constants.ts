@@ -300,3 +300,9 @@ export const RoomInfo = {
     type: "MIX",
   },
 };
+
+export const PointTypeMapping = {
+  SIGNUP: "회원가입 축하",
+  PAYMENT: "포인트 충전",
+};
+

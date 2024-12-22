@@ -124,6 +124,8 @@ model Reservation {
   userId String
 
   signedAgreement SignedAgreement[]
+
+  pointPayments PointPayment[]
 }
 
 model SignedAgreement {
@@ -196,6 +198,16 @@ model PointPayment {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
+  pointType PointType
+
+  usedOn Reservation? @relation(fields: [reservationId], references: [id])
+  reservationId String?
+
   user User @relation(fields: [userId], references: [id])
   userId String
+}
+
+enum PointType {
+  PAYMENT
+  SIGNUP
 }

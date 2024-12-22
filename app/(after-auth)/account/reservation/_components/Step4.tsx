@@ -2,6 +2,7 @@
 
 import { RoomType } from "@prisma/client";
 import type { SpecialDate } from "@prisma/client";
+import { Checkbox } from "@radix-ui/react-checkbox";
 import { loadTossPayments } from "@tosspayments/tosspayments-sdk";
 import { isWeekend } from "date-fns";
 import { toZonedTime } from "date-fns-tz";
@@ -9,9 +10,8 @@ import { motion } from "motion/react";
 import { useSearchParams } from "next/navigation";
 import React, { useState, useEffect } from "react";
 
-import { Button } from "@/components/ui/button";
+import { useWarning } from "@/components/layout/WarningProvider";
 import { storePendingReservation } from "@/lib/payment";
-import { Checkbox } from "@radix-ui/react-checkbox";
 
 const KOREAN_TIMEZONE = "Asia/Seoul";
 
@@ -51,10 +51,11 @@ export default function Step4({
   handleUsedPoint,
   specialDates,
 }: Props) {
-
   const [isPaymentProcessing, setIsPaymentProcessing] = useState(false);
   const searchParams = useSearchParams();
- 
+  const [agreement, setAgreement] = useState(false);
+  const { setWarningOpen } = useWarning();
+
   // Check for payment errors
   useEffect(() => {
     const error = searchParams.get("error");
@@ -378,7 +379,7 @@ export default function Step4({
         <label htmlFor="agreement" className="~text-xs/base">
           예약과 관련된 모든{" "}
           <button
-          type="button"
+            type="button"
             onClick={() => setWarningOpen(true)}
             className="underline underline-offset-2"
           >
@@ -391,9 +392,9 @@ export default function Step4({
             onClick={handlePayment}
           >
             {isPaymentProcessing ? "결제 처리 중..." : "결제하기"}
-          </Button>
-        </div>
-      </article>
+          </button>
+        </label>
+      </div>
     </motion.div>
   );
 }

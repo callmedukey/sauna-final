@@ -165,7 +165,10 @@ const PointCheckout = () => {
           예약과 관련된 모든{" "}
           <button
             type="button"
-            onClick={() => setWarningOpen(true)}
+            onClick={() => {
+              console.log("clicked");
+              setWarningOpen(true);
+            }}
             className="underline underline-offset-2"
           >
             주의사항
