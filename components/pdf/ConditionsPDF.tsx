@@ -74,6 +74,11 @@ const styles = StyleSheet.create({
     fontSize: 9,
     textAlign: "center",
   },
+  conditionImage: {
+    width: "100%",
+    height: "auto",
+    marginBottom: 10,
+  },
 });
 
 interface ConditionsPDFProps {
@@ -89,10 +94,9 @@ export function ConditionsPDF({
     <Document>
       <Page size="A4" style={styles.page}>
         <View style={{ flex: 1 }}>
-          <Text style={styles.title}>이용약관 동의서</Text>
-
           <View style={styles.section}>
-            <Text style={styles.heading}>제1장 총 칙</Text>
+            <Image src={`/png-conditions.png`} style={styles.conditionImage} />
+            {/* <Text style={styles.heading}>제1장 총 칙</Text>
 
             <Text style={styles.heading}>제1조(목적)</Text>
             <Text style={styles.text}>
@@ -109,7 +113,8 @@ export function ConditionsPDF({
               • 이용자 : 본 약관에 따라 회사가 제공하는 서비스를 받는 자
             </Text>
             <Text style={styles.text}>
-              • 이용계약 : 서비스 이용과 관련하여 회사와 이용자간에 체결하는 계약
+              • 이용계약 : 서비스 이용과 관련하여 회사와 이용자간에 체결하는
+              계약
             </Text>
             <Text style={styles.text}>
               • 가입 : 회사가 제공하는 신청서 양식에 해당 정보를 기입하고, 본
@@ -122,8 +127,8 @@ export function ConditionsPDF({
 
             <Text style={styles.heading}>제3조(약관의 효력과 변경)</Text>
             <Text style={styles.text}>
-              회원은 변경된 약관에 동의하지 않을 경우 회원 탈퇴(해지)를 요청할 수
-              있으며, 변경된 약관의 효력 발생일로부터 7일 이후에도 거부의사를
+              회원은 변경된 약관에 동의하지 않을 경우 회원 탈퇴(해지)를 요청할
+              수 있으며, 변경된 약관의 효력 발생일로부터 7일 이후에도 거부의사를
               표시하지 아니하고 서비스를 계속 사용할 경우 약관의 변경 사항에
               동의한 것으로 간주됩니다.
             </Text>
@@ -140,7 +145,7 @@ export function ConditionsPDF({
 
             <Text style={styles.heading}>제9조(회사의 의무)</Text>
             <Text style={styles.text}>
-              회사는 서비스 제공과 관련해서 알고 있는 회원의 신상 정보를 본인의
+              회사는 서비스 제공과 관���해서 알고 있는 회원의 신상 정보를 본인의
               승낙 없이 제3자에게 누설하거나 배포하지 않습니다.
             </Text>
 
@@ -158,7 +163,7 @@ export function ConditionsPDF({
               • 회사의 저작권, 제3자의 저작권 등 기타 권리를 침해하는 행위
             </Text>
             <Text style={styles.text}>
-              • 공공질서 및 미풍양속을 위반되��� 내용을 유하는 행위
+              • 공공질서 및 미풍양속을 위반되는 내용을 유하는 행위
             </Text>
             <Text style={styles.text}>
               • 범죄와 결부된다고 객관적으로 판단되는 행위
@@ -168,7 +173,7 @@ export function ConditionsPDF({
             <Text style={styles.heading}>부 칙</Text>
             <Text style={styles.text}>
               (시행일) 이 약관은 2024년 1월 1일부터 시행합니다.
-            </Text>
+            </Text> */}
           </View>
 
           <View style={styles.signatureSection}>

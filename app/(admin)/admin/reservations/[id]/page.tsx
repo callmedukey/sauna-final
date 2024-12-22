@@ -1,9 +1,11 @@
 import { redirect } from "next/navigation";
+
 import { auth } from "@/auth";
+import { parseRoomInfo } from "@/lib/parseRoomName";
 import prisma from "@/lib/prisma";
+
 import { SignatureDialog } from "./_components/signature-dialog";
 import { SignatureList } from "./_components/signature-list";
-import { parseRoomInfo } from "@/lib/parseRoomName";
 
 interface PageProps {
   params: Promise<{

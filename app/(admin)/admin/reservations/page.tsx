@@ -29,7 +29,7 @@ export default async function ReservationsPage() {
         roomType: "asc",
       },
       {
-gi        time: "asc",
+        time: "asc",
       },
     ],
   });

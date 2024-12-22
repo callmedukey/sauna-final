@@ -98,7 +98,7 @@ export function ReservationsTable({ reservations }: ReservationsTableProps) {
                           {item.label} {item.count}명
                         </span>
                       ))}
-                    <span className="mt-1 text-xs text-muted-foreground whitespace-nowrap">
+                    <span className="mt-1 whitespace-nowrap text-xs text-muted-foreground">
                       총{" "}
                       {reservation.men +
                         reservation.women +
@@ -137,7 +137,7 @@ export function ReservationsTable({ reservations }: ReservationsTableProps) {
                     {reservation.message ? (
                       <button
                         onClick={() => setSelectedMessage(reservation.message)}
-                        className="truncate text-left hover:underline w-full"
+                        className="w-full truncate text-left hover:underline"
                       >
                         {reservation.message}
                       </button>
@@ -146,12 +146,12 @@ export function ReservationsTable({ reservations }: ReservationsTableProps) {
                     )}
                   </div>
                 </TableCell>
-                <TableCell className="w-[5rem]">
+                <TableCell className="w-20">
                   <DropdownMenu>
                     <DropdownMenuTrigger asChild>
-                      <Button variant="ghost" className="h-8 w-8 p-0">
+                      <Button variant="ghost" className="size-8 p-0">
                         <span className="sr-only">메뉴 열기</span>
-                        <MoreHorizontal className="h-4 w-4" />
+                        <MoreHorizontal className="size-4" />
                       </Button>
                     </DropdownMenuTrigger>
                     <DropdownMenuContent align="end">
@@ -164,7 +164,7 @@ export function ReservationsTable({ reservations }: ReservationsTableProps) {
                         </Link>
                       </DropdownMenuItem>
                       <DropdownMenuItem
-                        className="text-red-600 cursor-pointer"
+                        className="cursor-pointer text-red-600"
                         onClick={() => handleCancelReservation(reservation.id)}
                       >
                         예약 취소

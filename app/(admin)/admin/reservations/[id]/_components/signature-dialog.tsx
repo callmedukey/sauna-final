@@ -1,19 +1,20 @@
 "use client";
 
+import { pdf } from "@react-pdf/renderer";
+import Image from "next/image";
 import { useRef, useState } from "react";
 import SignaturePad from "react-signature-canvas";
-import { pdf } from "@react-pdf/renderer";
 
 import { saveSignature } from "@/actions/signatures";
-import { Button } from "@/components/ui/button";
 import { ConditionsPDF } from "@/components/pdf/ConditionsPDF";
+import { Button } from "@/components/ui/button";
 import {
   Dialog,
   DialogContent,
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
-import { ConditionsText } from "@/components/conditions-text";
+import ConditionImage from "@/public/final-condition.webp";
 
 type Props = {
   reservationId: string;
@@ -40,10 +41,10 @@ export function SignatureDialog({ reservationId, userName }: Props) {
 
       // Generate PDF blob
       const blob = await pdf(
-        <ConditionsPDF 
+        <ConditionsPDF
           key={new Date().getTime()}
-          signatureImage={signatureData} 
-          userName={userName} 
+          signatureImage={signatureData}
+          userName={userName}
         />
       ).toBlob();
 
@@ -88,7 +89,8 @@ export function SignatureDialog({ reservationId, userName }: Props) {
 
           <div className="space-y-8">
             <div className="max-h-[40vh] overflow-y-auto rounded-md border p-4">
-              <ConditionsText />
+              {/* <ConditionsText /> */}
+              <Image src={ConditionImage} alt="약관" />
             </div>
 
             <div className="space-y-4">

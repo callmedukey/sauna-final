@@ -1,3 +1,5 @@
+import console from "console";
+
 import { RoomType } from "@prisma/client";
 import { NextResponse } from "next/server";
 import { SolapiMessageService } from "solapi";
@@ -267,10 +269,13 @@ export async function GET(request: Request) {
             point: {
               decrement: reservationDetails.usedPoint,
             },
-            pointHistory: {
+            pointPayments: {
               create: {
-                point: reservationDetails.usedPoint,
-                type: "USED",
+                amount: 0,
+                pointType: "USED",
+                orderId: reservationDetails.orderId,
+                reservationId: reservation.id,
+                points: reservationDetails.usedPoint,
               },
             },
           },

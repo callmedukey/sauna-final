@@ -9,7 +9,6 @@ import { motion } from "motion/react";
 import { useSearchParams } from "next/navigation";
 import React, { useState, useEffect } from "react";
 
-import { useWarning } from "@/components/layout/WarningProvider";
 import { storePendingReservation } from "@/lib/payment";
 
 const KOREAN_TIMEZONE = "Asia/Seoul";
@@ -52,8 +51,6 @@ export default function Step4({
 }: Props) {
   const [isPaymentProcessing, setIsPaymentProcessing] = useState(false);
   const searchParams = useSearchParams();
-  const [agreement, setAgreement] = useState(false);
-  const { setWarningOpen } = useWarning();
 
   // Check for payment errors
   useEffect(() => {
