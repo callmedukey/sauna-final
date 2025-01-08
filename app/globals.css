@@ -110,7 +110,7 @@ body {
   }
 
   .page-title {
-    @apply ~text-xl/4xl font-bold text-siteBlack text-center ~mb-[4rem]/[6rem];
+    @apply ~text-xl/4xl font-bold text-siteBlack text-center ~mt-[4rem]/[8.3rem] ~mb-[4rem]/[9.3rem];
   }
 
   .page-padding {

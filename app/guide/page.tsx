@@ -74,7 +74,7 @@ const tabData = {
       { alt: "family-4", src: FamilyImg4 },
       { alt: "family-5", src: FamilyImg5 },
     ],
-    title: "가족 룸",
+    title: "대형사우나룸",
     description:
       "여유로운 핀란드식 대형 사우나를 갖추고 있어, 보다 넓고 편안한 공간에서 많은 인원이 함께 즐길 수 있는 최적의 환경을 제공합니다. 여성 룸과 남성 룸을 연결하여, 가족 단위가 프라이빗하게함께 할 수 있는 독립된 공간에서 진정한 가족 사우나의 즐거움을 만끽하실 수 있습니다.\n\n지친 몸과 마음의 스트레스를 풀고, 가족과 함께 힐링의 시간을 보내며, 따듯한 사우나와 함께 편안한 휴식을 취할 수 있는 특별한 공간입니다. 자연과 어우러진 인테리어와 함께, 더욱 안락하고평온한 시간을 보내시기 바랍니다.",
     firstImage: FamilyInStore,
@@ -117,7 +117,7 @@ const page = async () => {
               value="family"
               className="font-medium underline-offset-4 ~text-base/[1.5625rem] data-[state=active]:font-bold data-[state=active]:underline data-[state=active]:shadow-none"
             >
-              가족 룸
+              대형사우나룸
             </TabsTrigger>
             <TabsTrigger
               value="powder"

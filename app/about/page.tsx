@@ -29,7 +29,7 @@ const data = [
 const AboutPage = () => {
   return (
     <main className="page-padding">
-      <h1 className="page-title">솔로사우나 레포 소개</h1>
+      <h1 className="page-title">솔로사우나a 레포 소개</h1>
       <article className="mx-auto grid max-w-screen-xl gap-y-8 whitespace-pre-wrap lg:grid-cols-2 lg:gap-y-0">
         {data.map((item, index) => {
           if (index === 1) {

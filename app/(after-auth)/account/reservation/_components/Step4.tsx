@@ -317,55 +317,62 @@ export default function Step4({
           <hr className="col-span-full w-full border-siteOddGray ~my-[0.94rem]/[2.5rem]" />
 
           <div className="flex">
-            <div className="flex flex-col">
+            <div className="flex flex-col text-sm text-gray-600">
               <div>포인트 사용</div>
               <div>보유 포인트 ({maxPoint.toLocaleString()}P)</div>
             </div>
-            <input
-              type="number"
-              value={usedPoint || ""}
-              min={0}
-              max={maxPoint}
-              onBlur={(e) => {
-                if (!e.target.value) {
-                  handleUsedPoint(0);
-                } else if (isNaN(parseInt(e.target.value))) {
-                  handleUsedPoint(0);
-                } else if (parseInt(e.target.value) > maxPoint) {
-                  handleUsedPoint(maxPoint);
-                } else {
-                  handleUsedPoint(parseInt(e.target.value));
-                }
-              }}
-              onChange={(e) => {
-                const value =
-                  e.target.value === "" ? 0 : parseInt(e.target.value);
-                if (isNaN(value) || value < 0) {
-                  handleUsedPoint(0);
-                } else if (value > maxPoint) {
-                  handleUsedPoint(maxPoint);
-                } else {
-                  handleUsedPoint(value);
-                }
-              }}
-              className="ml-auto mr-0 h-8 w-20 rounded border border-siteBlack bg-white px-2 sm:w-24"
-            />
+            <div className="ml-auto flex items-center gap-x-1">
+              <input
+                type="number"
+                value={usedPoint || ""}
+                min={0}
+                max={maxPoint}
+                onBlur={(e) => {
+                  if (!e.target.value) {
+                    handleUsedPoint(0);
+                  } else if (isNaN(parseInt(e.target.value))) {
+                    handleUsedPoint(0);
+                  } else if (parseInt(e.target.value) > maxPoint) {
+                    handleUsedPoint(maxPoint);
+                  } else {
+                    handleUsedPoint(parseInt(e.target.value));
+                  }
+                }}
+                onChange={(e) => {
+                  const value =
+                    e.target.value === "" ? 0 : parseInt(e.target.value);
+                  if (isNaN(value) || value < 0) {
+                    handleUsedPoint(0);
+                  } else if (value > maxPoint) {
+                    handleUsedPoint(maxPoint);
+                  } else {
+                    handleUsedPoint(value);
+                  }
+                }}
+                className="h-8 w-24 rounded border border-gray-300 bg-white px-2 text-right"
+              />
+              <span className="text-sm">P</span>
+            </div>
           </div>
 
-          <div className="flex items-center ~mt-[1.88rem]/[3.69rem]">
-            <div className="flex-1 font-bold ~text-base/[1.25rem]">총 요금</div>
-            <div className="font-bold ~text-[0.75rem]/base">
-              {discountAmount > 0 && (
-                <span className="mr-2 text-gray-500 line-through">
-                  {subtotal.toLocaleString()}원
-                </span>
-              )}
-              <span>{finalPrice.toLocaleString()}원</span>
+          <div className="mt-8  pt-4">
+            <div className="flex items-center justify-evenly">
+              <div className="text-xl font-bold">총 요금</div>
+              <div className="text-right">
+                {discountAmount > 0 && (
+                  <span className="mr-2 text-gray-500 line-through">
+                    {subtotal.toLocaleString()}원
+                  </span>
+                )}
+                <span className="text-2xl font-bold">{finalPrice.toLocaleString()}원</span>
+              </div>
+            </div>
+            <div className="mt-4 text-center text-sm text-gray-500">
+              취소 규정 내용 확인
             </div>
           </div>
         </div>
-      </article>
-      <div className="mx-[-2.81rem] flex w-[calc(100%+5.62rem)] items-center justify-center gap-x-[0.63rem] text-nowrap ~mt-[1.25rem]/[6.25rem] ~mb-[1.25rem]/[3.12rem]">
+        <div className="mx-[-2.81rem] flex w-[calc(100%+5.62rem)] items-center justify-center gap-x-[0.63rem] text-nowrap ~mt-[1.25rem]/[4.25rem] ~mb-[1.25rem]/[1.80rem]">
         <button
           type="button"
           className="flex !w-fit rounded-lg bg-[#998465] py-1 text-white ~text-base/[1.25rem] ~px-[0.75rem]/[1.6875rem]"
@@ -374,6 +381,8 @@ export default function Step4({
           {isPaymentProcessing ? "결제 처리 중..." : "결제하기"}
         </button>
       </div>
+      </article>
+      
     </motion.div>
   );
 }
