@@ -77,7 +77,7 @@ const data = [
 
 const page = () => {
   return (
-    <main className="px-4 ~pt-[8rem]/[16.875rem] ~pb-[4rem]/[6rem]">
+    <main className="px-4 ~pt-[8rem]/[23.5rem] ~pb-[4rem]/[6rem]">
       <h1 className="page-title text-center ~mb-[1rem]/[2rem]">이용방법</h1>
       <p className="whitespace-pre-wrap text-center leading-[175%] text-siteTextGray ~/md:~text-xs/base">
         {`‘솔로 사우나_레포(노량진점)’은 100% 예약제로 운영되고 있습니다.\n사전예약 후 이용 가능합니다.\n\n당사 예약 페이지에서 원하는 날짜와 시간을 예약해 주시기 바랍니다.\n네이버 및 전화예약 가능합니다.\n*방문 당일에는 대기시간 없이 이용 가능합니다`}

@@ -54,7 +54,7 @@ const page = () => {
             alt="차량 방문시 지도"
             className="w-full ~h-[15rem]/[25rem]"
           />
-          <dl className="[&>dt:not(:first-child)]:~mt-[1rem]/[1.25rem]">
+          <dl className=" [&>dt:not(:first-child)]:~mt-[1rem]/[1.25rem]">
             <dt className="flex items-center gap-4">
               <Image
                 src={Walk}
@@ -63,7 +63,7 @@ const page = () => {
               />
               <span>도보</span>
             </dt>
-            <dd className="~mt-[1rem]/[1.25rem]">
+            <dd className="~mt-[1rem]/[1.25rem] ~mb-[1rem]/[3.25rem]">
               (노량진 수산시장 방향)지하도를 통해 들어오신 후, 에스컬레이터
               맞은편에 위치한 엘리베이터를 이용해 2층으로 올라오시면 됩니다.
             </dd>
@@ -75,7 +75,7 @@ const page = () => {
               />
               <span>지하철</span>
             </dt>
-            <dd className="~mt-[1rem]/[1.25rem]">
+            <dd className="~mt-[1rem]/[1.25rem] ~mb-[1rem]/[3.25rem]">
               1,9호선 노량진역 하차 후 9번출구,7번출구,6번출구 도보 5분거리
             </dd>
             <dt className="flex items-center gap-4">
@@ -86,7 +86,7 @@ const page = () => {
               />
               <span>버스</span>
             </dt>
-            <dd className="flex flex-col ~mt-[1rem]/[1.25rem]">
+            <dd className="flex flex-col ~mt-[1rem]/[1.25rem]  ~mb-[1rem]/[3.25rem]">
               <span>
                 노량진수산시장. CTS기독교TV (현대아파트,유한양행(중)방면)
                 시내버스 150, 360, 507, 605, 640, 641, 650, N64, 5531, 6211,
@@ -95,13 +95,13 @@ const page = () => {
                 640, 5531, 6211, 6411, 8641
               </span>
               <span>마을버스 동작 01, 03, 08, 18</span>
-              <span className="mt-4">
+              <span className="mt-6">
                 노량진수산시장. CTS기독교TV(중) (노량진역(중)방면)
               </span>
               <span>
                 시내버스 150, 360, 507, 605, 640, 5531, 6211, 6411, 8641
               </span>
-              <span className="mb-4">마을버스 동작 01, 03, 08, 18</span>
+              <span className="mb-6">마을버스 동작 01, 03, 08, 18</span>
               <span className="">
                 하차 후 (노량진 수산시장 방향)지하도를 통해 들어오신 후,
                 에스컬레이터 맞은편에 위치한 엘리베이터를 이용해 2층으로

@@ -141,7 +141,7 @@ export default function Step1({
           </Button>
         </div>
       </section>
-      <ul className="list-outside list-disc border-b-2 border-b-siteBlack border-t-siteOddGray px-4  py-0 text-xs text-siteTextGray ~mt-[1.25rem]/[3.125rem] sm:border-t sm:px-0 sm:py-5">
+      <ul className=" list-inside list-disc  border-b-2 border-b-siteBlack border-t-siteOddGray px-4 py-0   text-xs text-siteTextGray ~mt-[1.25rem]/[3.125rem] sm:border-t sm:px-0 sm:py-5">
         {instructions.map((instruction, index) => (
           <li
             key={index}

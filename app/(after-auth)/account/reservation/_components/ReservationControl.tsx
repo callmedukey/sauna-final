@@ -5,6 +5,7 @@ import { format } from "date-fns";
 import { AnimatePresence } from "motion/react";
 import { useState } from "react";
 
+import Step0 from "./Step0";
 import Step1 from "./Step1";
 import Step2 from "./Step2";
 import Step3 from "./Step3";
@@ -70,6 +71,7 @@ const ReservationControl = ({ reservations, points, specialDates }: Props) => {
   return (
     <article className="mx-auto max-w-[55rem] py-[3.125rem] ~px-[0rem]/[4.5rem]">
       <AnimatePresence>
+        <Step0 key="step0" />
         <Step1
           key="step1"
           people={people}
