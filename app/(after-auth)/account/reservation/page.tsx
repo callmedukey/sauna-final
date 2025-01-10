@@ -58,7 +58,7 @@ const ReservationPage = () => {
   // Precautions content component
   const PrecautionsContent = () => {
     return (
-      <div className="mx-auto max-w-[90%] 2xl:max-w-screen-2xl">
+      <div className="mx-auto 2xl:max-w-screen-3xl">
         <h1 className="text-center font-bold ~text-[1.5rem]/[2.25rem] ~mt-[7.5rem]/[11.625rem] ~mb-[4rem]/[6.25rem]">
           예약하기
         </h1>
@@ -66,13 +66,12 @@ const ReservationPage = () => {
           <h1 className="font-bold text-[#b10000] ~text-[1rem]/[1.5rem]">
             사우나 이용 시 주의사항
           </h1>
-          <p className="font-medium ~text-base/lg">
-            만 18세 미만은 본 사우나를 이용할수 없으며, 초등학생 이상의 자녀는
-            같은 성별의 부모와 동반하여 그룹룸을 이용할 수 있습니다. 의사가
-            입욕을 금지한 경우, 아래의 나열된 건강 상태 중 하나라도 해당되는
-            경우와 컨디션이 좋지 않은 경 우에는 사우나 이용을 삼가해 주시기
-            바랍니다. 입실 전 음주측정을 하여, 음주 시에는 건강상의 이유로 본
-            시설을 이용할수 없습니다.
+          <p className="font-medium ~text-base/lg mt-2">
+            음주 시에는 본 시설을 이용 할 수 없습니다.
+            <br />
+            의사가 입욕을 금지한 경우, 아래의 나열된 건강 상태 중 하나라도
+            해당되는 경우와 컨디션이 좋지 않은 경 우에는 사우나 이용을 삼가해
+            주시기 좋지 않은 경 우에는 사우나 이용을 삼가해 주시기 바랍니다.
           </p>
           <p className="font-medium text-[#B10000] ~text-base/lg">
             {" "}
@@ -80,10 +79,10 @@ const ReservationPage = () => {
           </p>
         </div>
 
-        <div className="border-y border-y-[#999999] p-4 ~mt-[1.5rem]/[3.75rem]">
+        <div className="border-y border-y-[#999999] px-4 ~mt-[1.5rem]/[3.75rem]">
           {/* Health conditions section */}
-          <div className="flex flex-col gap-[3.125rem] bg-white p-4 xl:flex xl:flex-row">
-            <div className="flex items-start gap-2 py-7 ~text-[1rem]/lg xl:min-w-[270px]">
+          <div className="flex flex-col gap-[3.125rem] bg-white px-4 py-[1.875rem] xl:flex xl:flex-row">
+            <div className="flex items-start gap-2 ~text-[1rem]/lg xl:min-w-[270px]">
               <Image
                 src={IconExclamation}
                 alt="Warning icon"
@@ -92,7 +91,7 @@ const ReservationPage = () => {
               />
               <h2 className="">사우나를 이용할 수 없는 건강 상태</h2>
             </div>
-            <ul className="flex flex-col space-y-4 font-medium ~text-[1rem]/lg xl:py-7">
+            <ul className="flex flex-col space-y-4 xl:space-y-2 font-medium ~text-[1rem]/lg">
               <li className="flex gap-2">
                 <span className="min-w-[10px]">-</span>
                 <span>수축기 혈압이 180mmhg 이상인 상태</span>
@@ -120,7 +119,7 @@ const ReservationPage = () => {
               </li>
               <li className="flex gap-2">
                 <span className="min-w-[10px]">-</span>
-                <span>출혈 또는 출혈으로 인한 출혈이 있는 경우</span>
+                <span>출혈 또는 월경으로 인한 출혈이 있는 경우</span>
               </li>
               <li className="flex gap-2 text-[#B10000]">
                 <span className="min-w-[10px]">※</span>
@@ -132,8 +131,8 @@ const ReservationPage = () => {
           </div>
 
           {/* Restricted section */}
-          <div className="flex flex-col gap-[3.125rem] border-y border-y-[#e5e5e5] bg-white p-4 xl:flex-row">
-            <div className="flex items-start gap-2 py-7 ~text-[1rem]/lg xl:min-w-[270px]">
+          <div className="flex flex-col gap-[3.125rem] border-y border-y-[#e5e5e5] bg-white px-4 py-[1.875rem] xl:flex-row">
+            <div className="flex items-start gap-2 ~text-[1rem]/lg xl:min-w-[270px]">
               <Image
                 src={IconDont}
                 alt="Restricted icon"
@@ -142,10 +141,10 @@ const ReservationPage = () => {
               />
               <h2 className="">사우나를 중단하여야 하는 경우</h2>
             </div>
-            <ul className="flex flex-col space-y-4 font-medium ~text-[1rem]/lg xl:py-7">
+            <ul className="flex flex-col space-y-4 xl:space-y-2 font-medium ~text-[1rem]/lg">
               <li className="flex gap-2">
                 <span className="min-w-[10px]">-</span>
-                <span>열균형이 급히 깨배었던 경우</span>
+                <span>열균형이 급격히 깨졋던 경우</span>
               </li>
               <li className="flex gap-2">
                 <span className="min-w-[10px]">-</span>
@@ -153,22 +152,22 @@ const ReservationPage = () => {
               </li>
               <li className="flex gap-2">
                 <span className="min-w-[10px]">-</span>
-                <span>심장에 이상을 느끼을 경우</span>
+                <span>심장에 이상을 느낀 경우</span>
               </li>
               <li className="flex gap-2">
                 <span className="min-w-[10px]">-</span>
-                <span>감각기 상한 두통을 느끼을 경우</span>
+                <span>감각 기관에서 심한 두통을 느낀 경우</span>
               </li>
               <li className="flex gap-2">
                 <span className="min-w-[10px]">-</span>
-                <span>발작 이상감각(둔통)을 느끼을 경우</span>
+                <span>발작과 이상 감각(둔한 통증)을 느낀 경우</span>
               </li>
             </ul>
           </div>
 
           {/* Additional notes */}
-          <div className="flex flex-col gap-[3.125rem] border-b border-b-[#e5e5e5] bg-white p-4 xl:flex-row">
-            <div className="flex items-start gap-2 ~text-[1rem]/lg xl:min-w-[270px] xl:py-7">
+          <div className="flex flex-col gap-[3.125rem] border-b border-b-[#e5e5e5] bg-white px-4 py-[1.875rem] xl:flex-row">
+            <div className="flex items-start gap-2 ~text-[1rem]/lg xl:min-w-[270px]">
               <Image
                 src={IconExclamation}
                 alt="Notes icon"
@@ -177,7 +176,7 @@ const ReservationPage = () => {
               />
               <h2 className="">주가 확인사항</h2>
             </div>
-            <ul className="flex flex-col space-y-4 font-medium ~text-[1rem]/lg xl:py-7">
+            <ul className="flex flex-col space-y-4 xl:space-y-2 font-medium ~text-[1rem]/lg">
               <li className="flex gap-2">
                 <span className="min-w-[10px] shrink-0">-</span>
                 <span className="flex-1">
@@ -199,8 +198,8 @@ const ReservationPage = () => {
           </div>
 
           {/* Fire safety */}
-          <div className="flex flex-col gap-[3.125rem] border-b border-b-[#e5e5e5] bg-white p-4 xl:flex-row">
-            <div className="flex items-start gap-2 ~text-[1rem]/lg xl:min-w-[270px] xl:py-7">
+          <div className="flex flex-col gap-[3.125rem] border-b border-b-[#e5e5e5] bg-white px-4 py-[1.875rem] xl:flex-row">
+            <div className="flex items-start gap-2 ~text-[1rem]/lg xl:min-w-[270px]">
               <Image
                 src={IconGas}
                 alt="Fire safety icon"
@@ -209,7 +208,7 @@ const ReservationPage = () => {
               />
               <h2 className="">룸 유형 안내</h2>
             </div>
-            <ul className="flex flex-col space-y-4 font-medium ~text-[1rem]/lg xl:py-7">
+            <ul className="flex flex-col space-y-4 xl:space-y-2 font-medium ~text-[1rem]/lg">
               <li className="flex gap-2">
                 <span className="min-w-[10px] shrink-0">-</span>
                 <span className="flex-1">
@@ -220,25 +219,25 @@ const ReservationPage = () => {
           </div>
 
           {/* Reservation time */}
-          <div className="flex flex-col gap-[3.125rem] border-b border-b-[#e5e5e5] bg-white p-4 xl:flex-row">
-            <div className="flex items-start gap-2 ~text-[1rem]/lg xl:min-w-[270px] xl:py-7">
+          <div className="flex flex-col gap-[3.125rem] border-b border-b-[#e5e5e5] bg-white px-4 py-[1.875rem] xl:flex-row">
+            <div className="flex items-start gap-2 ~text-[1rem]/lg xl:min-w-[270px]">
               <Image src={IconClock} alt="Time icon" width={24} height={24} />
               <h2 className="">예약 관련 사항</h2>
             </div>
-            <ul className="flex flex-col space-y-4 font-medium ~text-[1rem]/lg xl:py-7">
+            <ul className="flex flex-col space-y-4 xl:space-y-2 font-medium ~text-[1rem]/lg">
               <li className="flex gap-2">
                 <span className="min-w-[10px] shrink-0">-</span>
                 <span className="flex-1">
-                  원하시는 예약 시간대에 맞 조건이 없을 시 전화 주시면 조정 가능
-                  합니다.
+                  원하시는 예약 시간대가 없을 경우, 전화 주시면 변경이
+                  가능합니다.
                 </span>
               </li>
             </ul>
           </div>
 
           {/* Cancellation policy */}
-          <div className="flex flex-col gap-[3.125rem] bg-white p-4 xl:flex-row">
-            <div className="flex items-start gap-2 ~text-[1rem]/lg xl:min-w-[270px] xl:py-7">
+          <div className="flex flex-col gap-[3.125rem] bg-white px-4 py-[1.875rem] xl:flex-row">
+            <div className="flex items-start gap-2 ~text-[1rem]/lg xl:min-w-[270px]">
               <Image
                 src={IconMenu}
                 alt="Cancellation icon"
@@ -246,11 +245,11 @@ const ReservationPage = () => {
                 height={24}
               />
               <h2 className="">
-                예약/변경/환불/취소 시<br />
+                예약/변경/환불/취소 시<br className="hidden xl:block" />
                 주의할 점
               </h2>
             </div>
-            <ul className="flex flex-col space-y-4 font-medium ~text-[1rem]/lg xl:py-7">
+            <ul className="flex flex-col space-y-4 xl:space-y-2 font-medium ~text-[1rem]/lg">
               <li className="flex gap-2">
                 <span className="min-w-[10px] shrink-0">-</span>
                 <span className="flex-1">
@@ -281,6 +280,19 @@ const ReservationPage = () => {
                 <span className="flex-1">
                   자체 예약 변경이 불가능 하니, 전화 주시면 예약 변경 가능
                   합니다.
+                </span>
+              </li>
+              <li className="flex gap-2">
+                <span className="min-w-[10px] shrink-0">-</span>
+                <span className="flex-1">
+                  이용당일 모든 변경 및 취소는 불가하며 변경을 원하실 경우 최소
+                  이틀 전까지 요청해 주시기 바랍니다.
+                </span>
+              </li>
+              <li className="flex gap-2">
+                <span className="min-w-[10px] shrink-0">-</span>
+                <span className="flex-1">
+                  예약 환불 규정은 네이버와 상이할수있습니다.
                 </span>
               </li>
             </ul>
@@ -316,7 +328,7 @@ const ReservationPage = () => {
               className="py-[0.1875rem]/[0.4375rem] flex !w-fit bg-[#998465] ~text-base/[1.25rem] ~px-[0.75rem]/[1.6875rem]"
               onClick={() => setShowPrecautions(false)}
             >
-              예약 진행 하기
+              예약 계속 진행 하기
             </Button>
           </div>
         </div>
@@ -325,7 +337,7 @@ const ReservationPage = () => {
   };
 
   return (
-    <main className="mx-auto px-4 py-20">
+    <main className="mx-auto sm:px-4 py-8 sm:~py-8/20">
       {showPrecautions ? <PrecautionsContent /> : <ReservationContent />}
     </main>
   );
