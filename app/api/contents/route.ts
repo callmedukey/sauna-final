@@ -39,8 +39,10 @@ export async function POST(request: NextRequest) {
     // Create contents directory if it doesn't exist
     try {
       await mkdir(contentsDir, { recursive: true });
+      console.log("Contents directory created or verified at:", contentsDir);
     } catch (error) {
       console.error("Error creating directory:", error);
+      throw new Error("Failed to create or verify contents directory");
     }
 
     // Convert File to Buffer

@@ -116,7 +116,11 @@ export function ImageUploader({ currentImage }: ImageUploaderProps) {
             <div className="space-y-4">
               <div className="mx-auto max-w-[600px]">
                 <Image
-                  src={`/contents/${currentImage.path}`}
+                  src={
+                    currentImage.path.startsWith("/")
+                      ? currentImage.path
+                      : `/contents/${currentImage.path}`
+                  }
                   alt="Current popup"
                   width={600}
                   height={800}
