@@ -171,6 +171,12 @@ const Step3 = ({
     const slotStartTime = slotHours * 60 + slotMinutes;
     const slotDuration = getRoomDuration(selectedRoom.type);
 
+    // Helper function to check if a room type belongs to a gender group
+    const isMensRoom = (roomType: string) =>
+      roomType.includes("MEN") || roomType === "MIX";
+    const isWomensRoom = (roomType: string) =>
+      roomType.includes("WOMEN") || roomType === "MIX";
+
     // Check against all existing reservations
     for (const reservation of reservations) {
       // Normalize both dates for comparison
@@ -196,7 +202,7 @@ const Step3 = ({
       );
 
       if (hasOverlap) {
-        // Rule 4: When MIX room is active, no other rooms can be active
+        // Rule: When MIX room is active, no other rooms can be active
         if (
           reservation.roomType.includes("MIX") ||
           selectedRoom.type.includes("MIX")
@@ -204,45 +210,27 @@ const Step3 = ({
           return false;
         }
 
-        // Rule 1: Women's room restrictions
+        // Rule: Family room restrictions
         if (
-          selectedRoom.type.includes("WOMEN") &&
-          !selectedRoom.type.includes("FAMILY")
+          (reservation.roomType.includes("FAMILY") ||
+            selectedRoom.type.includes("FAMILY")) &&
+          reservation.roomType.includes("FAMILY") &&
+          selectedRoom.type.includes("FAMILY")
         ) {
-          if (
-            reservation.roomType.includes("MIX") ||
-            reservation.roomType.includes("WOMEN_FAMILY")
-          ) {
-            return false;
-          }
+          return false;
         }
 
-        // Rule 2: Men's room restrictions
-        if (
-          selectedRoom.type.includes("MEN") &&
-          !selectedRoom.type.includes("FAMILY")
-        ) {
-          if (
-            reservation.roomType.includes("MIX") ||
-            reservation.roomType.includes("MEN_FAMILY")
-          ) {
-            return false;
-          }
+        // Rule: Men's room restrictions (including family)
+        if (isMensRoom(selectedRoom.type) && isMensRoom(reservation.roomType)) {
+          return false;
         }
 
-        // Rule 3: Women's and Men's 60/90 rooms can overlap
+        // Rule: Women's room restrictions (including family)
         if (
-          (selectedRoom.type.includes("WOMEN") &&
-            reservation.roomType.includes("MEN")) ||
-          (selectedRoom.type.includes("MEN") &&
-            reservation.roomType.includes("WOMEN"))
+          isWomensRoom(selectedRoom.type) &&
+          isWomensRoom(reservation.roomType)
         ) {
-          if (
-            !selectedRoom.type.includes("FAMILY") &&
-            !reservation.roomType.includes("FAMILY")
-          ) {
-            return true;
-          }
+          return false;
         }
 
         // Block same room type

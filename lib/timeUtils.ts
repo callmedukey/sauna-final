@@ -7,17 +7,19 @@ export const checkTimeOverlap = (
   const requestedEndTime = requestedStartTime + requestedDuration;
   const existingEndTime = existingStartTime + existingDuration;
 
-  return !(
-    (
-      requestedEndTime <= existingStartTime || // New booking ends before existing starts
-      requestedStartTime >= existingEndTime
-    ) // New booking starts after existing ends
+  // Consider it an overlap if:
+  // 1. The requested start time is less than or equal to the existing end time AND
+  // 2. The requested end time is greater than or equal to the existing start time
+  // This ensures that even touching times (start = end) are considered overlaps
+  return (
+    requestedStartTime <= existingEndTime &&
+    requestedEndTime >= existingStartTime
   );
 };
 
 export const getRoomDuration = (roomType: string): number => {
   if (roomType.includes("FAMILY")) return 100;
-  if (roomType.includes("NINETY")) return 90;
+  if (roomType.includes("90")) return 90;
   return 60;
 };
 
@@ -44,4 +46,4 @@ export const calculateAdditionalFee = (
   additionalFee += persons.children * 20000;
 
   return additionalFee;
-}; 
+};
