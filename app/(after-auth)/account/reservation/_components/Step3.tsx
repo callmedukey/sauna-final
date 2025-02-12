@@ -44,7 +44,6 @@ const Step3 = ({
   selectedTime: string;
   specialDates: Pick<SpecialDate, "date" | "type" | "discount">[];
 }) => {
-  console.log(reservations);
   const [date, setDate] = useState<Date | undefined>(undefined);
 
   const handleSelectDate = (date: Date | undefined) => {

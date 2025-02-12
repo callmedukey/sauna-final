@@ -21,13 +21,14 @@ const ReservationPage = async () => {
   const now = new Date();
   const koreaDate = toZonedTime(now, KOREAN_TIMEZONE);
   const todayInKorea = format(koreaDate, "yyyy/MM/dd");
+  const todayInKorea2 = format(koreaDate, "yyyy-MM-dd");
 
   const [normalReservations, naverReservations, specialDates, user] =
     await Promise.all([
       prisma.reservation.findMany({
         where: {
           date: {
-            gte: todayInKorea,
+            gte: todayInKorea2,
           },
         },
         select: {
@@ -71,6 +72,7 @@ const ReservationPage = async () => {
         },
       }),
     ]);
+  console.log(normalReservations);
   const reservations = [...normalReservations, ...naverReservations];
   return (
     <main className="page-padding ~pb-[4rem]/[6rem]">

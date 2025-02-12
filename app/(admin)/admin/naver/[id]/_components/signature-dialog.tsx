@@ -1,11 +1,11 @@
 "use client";
 
 import { pdf } from "@react-pdf/renderer";
+import Image from "next/image";
 import { useRef, useState } from "react";
 import SignaturePad from "react-signature-canvas";
 
 import { saveSignature } from "@/actions/signatures";
-import { ConditionsText } from "@/components/conditions-text";
 import { ConditionsPDF } from "@/components/pdf/ConditionsPDF";
 import { Button } from "@/components/ui/button";
 import {
@@ -14,6 +14,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
+import ConditionImage from "@/public/final-condition.webp";
 
 type Props = {
   reservationId: string;
@@ -94,7 +95,7 @@ export function SignatureDialog({
 
           <div className="space-y-8">
             <div className="max-h-[40vh] overflow-y-auto rounded-md border p-4">
-              <ConditionsText />
+              <Image src={ConditionImage} alt="약관" />
             </div>
 
             <div className="space-y-4">
