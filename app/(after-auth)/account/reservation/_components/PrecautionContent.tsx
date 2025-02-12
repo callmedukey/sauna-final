@@ -21,9 +21,7 @@ const PrecautionsContent = ({
 
   return (
     <div className="mx-auto 2xl:max-w-screen-3xl">
-      <h1 className="text-center font-bold ~text-[1.5rem]/[2.25rem] ~mt-[7.5rem]/[11.625rem] ~mb-[4rem]/[6.25rem]">
-        예약하기
-      </h1>
+      <h1 className="page-title ~mb-[4rem]/[6.25rem]">예약하기</h1>
       <div className="flex flex-col items-center justify-center gap-4 text-pretty break-keep border bg-[#e5e5e5] text-center ~p-[1.5rem]/[3.75rem]">
         <h1 className="font-bold text-[#b10000] ~text-[1rem]/[1.5rem]">
           사우나 이용 시 주의사항

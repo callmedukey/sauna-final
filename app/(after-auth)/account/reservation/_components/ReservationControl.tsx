@@ -70,7 +70,7 @@ const ReservationControl = ({ reservations, points, specialDates }: Props) => {
   };
 
   return (
-    <article className="mx-auto max-w-[55rem] ~px-[0rem]/[4.5rem] ~pt-[3.125rem]/[7.5rem]">
+    <article className="mx-auto max-w-[55rem] ~px-[0rem]/[4.5rem]">
       <h1 className="page-title break-keep ~mb-8/16">
         솔로사우나 레포_노량진점 사우나 이용 요금표
       </h1>

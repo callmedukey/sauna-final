@@ -70,7 +70,7 @@ const ReservationPage = async () => {
     ]);
   const reservations = [...normalReservations, ...naverReservations];
   return (
-    <main className="px-4 ~pb-[4rem]/[6rem]">
+    <main className="page-padding ~pb-[4rem]/[6rem]">
       <ReservationClient
         reservations={reservations}
         points={user?.point ?? 0}
