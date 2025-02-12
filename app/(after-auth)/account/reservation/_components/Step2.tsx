@@ -45,19 +45,29 @@ const Step2 = ({
       return false;
     }
 
+    // Helper function to check if room is a family room
+    const isFamilyRoom =
+      room.type === "MEN_FAMILY" || room.type === "WOMEN_FAMILY";
+
     // Get base max capacity based on room type
     const baseMaxCapacity = room.type.includes("MIX")
       ? 6
-      : room.type.includes("FAMILY")
+      : isFamilyRoom
       ? 4
       : 3;
 
     // For family rooms, one child/infant can count towards base capacity
-    const childrenForBaseCapacity =
-      room.type.includes("FAMILY") && totalAdults === 1 ? 1 : 0;
+    const childrenForBaseCapacity = isFamilyRoom && totalAdults === 1 ? 1 : 0;
 
-    // Check if adults exceed base capacity
-    if (totalAdults > baseMaxCapacity) {
+    // Check if adults exceed base capacity - but allow family rooms for 2 or more adults
+    if (
+      totalAdults > baseMaxCapacity &&
+      !(
+        isFamilyRoom &&
+        ((persons.men >= 2 && persons.women === 0) ||
+          (persons.women >= 2 && persons.men === 0))
+      )
+    ) {
       return false;
     }
 
@@ -83,17 +93,23 @@ const Step2 = ({
     if (persons.men > 0 && persons.women === 0) {
       // Show men's rooms and men's family rooms for male groups
       return (
-        room.name.includes("남성룸") ||
-        (hasChildren && room.name.includes("남성+가족룸")) ||
-        (!hasChildren && persons.men > 1 && room.name.includes("남성+가족룸"))
+        room.type.includes("MEN") &&
+        !room.type.includes("MIX") &&
+        (room.type === "MEN60" ||
+          room.type === "MEN90" ||
+          (hasChildren && room.type === "MEN_FAMILY") ||
+          (persons.men >= 2 && room.type === "MEN_FAMILY"))
       );
     }
     if (persons.men === 0 && persons.women > 0) {
       // Show women's rooms and women's family rooms for female groups
       return (
-        room.name.includes("여성룸") ||
-        (hasChildren && room.name.includes("여성+가족룸")) ||
-        (!hasChildren && persons.women > 1 && room.name.includes("여성+가족룸"))
+        room.type.includes("WOMEN") &&
+        !room.type.includes("MIX") &&
+        (room.type === "WOMEN60" ||
+          room.type === "WOMEN90" ||
+          (hasChildren && room.type === "WOMEN_FAMILY") ||
+          (persons.women >= 2 && room.type === "WOMEN_FAMILY"))
       );
     }
     return false;
@@ -122,36 +138,56 @@ const Step2 = ({
         <span>step 2</span>
         <span className="font-bold">룸 선택</span>
       </h2>
-      <div className="grid grid-cols-2 ~gap-[1.25rem]/[0.31rem] sm:grid-cols-3">
-        {roomList.map((room) => (
-          <button
-            onClick={() => handleRoomLogic(room)}
-            key={room.name}
-            className={cn(
-              "min-w-0 flex-none transition duration-300 rounded-[0.3125rem] basis-[17.5rem] w-[17.5rem] max-w-full ~py-[0.625rem]/[0.75rem] flex-all-center flex-col text-center ~text-xs/base border border-siteTextGray gap-y-[0.625rem] sm:gap-y-[revert]",
-              room.name === "혼합룸+대형사우나룸[100분]" && "sm:hidden",
-              room.name === "혼합룸,여성+가족룸,남성+가족룸[100분]" &&
-                "hidden sm:block",
-              currentRoom.name === room.name && "bg-golden text-white"
-            )}
-          >
-            <div className="hidden text-nowrap font-bold sm:block sm:min-h-14">
-              {room.name}
-            </div>
-            <div className="whitespace-pre-line font-bold sm:hidden sm:min-h-14">
-              {room.name.replace("[", "\n[")}
-            </div>
-            <div className="my-auto">
-              {room.price?.toLocaleString()}원
-              <span className="block sm:inline">{room.extra}</span>
-            </div>
-            <div className="hidden sm:mt-6 sm:block">{room.last}</div>
-            <div className="whitespace-pre-line sm:mt-6 sm:hidden">
-              {room.last.replace("1인당", "1인당\n")}
-            </div>
-          </button>
-        ))}
-      </div>
+      {roomList.length === 0 ? (
+        <div className="text-center text-base font-medium text-siteTextGray">
+          선택하신 인원에 맞는 이용 가능한 룸이 없습니다.
+        </div>
+      ) : (
+        <div className="grid grid-cols-2 ~gap-[1.25rem]/[0.31rem] sm:grid-cols-3">
+          {roomList.map((room) => (
+            <button
+              onClick={() => handleRoomLogic(room)}
+              key={room.name}
+              className={cn(
+                "min-w-0 flex-none transition duration-300 rounded-[0.3125rem] basis-[17.5rem] w-[17.5rem] max-w-full ~py-[0.625rem]/[0.75rem] flex-all-center flex-col text-center ~text-xs/base border border-siteTextGray gap-y-[0.625rem] sm:gap-y-[revert]",
+                room.name === "혼합룸+대형사우나룸[100분]" && "sm:hidden",
+                room.name === "혼합룸,여성+가족룸,남성+가족룸[100분]" &&
+                  "hidden sm:block",
+                currentRoom.name === room.name && "bg-golden text-white"
+              )}
+            >
+              <div
+                className={cn(
+                  "hidden font-bold sm:block sm:min-h-14",
+                  room.type.includes("MIX")
+                    ? "text-wrap break-keep"
+                    : "text-nowrap"
+                )}
+              >
+                {room.name}
+              </div>
+              <div
+                className={cn(
+                  "whitespace-pre-line font-bold sm:hidden sm:min-h-14",
+                  !room.type.includes("MIX") && "text-nowrap"
+                )}
+              >
+                {room.type.includes("MIX")
+                  ? room.name
+                  : room.name.replace("[", "\n[")}
+              </div>
+              <div className="my-auto">
+                {room.price?.toLocaleString()}원
+                <span className="block sm:inline">{room.extra}</span>
+              </div>
+              <div className="hidden sm:mt-6 sm:block">{room.last}</div>
+              <div className="whitespace-pre-line sm:mt-6 sm:hidden">
+                {room.last.replace("1인당", "1인당\n")}
+              </div>
+            </button>
+          ))}
+        </div>
+      )}
     </motion.div>
   );
 };

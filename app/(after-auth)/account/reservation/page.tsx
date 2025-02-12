@@ -9,6 +9,9 @@ import ReservationClient from "./_components/ReservationClient";
 
 const KOREAN_TIMEZONE = "Asia/Seoul";
 
+export const dynamic = "force-dynamic";
+export const revalidate = 0;
+
 const ReservationPage = async () => {
   const session = await auth();
   if (!session?.user) {

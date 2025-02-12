@@ -43,11 +43,24 @@ export default function Step1({
     }
 
     const newValue = people[type] + value;
-
     // Return early if trying to exceed maximum limits
     if ((type === "men" || type === "women") && newValue > 4) return;
     if (type === "children" && newValue > 2) return;
     if (type === "infants" && newValue > 2) return;
+
+    // Calculate new total adults after the update
+    const newTotalAdults =
+      type === "men"
+        ? newValue + people.women
+        : type === "women"
+        ? people.men + newValue
+        : people.men + people.women;
+
+    // Check if total adults would exceed 6
+    if (newTotalAdults > 6) {
+      alert("선택하신 인원에 맞는 이용 가능한 룸이 없습니다.");
+      return;
+    }
 
     handlePeople({
       ...people,
