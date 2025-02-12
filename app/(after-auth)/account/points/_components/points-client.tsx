@@ -38,6 +38,20 @@ const PointsClient = ({ user, transactions }: PointsClientProps) => {
     <main className="px-4 ~pb-[4rem]/[6rem]">
       <MessageHandler />
       <AccountMenuAside />
+      <div className="mx-auto flex max-w-screen-3xl flex-col items-center justify-center gap-4 text-pretty break-keep border bg-[#e5e5e5] text-center ~my-[2rem]/[4rem] ~p-[1.5rem]/[3.75rem]">
+        <h1 className="font-bold text-[#b10000] ~text-[1rem]/[1.5rem]">
+          솔로사우나 레포_노량진점에서 포인트는 다음과 같이 적립/적용됩니다.
+        </h1>
+        <p className="mt-2 text-left font-medium ~text-base/lg md:text-center">
+          포인트는 결제한 금액에 5%가 자동 적립됩니다. (포인트를 사용하여 결제한
+          경우, 사용된 포인트에 대해서는 차감 적립됩니다.)
+          <br />
+          직접 충전하여 포인트 사용이 가능하며 포인트 구매는 50,000원 부터
+          가능합니다.
+          <br />
+          충전 시 충전한 금액에 5%가 추가 적립됩니다.
+        </p>
+      </div>
       <article className="mx-auto min-h-[min(60vh,40rem)] max-w-screen-md px-4">
         <div className="mb-8">
           <div className="flex flex-wrap items-center justify-between gap-4">
@@ -63,14 +77,14 @@ const PointsClient = ({ user, transactions }: PointsClientProps) => {
 
         <Table>
           <TableHeader className="border-y border-black bg-white">
-            <TableRow className="border-black ~text-xs/[1.25rem]">
-              <TableHead className="translate-y-1 text-center text-siteBlack">
+            <TableRow className="border-black bg-[#e5e5e5]/10 ~text-xs/[1.25rem]">
+              <TableHead className=" text-center text-siteBlack">
                 적용날짜
               </TableHead>
-              <TableHead className="translate-y-1 text-center text-siteBlack">
+              <TableHead className=" text-center text-siteBlack">
                 구분
               </TableHead>
-              <TableHead className="translate-y-1 text-center text-siteBlack">
+              <TableHead className=" text-center text-siteBlack">
                 포인트
               </TableHead>
             </TableRow>

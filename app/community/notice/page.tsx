@@ -32,13 +32,13 @@ export default async function NoticePage() {
           <Table className="overflow-hidden scrollbar-hide">
             <TableHeader className="whitespace-nowrap border-b border-t-2 border-black">
               <TableRow className="border-black">
-                <TableHead className="translate-y-1 whitespace-nowrap text-left text-siteBlack lg:w-40 lg:text-center">
+                <TableHead className=" whitespace-nowrap text-left text-siteBlack lg:w-40 lg:text-center">
                   번호
                 </TableHead>
-                <TableHead className="max-w-40 translate-y-1 whitespace-nowrap text-left text-siteBlack lg:text-center">
+                <TableHead className="max-w-40 whitespace-nowrap text-left text-siteBlack lg:text-center">
                   제목
                 </TableHead>
-                <TableHead className="translate-y-1 whitespace-nowrap text-left text-siteBlack lg:w-40 lg:text-center">
+                <TableHead className="whitespace-nowrap text-left text-siteBlack lg:w-40 lg:text-center">
                   날짜
                 </TableHead>
               </TableRow>

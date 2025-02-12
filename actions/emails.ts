@@ -120,3 +120,48 @@ export const sendVerificationEmail = async (email: string) => {
 
   return { success: true, message: "인증 코드가 전송되었습니다." };
 };
+export const sendRecoverIDEmail = async (email: string) => {
+  const head = await headers();
+  const cf = head.get("cf-connecting-ip");
+  const ip = cf ?? head.get("x-forwarded-for") ?? "";
+
+  if (!ip) {
+    return { success: false, message: "관리자에게 문의해주세요" };
+  }
+
+  const validated = await RecoverAccountSchema.safeParseAsync({ email });
+
+  if (!validated.success) {
+    return { success: false, message: "올바른 이메일 형식이 아닙니다." };
+  }
+  const success = await emailRateLimit(validated.data.email, ip);
+
+  if (!success) {
+    return { success: false, message: "너무 많은 요청을 보냈습니다." };
+  }
+
+  const user = await prisma.user.findUnique({
+    where: { email: validated.data.email },
+    select: { id: true },
+  });
+
+  if (!user) {
+    return { success: false, message: "존재하지 않는 이메일입니다." };
+  }
+
+  const emailSent = await sendEmail({
+    to: validated.data.email,
+    subject: "아이디 찾기",
+    text: `아이디: ${user.id}`,
+    html: `<p>아이디: ${user.id}</p>`,
+  }).catch((error) => {
+    console.error(error);
+    return false;
+  });
+
+  if (!emailSent) {
+    return { success: false, message: "이메일 전송 실패" };
+  }
+
+  return { success: true, message: "인증 코드가 전송되었습니다." };
+};

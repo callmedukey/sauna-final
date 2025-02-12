@@ -63,7 +63,7 @@ const page = () => {
               />
               <span>도보</span>
             </dt>
-            <dd className="~mt-[1rem]/[1.25rem] ~mb-[1rem]/[3.25rem]">
+            <dd className="~mt-[1rem]/[1.25rem] ~mb-[2rem]/[7rem]">
               (노량진 수산시장 방향)지하도를 통해 들어오신 후, 에스컬레이터
               맞은편에 위치한 엘리베이터를 이용해 2층으로 올라오시면 됩니다.
             </dd>
@@ -75,7 +75,7 @@ const page = () => {
               />
               <span>지하철</span>
             </dt>
-            <dd className="~mt-[1rem]/[1.25rem] ~mb-[1rem]/[3.25rem]">
+            <dd className="~mt-[1rem]/[1.25rem] ~mb-[2rem]/[7rem]">
               1,9호선 노량진역 하차 후 9번출구,7번출구,6번출구 도보 5분거리
             </dd>
             <dt className="flex items-center gap-4">

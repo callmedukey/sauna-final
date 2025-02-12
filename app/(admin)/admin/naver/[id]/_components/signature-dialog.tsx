@@ -1,19 +1,19 @@
 "use client";
 
+import { pdf } from "@react-pdf/renderer";
 import { useRef, useState } from "react";
 import SignaturePad from "react-signature-canvas";
-import { pdf } from "@react-pdf/renderer";
 
 import { saveSignature } from "@/actions/signatures";
-import { Button } from "@/components/ui/button";
+import { ConditionsText } from "@/components/conditions-text";
 import { ConditionsPDF } from "@/components/pdf/ConditionsPDF";
+import { Button } from "@/components/ui/button";
 import {
   Dialog,
   DialogContent,
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
-import { ConditionsText } from "@/components/conditions-text";
 
 type Props = {
   reservationId: string;
@@ -45,10 +45,10 @@ export function SignatureDialog({
 
       // Generate PDF blob
       const blob = await pdf(
-        <ConditionsPDF 
+        <ConditionsPDF
           key={new Date().getTime()}
-          signatureImage={signatureData} 
-          userName={userName} 
+          signatureImage={signatureData}
+          userName={userName}
         />
       ).toBlob();
 

@@ -38,17 +38,24 @@ const LoginContent = ({
   setIsOpen: (isOpen: boolean) => void;
 }) => {
   const handleLogin = async (data: z.infer<typeof LoginSchema>) => {
-    const response = await signIn("credentials", {
-      email: data.email,
-      password: data.password,
-      callbackUrl: "/",
-      redirect: false,
-    });
+    try {
+      const response = await signIn("credentials", {
+        email: data.email,
+        password: data.password,
+        redirect: false,
+      });
 
-    if (response?.error) {
-      alert("아이디/비밀번호를 확인해주세요");
-    } else {
-      setIsOpen(false);
+      if (response?.error) {
+        alert("아이디/비밀번호를 확인해주세요");
+        return;
+      }
+
+      if (response?.ok) {
+        setIsOpen(false);
+      }
+    } catch (error) {
+      console.error("Login error:", error);
+      alert("로그인 중 오류가 발생했습니다. 다시 시도해주세요.");
     }
   };
   return (
@@ -112,7 +119,7 @@ const LoginContent = ({
             )}
           />
           <button
-            className="text-xs text-siteBlack underline underline-offset-4 lg:!-mt-6 lg:self-start"
+            className="mx-auto text-xs text-siteBlack underline underline-offset-4 lg:!-mt-6"
             type="button"
             onClick={() => setRecover(true)}
           >

@@ -15,6 +15,9 @@ export default {
     screens,
     fontSize,
     extend: {
+      maxWidth: {
+        "screen-3xl": "75rem",
+      },
       fontFamily: {
         pretendard: ["var(--font-pretendard)"],
       },

@@ -114,7 +114,7 @@ body {
   }
 
   .page-padding {
-    @apply px-4 ~pt-[6rem]/[16.875rem] ~pb-[4rem]/[6rem];
+    @apply px-4 ~pt-[4rem]/[10.45rem] ~pb-[4rem]/[6rem];
   }
 
   .step-title {

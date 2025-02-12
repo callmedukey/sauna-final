@@ -37,6 +37,14 @@ const Step2 = ({
     const totalAdults = persons.men + persons.women;
     const totalChildren = persons.children + persons.infants;
 
+    // Filter out MIX rooms when only one gender is present
+    if (
+      room.type.includes("MIX") &&
+      (persons.men === 0 || persons.women === 0)
+    ) {
+      return false;
+    }
+
     // Get base max capacity based on room type
     const baseMaxCapacity = room.type.includes("MIX")
       ? 6
@@ -77,10 +85,7 @@ const Step2 = ({
       return (
         room.name.includes("남성룸") ||
         (hasChildren && room.name.includes("남성+가족룸")) ||
-        (!hasChildren &&
-          persons.men > 1 &&
-          room.name.includes("남성+가족룸")) ||
-        room.type.includes("MIX")
+        (!hasChildren && persons.men > 1 && room.name.includes("남성+가족룸"))
       );
     }
     if (persons.men === 0 && persons.women > 0) {
@@ -88,10 +93,7 @@ const Step2 = ({
       return (
         room.name.includes("여성룸") ||
         (hasChildren && room.name.includes("여성+가족룸")) ||
-        (!hasChildren &&
-          persons.women > 1 &&
-          room.name.includes("여성+가족룸")) ||
-        room.type.includes("MIX")
+        (!hasChildren && persons.women > 1 && room.name.includes("여성+가족룸"))
       );
     }
     return false;

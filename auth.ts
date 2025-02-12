@@ -94,6 +94,10 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       },
     }),
   ],
+  trustHost: true,
+  pages: {
+    signIn: "/",
+  },
   callbacks: {
     jwt({ token, user }) {
       if (user) {

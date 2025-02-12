@@ -316,42 +316,42 @@ export default function Step4({
 
           <hr className="col-span-full w-full border-siteOddGray ~my-[0.94rem]/[2.5rem]" />
 
-          <div className="flex">
-            <div className="flex flex-col text-sm text-gray-600">
+          <div>
+            <div className="text-sm text-gray-600">
               <div>포인트 사용</div>
               <div>보유 포인트 ({maxPoint.toLocaleString()}P)</div>
-            </div>
-            <div className="ml-auto flex items-center gap-x-1">
-              <input
-                type="number"
-                value={usedPoint || ""}
-                min={0}
-                max={maxPoint}
-                onBlur={(e) => {
-                  if (!e.target.value) {
-                    handleUsedPoint(0);
-                  } else if (isNaN(parseInt(e.target.value))) {
-                    handleUsedPoint(0);
-                  } else if (parseInt(e.target.value) > maxPoint) {
-                    handleUsedPoint(maxPoint);
-                  } else {
-                    handleUsedPoint(parseInt(e.target.value));
-                  }
-                }}
-                onChange={(e) => {
-                  const value =
-                    e.target.value === "" ? 0 : parseInt(e.target.value);
-                  if (isNaN(value) || value < 0) {
-                    handleUsedPoint(0);
-                  } else if (value > maxPoint) {
-                    handleUsedPoint(maxPoint);
-                  } else {
-                    handleUsedPoint(value);
-                  }
-                }}
-                className="h-8 w-24 rounded border border-gray-300 bg-white px-2 text-right"
-              />
-              <span className="text-sm">P</span>
+              <div className="mt-2 flex items-center gap-x-1">
+                <input
+                  type="number"
+                  value={usedPoint || ""}
+                  min={0}
+                  max={maxPoint}
+                  onBlur={(e) => {
+                    if (!e.target.value) {
+                      handleUsedPoint(0);
+                    } else if (isNaN(parseInt(e.target.value))) {
+                      handleUsedPoint(0);
+                    } else if (parseInt(e.target.value) > maxPoint) {
+                      handleUsedPoint(maxPoint);
+                    } else {
+                      handleUsedPoint(parseInt(e.target.value));
+                    }
+                  }}
+                  onChange={(e) => {
+                    const value =
+                      e.target.value === "" ? 0 : parseInt(e.target.value);
+                    if (isNaN(value) || value < 0) {
+                      handleUsedPoint(0);
+                    } else if (value > maxPoint) {
+                      handleUsedPoint(maxPoint);
+                    } else {
+                      handleUsedPoint(value);
+                    }
+                  }}
+                  className="h-8 w-48 rounded border border-gray-300 bg-white px-2 text-right"
+                />
+                <span className="text-sm">P</span>
+              </div>
             </div>
           </div>
 

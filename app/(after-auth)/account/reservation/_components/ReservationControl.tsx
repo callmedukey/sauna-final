@@ -43,6 +43,7 @@ const ReservationControl = ({ reservations, points, specialDates }: Props) => {
     extra: "",
     last: "",
   });
+
   const [date, setDate] = useState(format(new Date(), "yyyy/MM/dd"));
   const [time, setTime] = useState("");
   const [usedPoint, setUsedPoint] = useState(0);
@@ -69,7 +70,10 @@ const ReservationControl = ({ reservations, points, specialDates }: Props) => {
   };
 
   return (
-    <article className="mx-auto max-w-[55rem] py-[3.125rem] ~px-[0rem]/[4.5rem]">
+    <article className="mx-auto max-w-[55rem] ~px-[0rem]/[4.5rem] ~pt-[3.125rem]/[7.5rem]">
+      <h1 className="page-title break-keep ~mb-8/16">
+        솔로사우나 레포_노량진점 사우나 이용 요금표
+      </h1>
       <AnimatePresence>
         <Step0 key="step0" />
         <Step1

@@ -3,7 +3,6 @@
 import { NaverReservation } from "@prisma/client";
 import { MoreHorizontal } from "lucide-react";
 import Link from "next/link";
-import { useState } from "react";
 
 import { cancelNaverReservation } from "@/actions/naver-reservations";
 import { Button } from "@/components/ui/button";
@@ -21,6 +20,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import { RoomInfo } from "@/definitions/constants";
 
 interface NaverReservationsTableProps {
   reservations: NaverReservation[];
@@ -46,6 +46,16 @@ export function NaverReservationsTable({
     }
   };
 
+  const getRoomTypeName = (roomType: string) => {
+    const baseType = roomType.replace("WEEKEND", "");
+    const isWeekend = roomType.includes("WEEKEND");
+    const roomInfo = RoomInfo[baseType as keyof typeof RoomInfo];
+
+    return roomInfo
+      ? `${roomInfo.name}${isWeekend ? " (주말)" : ""}`
+      : roomType;
+  };
+
   return (
     <Table>
       <TableHeader>
@@ -53,6 +63,7 @@ export function NaverReservationsTable({
           <TableHead>이름</TableHead>
           <TableHead>날짜</TableHead>
           <TableHead>시간</TableHead>
+          <TableHead>객실 타입</TableHead>
           <TableHead>예약 번호</TableHead>
           <TableHead></TableHead>
         </TableRow>
@@ -60,7 +71,7 @@ export function NaverReservationsTable({
       <TableBody>
         {reservations.length === 0 ? (
           <TableRow>
-            <TableCell colSpan={5} className="text-center">
+            <TableCell colSpan={6} className="text-center">
               예약이 없습니다
             </TableCell>
           </TableRow>
@@ -76,15 +87,18 @@ export function NaverReservationsTable({
               <TableCell className="min-w-[6.25rem]">
                 {reservation.time}
               </TableCell>
+              <TableCell className="min-w-48">
+                {getRoomTypeName(reservation.roomType)}
+              </TableCell>
               <TableCell className="min-w-[6.25rem]">
                 {reservation.reservationNumber}
               </TableCell>
-              <TableCell className="w-[5rem]">
+              <TableCell className="w-20">
                 <DropdownMenu>
                   <DropdownMenuTrigger asChild>
-                    <Button variant="ghost" className="h-8 w-8 p-0">
+                    <Button variant="ghost" className="size-8 p-0">
                       <span className="sr-only">메뉴 열기</span>
-                      <MoreHorizontal className="h-4 w-4" />
+                      <MoreHorizontal className="size-4" />
                     </Button>
                   </DropdownMenuTrigger>
                   <DropdownMenuContent align="end">
@@ -97,7 +111,7 @@ export function NaverReservationsTable({
                       </Link>
                     </DropdownMenuItem>
                     <DropdownMenuItem
-                      className="text-red-600 cursor-pointer"
+                      className="cursor-pointer text-red-600"
                       onClick={() => handleCancelReservation(reservation.id)}
                     >
                       예약 취소

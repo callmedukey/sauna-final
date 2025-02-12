@@ -4,12 +4,9 @@ import React from "react";
 import { Button } from "@/components/ui/button";
 
 const instructions = [
-  "룸별 인원제한 - 일반룸 (1명~3명) / 일반룸+대형사우나 (3명~6명)",
-  "만6세 미만 유아는 무료로 입장할 수 있습니다.",
-  "만6세~12세 어린이의 입장료는 20,000원입니다.",
-  "솔로사우나 노량진점에서는 남성과 여성이 함께 이용할 수 있는 대형사우나룸이 제공됩니다. 혼성 이용 가능 공간은 대형사우나룸에 한정됩니다. (샤워룸은 공용 사용 불가)",
-  "이용제한 인원 수 내에서는 현장에서 추가 인원 결제 가능합니다. (이용제한 인원 수를 초과할 경우 입장이 제한이 될 수 있습니다.)",
-  "예약에 도움이 필요하신 고객님께서는 편하게 전화주시면 안내해드리겠습니다.\n(tel. 070-8860-8553)",
+  "예약시간 변동은 예약시간 앞뒤 상황에 따라 변경이 불가할 수 있습니다.",
+  "이용제한 인원 수 내에서는 현장에서 추가 인원 결제 가능합니다. (이용제한 인원 수를 초과 할 경우 입장이\n제한이 될 수 있습니다.)",
+  "예약에 도움이 필요하신 고객님께서는 편하게 전화주시면 안내해드리겠습니다.\n(tel.070-8860-8553)",
 ];
 
 interface Props {
@@ -46,7 +43,7 @@ export default function Step1({
     }
 
     const newValue = people[type] + value;
-    
+
     // Return early if trying to exceed maximum limits
     if ((type === "men" || type === "women") && newValue > 4) return;
     if (type === "children" && newValue > 2) return;
@@ -141,17 +138,16 @@ export default function Step1({
           </Button>
         </div>
       </section>
-      <ul className=" list-inside list-disc  border-b-2 border-b-siteBlack border-t-siteOddGray px-4 py-0   text-xs text-siteTextGray ~mt-[1.25rem]/[3.125rem] sm:border-t sm:px-0 sm:py-5">
+      <ul className="flex flex-col border-b-2 border-b-siteBlack border-t-siteOddGray px-4 py-0 text-xs text-siteTextGray ~mt-[1.25rem]/[3.125rem] sm:border-t sm:px-0 sm:py-5">
         {instructions.map((instruction, index) => (
           <li
             key={index}
-            className={`mx-auto max-w-[27.5rem] whitespace-pre-line leading-[140%] tracking-[0.0075rem] sm:mx-[revert] ${
-              index === 0 ? 'pt-[1.875rem]' : ''
-            } ${
-              index === instructions.length - 1 ? 'pb-20' : ''
-            }`}
+            className={`mx-auto flex whitespace-pre-line leading-[140%] tracking-[0.0075rem] sm:mx-[revert] ${
+              index === 0 ? "pt-[1.875rem]" : ""
+            } ${index === instructions.length - 1 ? "pb-20" : ""}`}
           >
-            {instruction}
+            <span className="mr-2">-</span>
+            <span>{instruction}</span>
           </li>
         ))}
       </ul>

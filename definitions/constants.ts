@@ -283,7 +283,7 @@ export const RoomInfo = {
     type: "WOMEN90",
   },
   MEN_FAMILY: {
-    name: "남성+가족룸[100분]",
+    name: "남성+대형사우나룸 [100분]",
     price: 120000,
     // extra: "(기본 2인) - 최대 2명 추가 가능",
     extra: "(기본 2인)",
@@ -291,7 +291,7 @@ export const RoomInfo = {
     type: "MEN_FAMILY",
   },
   WOMEN_FAMILY: {
-    name: "여성+가족룸[100분]",
+    name: "여성+대형사우나룸 [100분]",
     price: 120000,
     // extra: "(기본 2인) - 최대 2명 추가 가능",
     extra: "(기본 2인)",
@@ -299,7 +299,7 @@ export const RoomInfo = {
     type: "WOMEN_FAMILY",
   },
   MIX: {
-    name: "여성룸 + 남성룸 + 대형사우나룸",
+    name: "여성룸 + 남성룸 + 대형사우나룸 [100분]",
     price: 120000,
     // extra: "(기본 2인) - 최대 4명 추가 가능",
     extra: "(기본 2인)",

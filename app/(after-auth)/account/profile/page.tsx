@@ -16,8 +16,13 @@ const page = async () => {
     where: {
       id: session.user.id,
     },
-    omit: {
-      password: true,
+    select: {
+      id: true,
+      name: true,
+      email: true,
+      phone: true,
+      point: true,
+      role: true,
     },
   });
 

@@ -1,18 +1,20 @@
 "use client";
 
-import { Calendar } from "@/components/ui/calendar";
+import { format } from "date-fns";
+import { ko } from "date-fns/locale";
 import { useState } from "react";
+
+import { Button } from "@/components/ui/button";
+import { Calendar } from "@/components/ui/calendar";
 import {
   Dialog,
   DialogContent,
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
-import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+
 import { addSpecialDate, getSpecialDates } from "../_actions";
-import { ko } from "date-fns/locale";
-import { format } from "date-fns";
 
 export default function SpecialDatesCalendar({
   onUpdate,
@@ -52,7 +54,7 @@ export default function SpecialDatesCalendar({
   };
 
   return (
-    <div className="p-4 bg-white rounded-lg shadow max-w-[400px]">
+    <div className="max-w-[400px] rounded-lg bg-white p-4 shadow">
       <Calendar
         mode="single"
         selected={date}

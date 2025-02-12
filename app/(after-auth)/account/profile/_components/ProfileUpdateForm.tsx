@@ -20,7 +20,11 @@ import {
 } from "@/components/ui/form";
 import { UpdateProfileSchema } from "@/definitions/zod";
 
-const ProfileUpdateForm = ({ user }: { user: Omit<User, "password"> }) => {
+const ProfileUpdateForm = ({
+  user,
+}: {
+  user: Pick<User, "id" | "name" | "email" | "phone" | "point" | "role">;
+}) => {
   const session = useSession();
   console.log(session);
   const [smsSent, setSmsSent] = useState(false);

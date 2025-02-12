@@ -10,6 +10,7 @@ import {
   Carousel,
 } from "@/components/ui/extension/carousel";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { cn } from "@/lib/utils";
 import FamilyImg1 from "@/public/guide/family/family-1.webp";
 import FamilyImg2 from "@/public/guide/family/family-2.webp";
 import FamilyImg3 from "@/public/guide/family/family-3.webp";
@@ -135,7 +136,7 @@ const page = async () => {
                   {tabData.women.carouselImages.map((image, index) => (
                     <SliderMainItem
                       key={index}
-                      className="relative bg-transparent"
+                      className={cn("relative bg-transparent")}
                     >
                       <Image
                         placeholder="blur"
@@ -156,7 +157,7 @@ const page = async () => {
                   <SliderThumbItem
                     key={index}
                     index={index}
-                    className="h-full bg-transparent"
+                    className={cn("h-full bg-transparent")}
                   >
                     <div className="flex size-full items-center justify-center rounded-xl bg-background outline outline-1 outline-border">
                       <Image
@@ -181,7 +182,7 @@ const page = async () => {
               </p>
             </section>
             <section className="-mx-4 min-w-full bg-siteBgGray px-4 ~my-[4rem]/[6rem] ~py-[1.25rem]/[3.125rem]">
-              <h3 className="page-title ~mb-[1.5rem]/[2.5rem] lg:text-[1.5625rem]">
+              <h3 className="page-title mt-0 ~mb-[1.5rem]/[2.5rem] lg:text-[1.5625rem]">
                 실내 구비 품목
               </h3>
               <div className="mx-auto max-w-screen-md whitespace-pre-wrap leading-[175%] text-siteTextGray ~/md:~text-xs/base">
@@ -194,7 +195,7 @@ const page = async () => {
               </div>
             </section>
             <section className="w-full ~mt-[4rem]/[6rem] ~pt-[1.25rem]/[3.125rem]">
-              <h4 className="page-title flex flex-col gap-1 ~mb-[1.5rem]/[2.5rem] lg:text-[1.5625rem]">
+              <h4 className="page-title mt-0 flex flex-col gap-1 ~mb-[1.5rem]/[2.5rem] lg:text-[1.5625rem]">
                 1인 제공 품목
                 <span className="text-xs font-normal text-siteTextGray">
                   상황에 따라 제공품은 변동될 수 있습니다.
@@ -265,7 +266,7 @@ const page = async () => {
               </p>
             </section>
             <section className="-mx-4 min-w-full bg-siteBgGray px-4 ~my-[4rem]/[6rem] ~py-[1.25rem]/[3.125rem]">
-              <h3 className="page-title ~mb-[1.5rem]/[2.5rem] lg:text-[1.5625rem]">
+              <h3 className="page-title mt-0 ~mb-[1.5rem]/[2.5rem] lg:text-[1.5625rem]">
                 실내 구비 품목
               </h3>
               <div className="mx-auto max-w-screen-md whitespace-pre-wrap leading-[175%] text-siteTextGray ~/md:~text-xs/base">
@@ -278,7 +279,7 @@ const page = async () => {
               </div>
             </section>
             <section className="w-full ~mt-[4rem]/[6rem] ~pt-[1.25rem]/[3.125rem]">
-              <h4 className="page-title flex flex-col gap-1 ~mb-[1.5rem]/[2.5rem] lg:text-[1.5625rem]">
+              <h4 className="page-title mt-0 flex flex-col gap-1 ~mb-[1.5rem]/[2.5rem] lg:text-[1.5625rem]">
                 1인 제공 품목
                 <span className="text-xs font-normal text-siteTextGray">
                   상황에 따라 제공품은 변동될 수 있습니다.
@@ -349,7 +350,7 @@ const page = async () => {
               </p>
             </section>
             <section className="-mx-4 min-w-full bg-siteBgGray px-4 ~my-[4rem]/[6rem] ~py-[1.25rem]/[3.125rem]">
-              <h3 className="page-title ~mb-[1.5rem]/[2.5rem] lg:text-[1.5625rem]">
+              <h3 className="page-title mt-0 ~mb-[1.5rem]/[2.5rem] lg:text-[1.5625rem]">
                 실내 구비 품목
               </h3>
               <div className="mx-auto max-w-screen-md whitespace-pre-wrap leading-[175%] text-siteTextGray ~/md:~text-xs/base">
@@ -362,7 +363,7 @@ const page = async () => {
               </div>
             </section>
             <section className="w-full ~mt-[4rem]/[6rem] ~pt-[1.25rem]/[3.125rem]">
-              <h4 className="page-title flex flex-col gap-1 ~mb-[1.5rem]/[2.5rem] lg:text-[1.5625rem]">
+              <h4 className="page-title mt-0 flex flex-col gap-1 ~mb-[1.5rem]/[2.5rem] lg:text-[1.5625rem]">
                 1인 제공 품목
                 <span className="text-xs font-normal text-siteTextGray">
                   상황에 따라 제공품은 변동될 수 있습니다.
@@ -432,8 +433,8 @@ const page = async () => {
                 {tabData.powder.description}
               </p>
             </section>
-            <section className="-mx-4 min-w-full bg-siteBgGray px-4 ~mt-[4rem]/[6rem] ~py-[1.25rem]/[3.125rem]">
-              <h3 className="page-title ~mb-[1.5rem]/[2.5rem] lg:text-[1.5625rem]">
+            <section className="-mx-4 min-w-full bg-siteBgGray px-4">
+              <h3 className="page-title mt-0 ~mb-[1.5rem]/[2.5rem] lg:text-[1.5625rem]">
                 실내 구비 품목
               </h3>
               <div className="mx-auto max-w-screen-md whitespace-pre-wrap leading-[175%] text-siteTextGray ~/md:~text-xs/base">

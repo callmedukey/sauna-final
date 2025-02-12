@@ -1,7 +1,9 @@
 "use client";
 
 import { useEffect, useState } from "react";
+
 import { Button } from "@/components/ui/button";
+
 import { deleteSpecialDate, getSpecialDates } from "../_actions";
 
 interface SpecialDate {
@@ -44,6 +46,7 @@ export default function SpecialDatesList({
         await loadSpecialDates();
         alert("특별 날짜가 삭제되었습니다");
       } catch (error) {
+        console.error(error);
         alert("특별 날짜 삭제에 실패했습니다");
       }
     }
@@ -51,15 +54,15 @@ export default function SpecialDatesList({
 
   return (
     <div className="space-y-6">
-      <div className="bg-white rounded-lg shadow p-4">
-        <h2 className="text-xl font-semibold mb-4">예약 불가 날짜 현황</h2>
+      <div className="rounded-lg bg-white p-4 shadow">
+        <h2 className="mb-4 text-xl font-semibold">예약 불가 날짜 현황</h2>
         <div className="space-y-2">
           {specialDates
             .filter((date) => date.type === "BLOCKED")
             .map((date) => (
               <div
                 key={date.id}
-                className="flex justify-between items-center p-2 border rounded"
+                className="flex items-center justify-between rounded border p-2"
               >
                 <span>{date.date}</span>
                 <Button
@@ -74,15 +77,15 @@ export default function SpecialDatesList({
         </div>
       </div>
 
-      <div className="bg-white rounded-lg shadow p-4">
-        <h2 className="text-xl font-semibold mb-4">할인 날짜 현황</h2>
+      <div className="rounded-lg bg-white p-4 shadow">
+        <h2 className="mb-4 text-xl font-semibold">할인 날짜 현황</h2>
         <div className="space-y-2">
           {specialDates
             .filter((date) => date.type === "DISCOUNT")
             .map((date) => (
               <div
                 key={date.id}
-                className="flex justify-between items-center p-2 border rounded"
+                className="flex items-center justify-between rounded border p-2"
               >
                 <span>
                   {date.date} - {date.discount}% 할인

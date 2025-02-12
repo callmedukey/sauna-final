@@ -44,3 +44,4 @@ next-env.d.ts
 # Signatures
 admin/signatures/*
 !admin/signatures/.gitkeep
+.cursorrules

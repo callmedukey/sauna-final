@@ -38,7 +38,7 @@ const CommunityDropdown = () => {
       >
         <DropdownMenuItem asChild>
           <Link href="/community/notice" className="w-full justify-center">
-            공지 사항
+            공지사항
           </Link>
         </DropdownMenuItem>
         <DropdownMenuItem asChild>

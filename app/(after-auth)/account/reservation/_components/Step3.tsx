@@ -125,35 +125,74 @@ const Step3 = ({
   const isTimeSlotAvailable = (timeSlot: { startingTime: string }) => {
     if (!date || !selectedRoom.type) return false;
 
-    // Check if the time slot is in the past for today's date
+    // Get current time in Korea timezone
     const now = new Date();
     const koreaTime = new Date(
       now.toLocaleString("en-US", { timeZone: "Asia/Seoul" })
     );
-    const [hours, minutes] = timeSlot.startingTime.split(":").map(Number);
-    const slotDateTime = new Date(date);
-    slotDateTime.setHours(hours, minutes, 0, 0);
 
-    if (
-      format(date, "yyyy/MM/dd") === format(koreaTime, "yyyy/MM/dd") &&
-      isBefore(slotDateTime, koreaTime)
-    ) {
-      return false;
-    }
+    // Convert selected date to Korea timezone
+    const selectedDate = new Date(date);
+    const koreaSelectedDate = new Date(
+      selectedDate.toLocaleString("en-US", { timeZone: "Asia/Seoul" })
+    );
 
+    // Format dates for comparison (handle both yyyy-MM-dd and yyyy/MM/dd formats)
+    const formattedKoreaDate = format(koreaTime, "yyyy-MM-dd").replace(
+      /-/g,
+      "/"
+    );
+    const formattedSelectedDate = format(
+      koreaSelectedDate,
+      "yyyy-MM-dd"
+    ).replace(/-/g, "/");
+
+    // Get hours and minutes for the time slot
     const [slotHours, slotMinutes] = timeSlot.startingTime
       .split(":")
       .map(Number);
+    const slotDateTime = new Date(koreaSelectedDate);
+    slotDateTime.setHours(slotHours, slotMinutes, 0, 0);
+
+    // If it's the same day, check if the slot is at least 1 hour in the future
+    if (formattedKoreaDate === formattedSelectedDate) {
+      const koreaHours = koreaTime.getHours();
+      const koreaMinutes = koreaTime.getMinutes();
+
+      // Convert both times to minutes for comparison
+      const slotTotalMinutes = slotHours * 60 + slotMinutes;
+      const koreaTotalMinutes = koreaHours * 60 + koreaMinutes;
+
+      // Check if slot is less than 1 hour ahead of current time
+      if (slotTotalMinutes - koreaTotalMinutes < 60) {
+        return false;
+      }
+    }
+
+    // Check if the time slot is in the past for today's date
+    if (isBefore(slotDateTime, koreaTime)) {
+      return false;
+    }
+
     const slotStartTime = slotHours * 60 + slotMinutes;
     const slotDuration = getRoomDuration(selectedRoom.type);
 
     // Check against all existing reservations
     for (const reservation of reservations) {
-      if (reservation.date !== format(date as Date, "yyyy/MM/dd")) continue;
+      // Handle both date formats for comparison
+      const normalizedReservationDate = reservation.date.replace(/-/g, "/");
+      const normalizedSelectedDate = format(date as Date, "yyyy/MM/dd");
+
+      if (normalizedReservationDate !== normalizedSelectedDate) continue;
 
       const [resHours, resMinutes] = reservation.time.split(":").map(Number);
       const resStartTime = resHours * 60 + resMinutes;
       const resDuration = getRoomDuration(reservation.roomType);
+
+      // Check for exact time match first
+      if (timeSlot.startingTime === reservation.time) {
+        return false;
+      }
 
       const hasOverlap = checkTimeOverlap(
         slotStartTime,

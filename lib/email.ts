@@ -43,7 +43,7 @@ export async function sendEmail({
     }
 
     const mailOptions = {
-      from: `"Your App Name" <${process.env.SMTP_USER}>`,
+      from: `"솔로사우나레포" <${process.env.SMTP_USER}>`,
       to,
       subject,
       text,

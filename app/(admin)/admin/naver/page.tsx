@@ -2,8 +2,9 @@ import { format } from "date-fns";
 import { toZonedTime } from "date-fns-tz";
 
 import prisma from "@/lib/prisma";
-import { NaverReservationsTable } from "./_components/naver-reservations-table";
+
 import { CreateReservationDialog } from "./_components/create-reservation-dialog";
+import { NaverReservationsTable } from "./_components/naver-reservations-table";
 
 export default async function NaverReservationsPage() {
   // Get current time in KST
@@ -12,9 +13,14 @@ export default async function NaverReservationsPage() {
 
   const reservations = await prisma.naverReservation.findMany({
     where: {
-      date: koreanDate,
+      date: {
+        gte: koreanDate,
+      },
     },
     orderBy: [
+      {
+        date: "asc",
+      },
       {
         time: "asc",
       },
