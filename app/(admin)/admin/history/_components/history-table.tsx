@@ -170,7 +170,7 @@ export function HistoryTable({
               </TableCell>
               <TableCell className="min-w-[6.25rem]">
                 {reservation.type === "naver"
-                  ? (reservation as NaverReservation).reservationNumber
+                  ? reservation.reservationNumber
                   : "-"}
               </TableCell>
               <TableCell className="w-20">
