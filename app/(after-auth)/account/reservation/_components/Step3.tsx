@@ -2,6 +2,7 @@
 import type { Reservation, SpecialDate } from "@prisma/client";
 import { format, isWeekend, isBefore, isAfter } from "date-fns";
 import { ko } from "date-fns/locale";
+import { toZonedTime } from "date-fns-tz";
 import { Clock } from "lucide-react";
 import { motion } from "motion/react";
 import React, { useMemo, useState } from "react";
@@ -10,6 +11,17 @@ import { Calendar } from "@/components/ui/calendar";
 import { Rooms, WeekendRooms } from "@/definitions/constants";
 import { checkTimeOverlap, getRoomDuration } from "@/lib/timeUtils";
 import { cn } from "@/lib/utils";
+
+const KOREAN_TIMEZONE = "Asia/Seoul";
+
+// Utility function to normalize date format
+const normalizeDateFormat = (date: string | Date) => {
+  if (date instanceof Date) {
+    return format(date, "yyyy-MM-dd");
+  }
+  // Convert both yyyy/MM/dd and yyyy-MM-dd to yyyy-MM-dd
+  return date.replace(/\//g, "-");
+};
 
 const Step3 = ({
   handleTime,
@@ -38,18 +50,17 @@ const Step3 = ({
   const handleSelectDate = (date: Date | undefined) => {
     if (!date) return;
     setDate(date);
-    handleDate(format(date, "yyyy/MM/dd"));
+    // Store date in yyyy-MM-dd format
+    handleDate(format(date, "yyyy-MM-dd"));
     handleTime("");
   };
 
   const isDateDisabled = (date: Date) => {
-    // First check if it's a past date
-    const koreaDate = new Date(
-      date.toLocaleString("en-US", { timeZone: "Asia/Seoul" })
-    );
-    const koreaToday = new Date(
-      new Date().toLocaleString("en-US", { timeZone: "Asia/Seoul" })
-    );
+    // Convert to Korean timezone for consistent comparison
+    const koreaDate = toZonedTime(date, KOREAN_TIMEZONE);
+    const koreaToday = toZonedTime(new Date(), KOREAN_TIMEZONE);
+
+    // Reset hours to ensure date-only comparison
     koreaToday.setHours(0, 0, 0, 0);
 
     // Check if date is more than 6 months in the future
@@ -64,9 +75,9 @@ const Step3 = ({
     }
 
     // Then check if it's a blocked date
-    const dateStr = format(date, "yyyy-MM-dd");
+    const dateStr = format(koreaDate, "yyyy-MM-dd");
     const specialDate = specialDates.find(
-      (sd) => sd.date.replace(/\//g, "-") === dateStr
+      (sd) => normalizeDateFormat(sd.date) === dateStr
     );
     return specialDate?.type === "BLOCKED";
   };
@@ -74,7 +85,7 @@ const Step3 = ({
   const renderDayContents = (day: number, date: Date) => {
     const dateStr = format(date, "yyyy-MM-dd");
     const specialDate = specialDates.find(
-      (sd) => sd.date.replace(/\//g, "-") === dateStr
+      (sd) => normalizeDateFormat(sd.date) === dateStr
     );
 
     if (specialDate?.type === "BLOCKED") {
@@ -103,18 +114,15 @@ const Step3 = ({
   const handleSelectTime = (time: string) => {
     if (!date) return;
 
-    // Check if the selected time is in the past for today's date
-    const now = new Date();
-    const koreaTime = new Date(
-      now.toLocaleString("en-US", { timeZone: "Asia/Seoul" })
-    );
+    // Convert to Korean timezone for consistent comparison
+    const now = toZonedTime(new Date(), KOREAN_TIMEZONE);
     const [hours, minutes] = time.split(":").map(Number);
-    const selectedDateTime = new Date(date);
+    const selectedDateTime = toZonedTime(date, KOREAN_TIMEZONE);
     selectedDateTime.setHours(hours, minutes, 0, 0);
 
     if (
-      format(date, "yyyy/MM/dd") === format(koreaTime, "yyyy/MM/dd") &&
-      isBefore(selectedDateTime, koreaTime)
+      normalizeDateFormat(date) === normalizeDateFormat(now) &&
+      isBefore(selectedDateTime, now)
     ) {
       alert("지난 시간은 선택할 수 없습니다.");
       return;
@@ -126,39 +134,25 @@ const Step3 = ({
   const isTimeSlotAvailable = (timeSlot: { startingTime: string }) => {
     if (!date || !selectedRoom.type) return false;
 
-    // Get current time in Korea timezone
-    const now = new Date();
-    const koreaTime = new Date(
-      now.toLocaleString("en-US", { timeZone: "Asia/Seoul" })
-    );
+    // Convert to Korean timezone for consistent comparison
+    const now = toZonedTime(new Date(), KOREAN_TIMEZONE);
+    const selectedDate = toZonedTime(date, KOREAN_TIMEZONE);
 
-    // Convert selected date to Korea timezone
-    const selectedDate = new Date(date);
-    const koreaSelectedDate = new Date(
-      selectedDate.toLocaleString("en-US", { timeZone: "Asia/Seoul" })
-    );
-
-    // Format dates for comparison (handle both yyyy-MM-dd and yyyy/MM/dd formats)
-    const formattedKoreaDate = format(koreaTime, "yyyy-MM-dd").replace(
-      /-/g,
-      "/"
-    );
-    const formattedSelectedDate = format(
-      koreaSelectedDate,
-      "yyyy-MM-dd"
-    ).replace(/-/g, "/");
+    // Format dates for comparison using normalized format
+    const formattedKoreaDate = normalizeDateFormat(now);
+    const formattedSelectedDate = normalizeDateFormat(selectedDate);
 
     // Get hours and minutes for the time slot
     const [slotHours, slotMinutes] = timeSlot.startingTime
       .split(":")
       .map(Number);
-    const slotDateTime = new Date(koreaSelectedDate);
+    const slotDateTime = toZonedTime(selectedDate, KOREAN_TIMEZONE);
     slotDateTime.setHours(slotHours, slotMinutes, 0, 0);
 
     // If it's the same day, check if the slot is at least 1 hour in the future
     if (formattedKoreaDate === formattedSelectedDate) {
-      const koreaHours = koreaTime.getHours();
-      const koreaMinutes = koreaTime.getMinutes();
+      const koreaHours = now.getHours();
+      const koreaMinutes = now.getMinutes();
 
       // Convert both times to minutes for comparison
       const slotTotalMinutes = slotHours * 60 + slotMinutes;
@@ -171,7 +165,7 @@ const Step3 = ({
     }
 
     // Check if the time slot is in the past for today's date
-    if (isBefore(slotDateTime, koreaTime)) {
+    if (isBefore(slotDateTime, now)) {
       return false;
     }
 
@@ -180,9 +174,9 @@ const Step3 = ({
 
     // Check against all existing reservations
     for (const reservation of reservations) {
-      // Handle both date formats for comparison
-      const normalizedReservationDate = reservation.date.replace(/-/g, "/");
-      const normalizedSelectedDate = format(date as Date, "yyyy/MM/dd");
+      // Normalize both dates for comparison
+      const normalizedReservationDate = normalizeDateFormat(reservation.date);
+      const normalizedSelectedDate = normalizeDateFormat(date);
 
       if (normalizedReservationDate !== normalizedSelectedDate) continue;
 
