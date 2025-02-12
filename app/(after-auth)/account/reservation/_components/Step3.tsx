@@ -13,31 +13,14 @@ import { checkTimeOverlap, getRoomDuration } from "@/lib/timeUtils";
 import { cn } from "@/lib/utils";
 
 const KOREAN_TIMEZONE = "Asia/Seoul";
-const DEBUG_DATE = "2025/02/20"; // Changed to match stored format
 
 // Utility function to normalize date format
 const normalizeDateFormat = (date: string | Date) => {
   if (date instanceof Date) {
-    const result = format(date, "yyyy-MM-dd");
-    const shouldLog = result === DEBUG_DATE;
-    if (shouldLog) {
-      console.log("Normalizing Date object:", {
-        original: date.toISOString(),
-        normalized: result,
-      });
-    }
-    return result;
+    return format(date, "yyyy-MM-dd");
   }
   // Convert both yyyy/MM/dd and yyyy-MM-dd to yyyy-MM-dd
-  const result = date.replace(/\//g, "-");
-  const shouldLog = result === DEBUG_DATE;
-  if (shouldLog) {
-    console.log("Normalizing string date:", {
-      original: date,
-      normalized: result,
-    });
-  }
-  return result;
+  return date.replace(/\//g, "-");
 };
 
 const Step3 = ({
@@ -61,63 +44,41 @@ const Step3 = ({
   selectedTime: string;
   specialDates: Pick<SpecialDate, "date" | "type" | "discount">[];
 }) => {
-  console.log("Current reservations:", reservations);
+  console.log(reservations);
   const [date, setDate] = useState<Date | undefined>(undefined);
 
   const handleSelectDate = (date: Date | undefined) => {
     if (!date) return;
-    // Format as yyyy/MM/dd to match database format
-    const formattedDate = format(date, "yyyy/MM/dd");
-    const shouldLog = formattedDate === DEBUG_DATE;
-
-    if (shouldLog) {
-      console.log("Selected date:", formattedDate);
-    }
     setDate(date);
-    handleDate(formattedDate);
+    // Store date in yyyy-MM-dd format
+    handleDate(format(date, "yyyy-MM-dd"));
     handleTime("");
   };
 
   const isDateDisabled = (date: Date) => {
-    // Format as yyyy/MM/dd to match database format
-    const dateStr = format(date, "yyyy/MM/dd");
-    const shouldLog = dateStr === DEBUG_DATE;
+    // Convert to Korean timezone for consistent comparison
+    const koreaDate = toZonedTime(date, KOREAN_TIMEZONE);
+    const koreaToday = toZonedTime(new Date(), KOREAN_TIMEZONE);
 
-    // Get current Korea time
-    const now = toZonedTime(new Date(), KOREAN_TIMEZONE);
-    const todayStr = format(now, "yyyy/MM/dd");
+    // Reset hours to ensure date-only comparison
+    koreaToday.setHours(0, 0, 0, 0);
 
-    if (shouldLog) {
-      console.log("Checking if date is disabled:", {
-        dateToCheck: dateStr,
-        today: todayStr,
-      });
-    }
+    // Check if date is more than 6 months in the future
+    const sixMonthsFromNow = new Date(koreaToday);
+    sixMonthsFromNow.setMonth(sixMonthsFromNow.getMonth() + 6);
 
-    // Past date check
-    if (dateStr < todayStr) {
-      if (shouldLog) console.log("Date is in the past");
+    if (
+      isBefore(koreaDate, koreaToday) ||
+      isAfter(koreaDate, sixMonthsFromNow)
+    ) {
       return true;
     }
 
-    // Future date check (6 months)
-    const sixMonthsLater = new Date(now);
-    sixMonthsLater.setMonth(sixMonthsLater.getMonth() + 6);
-    const maxDate = format(sixMonthsLater, "yyyy/MM/dd");
-
-    if (dateStr > maxDate) {
-      if (shouldLog) console.log("Date is more than 6 months in future");
-      return true;
-    }
-
-    // Check for blocked dates
-    const specialDate = specialDates.find((sd) => sd.date === dateStr);
-    if (shouldLog) {
-      console.log("Special date check:", {
-        specialDate: specialDate || "none",
-      });
-    }
-
+    // Then check if it's a blocked date
+    const dateStr = format(koreaDate, "yyyy-MM-dd");
+    const specialDate = specialDates.find(
+      (sd) => normalizeDateFormat(sd.date) === dateStr
+    );
     return specialDate?.type === "BLOCKED";
   };
 
@@ -152,36 +113,19 @@ const Step3 = ({
 
   const handleSelectTime = (time: string) => {
     if (!date) return;
-    const dateStr = format(date, "yyyy/MM/dd");
-    const shouldLog = dateStr === DEBUG_DATE;
 
-    // Get current Korea time
+    // Convert to Korean timezone for consistent comparison
     const now = toZonedTime(new Date(), KOREAN_TIMEZONE);
-    const todayStr = format(now, "yyyy/MM/dd");
-    const currentHour = now.getHours();
-    const currentMinute = now.getMinutes();
+    const [hours, minutes] = time.split(":").map(Number);
+    const selectedDateTime = toZonedTime(date, KOREAN_TIMEZONE);
+    selectedDateTime.setHours(hours, minutes, 0, 0);
 
-    const [selectedHour, selectedMinute] = time.split(":").map(Number);
-
-    if (shouldLog) {
-      console.log("Time selection check:", {
-        selectedDate: dateStr,
-        selectedTime: time,
-        today: todayStr,
-        currentTime: `${currentHour}:${currentMinute}`,
-      });
-    }
-
-    // If same day, check if time is in the past
-    if (dateStr === todayStr) {
-      const selectedTotalMinutes = selectedHour * 60 + selectedMinute;
-      const currentTotalMinutes = currentHour * 60 + currentMinute;
-
-      if (selectedTotalMinutes <= currentTotalMinutes) {
-        if (shouldLog) console.log("Selected time is in the past");
-        alert("지난 시간은 선택할 수 없습니다.");
-        return;
-      }
+    if (
+      normalizeDateFormat(date) === normalizeDateFormat(now) &&
+      isBefore(selectedDateTime, now)
+    ) {
+      alert("지난 시간은 선택할 수 없습니다.");
+      return;
     }
 
     handleTime(time);
@@ -190,132 +134,123 @@ const Step3 = ({
   const isTimeSlotAvailable = (timeSlot: { startingTime: string }) => {
     if (!date || !selectedRoom.type) return false;
 
-    const dateStr = format(date, "yyyy/MM/dd");
-    const shouldLog =
-      dateStr === DEBUG_DATE && timeSlot.startingTime === "09:00";
-
-    if (shouldLog) {
-      console.log("Checking time slot availability:", {
-        date: dateStr,
-        time: timeSlot.startingTime,
-        existingReservations: reservations,
-      });
-    }
-
-    // Get current Korea time for same-day checks
+    // Convert to Korean timezone for consistent comparison
     const now = toZonedTime(new Date(), KOREAN_TIMEZONE);
-    const todayStr = format(now, "yyyy/MM/dd");
+    const selectedDate = toZonedTime(date, KOREAN_TIMEZONE);
 
-    // If same day, check if slot is at least 1 hour in future
-    if (dateStr === todayStr) {
-      const currentHour = now.getHours();
-      const currentMinute = now.getMinutes();
-      const [slotHour, slotMinute] = timeSlot.startingTime
-        .split(":")
-        .map(Number);
+    // Format dates for comparison using normalized format
+    const formattedKoreaDate = normalizeDateFormat(now);
+    const formattedSelectedDate = normalizeDateFormat(selectedDate);
 
-      const currentTotalMinutes = currentHour * 60 + currentMinute;
-      const slotTotalMinutes = slotHour * 60 + slotMinute;
+    // Get hours and minutes for the time slot
+    const [slotHours, slotMinutes] = timeSlot.startingTime
+      .split(":")
+      .map(Number);
+    const slotDateTime = toZonedTime(selectedDate, KOREAN_TIMEZONE);
+    slotDateTime.setHours(slotHours, slotMinutes, 0, 0);
 
-      if (shouldLog) {
-        console.log("Same day time check:", {
-          currentTime: `${currentHour}:${currentMinute}`,
-          slotTime: timeSlot.startingTime,
-          minutesUntilSlot: slotTotalMinutes - currentTotalMinutes,
-        });
-      }
+    // If it's the same day, check if the slot is at least 1 hour in the future
+    if (formattedKoreaDate === formattedSelectedDate) {
+      const koreaHours = now.getHours();
+      const koreaMinutes = now.getMinutes();
 
-      if (slotTotalMinutes - currentTotalMinutes < 60) {
-        if (shouldLog) console.log("Slot is less than 1 hour away");
+      // Convert both times to minutes for comparison
+      const slotTotalMinutes = slotHours * 60 + slotMinutes;
+      const koreaTotalMinutes = koreaHours * 60 + koreaMinutes;
+
+      // Check if slot is less than 1 hour ahead of current time
+      if (slotTotalMinutes - koreaTotalMinutes < 60) {
         return false;
       }
     }
 
-    // Check for overlapping reservations
-    const conflictingReservation = reservations.find((reservation) => {
-      if (reservation.date !== dateStr) return false;
+    // Check if the time slot is in the past for today's date
+    if (isBefore(slotDateTime, now)) {
+      return false;
+    }
 
-      const [resHour, resMinute] = reservation.time.split(":").map(Number);
-      const [slotHour, slotMinute] = timeSlot.startingTime
-        .split(":")
-        .map(Number);
+    const slotStartTime = slotHours * 60 + slotMinutes;
+    const slotDuration = getRoomDuration(selectedRoom.type);
 
-      const resStartMinutes = resHour * 60 + resMinute;
-      const slotStartMinutes = slotHour * 60 + slotMinute;
+    // Check against all existing reservations
+    for (const reservation of reservations) {
+      // Normalize both dates for comparison
+      const normalizedReservationDate = normalizeDateFormat(reservation.date);
+      const normalizedSelectedDate = normalizeDateFormat(date);
 
+      if (normalizedReservationDate !== normalizedSelectedDate) continue;
+
+      const [resHours, resMinutes] = reservation.time.split(":").map(Number);
+      const resStartTime = resHours * 60 + resMinutes;
       const resDuration = getRoomDuration(reservation.roomType);
-      const slotDuration = getRoomDuration(selectedRoom.type);
+
+      // Check for exact time match first
+      if (timeSlot.startingTime === reservation.time) {
+        return false;
+      }
 
       const hasOverlap = checkTimeOverlap(
-        slotStartMinutes,
+        slotStartTime,
         slotDuration,
-        resStartMinutes,
+        resStartTime,
         resDuration
       );
 
-      if (shouldLog && hasOverlap) {
-        console.log("Found overlapping reservation:", {
-          reservationTime: reservation.time,
-          reservationType: reservation.roomType,
-          selectedTime: timeSlot.startingTime,
-          selectedType: selectedRoom.type,
-        });
-      }
-
-      return hasOverlap;
-    });
-
-    if (conflictingReservation) {
-      // Apply room type rules
-      if (
-        conflictingReservation.roomType.includes("MIX") ||
-        selectedRoom.type.includes("MIX")
-      ) {
-        return false;
-      }
-
-      // Women's room restrictions
-      if (
-        selectedRoom.type.includes("WOMEN") &&
-        !selectedRoom.type.includes("FAMILY")
-      ) {
+      if (hasOverlap) {
+        // Rule 4: When MIX room is active, no other rooms can be active
         if (
-          conflictingReservation.roomType.includes("MIX") ||
-          conflictingReservation.roomType.includes("WOMEN_FAMILY")
+          reservation.roomType.includes("MIX") ||
+          selectedRoom.type.includes("MIX")
         ) {
           return false;
         }
-      }
 
-      // Men's room restrictions
-      if (
-        selectedRoom.type.includes("MEN") &&
-        !selectedRoom.type.includes("FAMILY")
-      ) {
+        // Rule 1: Women's room restrictions
         if (
-          conflictingReservation.roomType.includes("MIX") ||
-          conflictingReservation.roomType.includes("MEN_FAMILY")
+          selectedRoom.type.includes("WOMEN") &&
+          !selectedRoom.type.includes("FAMILY")
         ) {
+          if (
+            reservation.roomType.includes("MIX") ||
+            reservation.roomType.includes("WOMEN_FAMILY")
+          ) {
+            return false;
+          }
+        }
+
+        // Rule 2: Men's room restrictions
+        if (
+          selectedRoom.type.includes("MEN") &&
+          !selectedRoom.type.includes("FAMILY")
+        ) {
+          if (
+            reservation.roomType.includes("MIX") ||
+            reservation.roomType.includes("MEN_FAMILY")
+          ) {
+            return false;
+          }
+        }
+
+        // Rule 3: Women's and Men's 60/90 rooms can overlap
+        if (
+          (selectedRoom.type.includes("WOMEN") &&
+            reservation.roomType.includes("MEN")) ||
+          (selectedRoom.type.includes("MEN") &&
+            reservation.roomType.includes("WOMEN"))
+        ) {
+          if (
+            !selectedRoom.type.includes("FAMILY") &&
+            !reservation.roomType.includes("FAMILY")
+          ) {
+            return true;
+          }
+        }
+
+        // Block same room type
+        if (reservation.roomType === selectedRoom.type) {
           return false;
         }
       }
-
-      // Allow overlap for Men's and Women's 60/90 rooms
-      if (
-        (selectedRoom.type.includes("WOMEN") &&
-          conflictingReservation.roomType.includes("MEN")) ||
-        (selectedRoom.type.includes("MEN") &&
-          conflictingReservation.roomType.includes("WOMEN"))
-      ) {
-        if (
-          !selectedRoom.type.includes("FAMILY") &&
-          !conflictingReservation.roomType.includes("FAMILY")
-        ) {
-          return true;
-        }
-      }
-
-      return false;
     }
 
     return true;
