@@ -9,10 +9,16 @@ import React, { useMemo, useState } from "react";
 
 import { Calendar } from "@/components/ui/calendar";
 import { Rooms, WeekendRooms } from "@/definitions/constants";
-import { checkTimeOverlap, getRoomDuration } from "@/lib/timeUtils";
+import { getRoomDuration } from "@/lib/timeUtils";
 import { cn } from "@/lib/utils";
 
 const KOREAN_TIMEZONE = "Asia/Seoul";
+
+// Add TimeSlot type
+type TimeSlot = {
+  startingTime: string;
+  endingTime: string;
+};
 
 // Utility function to normalize date format
 const normalizeDateFormat = (date: string | Date) => {
@@ -130,117 +136,78 @@ const Step3 = ({
     handleTime(time);
   };
 
-  const isTimeSlotAvailable = (timeSlot: { startingTime: string }) => {
-    if (!date || !selectedRoom.type) return false;
+  const isTimeSlotAvailable = (timeSlot: TimeSlot) => {
+    if (!date) return false;
 
-    // Convert to Korean timezone for consistent comparison
-    const now = toZonedTime(new Date(), KOREAN_TIMEZONE);
-    const selectedDate = toZonedTime(date, KOREAN_TIMEZONE);
-
-    // Format dates for comparison using normalized format
-    const formattedKoreaDate = normalizeDateFormat(now);
-    const formattedSelectedDate = normalizeDateFormat(selectedDate);
-
-    // Get hours and minutes for the time slot
-    const [slotHours, slotMinutes] = timeSlot.startingTime
+    // Parse selected time slot
+    const [startHours, startMinutes] = timeSlot.startingTime
       .split(":")
       .map(Number);
-    const slotDateTime = toZonedTime(selectedDate, KOREAN_TIMEZONE);
-    slotDateTime.setHours(slotHours, slotMinutes, 0, 0);
+    const selectedStart = new Date(date);
+    selectedStart.setHours(startHours, startMinutes, 0, 0);
 
-    // If it's the same day, check if the slot is at least 1 hour in the future
-    if (formattedKoreaDate === formattedSelectedDate) {
-      const koreaHours = now.getHours();
-      const koreaMinutes = now.getMinutes();
+    // Calculate duration and cleaning time
+    const duration = getRoomDuration(selectedRoom.type);
+    const selectedEnd = new Date(
+      selectedStart.getTime() + duration * 60 * 1000
+    );
+    const cleaningTime =
+      selectedRoom.type.includes("FAMILY") || selectedRoom.type === "MIX"
+        ? 40
+        : 20;
+    const selectedEndWithCleaning = new Date(
+      selectedEnd.getTime() + cleaningTime * 60 * 1000
+    );
 
-      // Convert both times to minutes for comparison
-      const slotTotalMinutes = slotHours * 60 + slotMinutes;
-      const koreaTotalMinutes = koreaHours * 60 + koreaMinutes;
-
-      // Check if slot is less than 1 hour ahead of current time
-      if (slotTotalMinutes - koreaTotalMinutes < 60) {
-        return false;
-      }
-    }
-
-    // Check if the time slot is in the past for today's date
-    if (isBefore(slotDateTime, now)) {
+    // Check 60-minute advance rule
+    const now = new Date();
+    if (selectedStart < new Date(now.getTime() + 60 * 60 * 1000)) {
       return false;
     }
 
-    const slotStartTime = slotHours * 60 + slotMinutes;
-    const slotDuration = getRoomDuration(selectedRoom.type);
-
-    // Helper function to check if a room type belongs to a gender group
-    const isMensRoom = (roomType: string) =>
-      roomType.includes("MEN") || roomType === "MIX";
-    const isWomensRoom = (roomType: string) =>
-      roomType.includes("WOMEN") || roomType === "MIX";
-
-    // Check against all existing reservations
-    for (const reservation of reservations) {
-      // Normalize both dates for comparison
-      const normalizedReservationDate = normalizeDateFormat(reservation.date);
-      const normalizedSelectedDate = normalizeDateFormat(date);
-
-      if (normalizedReservationDate !== normalizedSelectedDate) continue;
-
-      const [resHours, resMinutes] = reservation.time.split(":").map(Number);
-      const resStartTime = resHours * 60 + resMinutes;
-      const resDuration = getRoomDuration(reservation.roomType);
-
-      // Check for exact time match first
-      if (timeSlot.startingTime === reservation.time) {
+    // Check against existing reservations
+    return !reservations.some((reservation) => {
+      const resDate = new Date(reservation.date);
+      if (normalizeDateFormat(resDate) !== normalizeDateFormat(date))
         return false;
-      }
 
-      const hasOverlap = checkTimeOverlap(
-        slotStartTime,
-        slotDuration,
-        resStartTime,
-        resDuration
+      // Parse reservation time
+      const [resHours, resMinutes] = reservation.time.split(":").map(Number);
+      const resStart = new Date(resDate);
+      resStart.setHours(resHours, resMinutes, 0, 0);
+
+      // Calculate reservation end with cleaning
+      const resDuration = getRoomDuration(reservation.roomType);
+      const resEnd = new Date(resStart.getTime() + resDuration * 60 * 1000);
+      const resCleaning =
+        reservation.roomType.includes("FAMILY") ||
+        reservation.roomType === "MIX"
+          ? 40
+          : 20;
+      const resEndWithCleaning = new Date(
+        resEnd.getTime() + resCleaning * 60 * 1000
       );
 
-      if (hasOverlap) {
-        // Rule: When MIX room is active, no other rooms can be active
-        if (
-          reservation.roomType.includes("MIX") ||
-          selectedRoom.type.includes("MIX")
-        ) {
-          return false;
-        }
+      // Check time overlap
+      const timeConflict =
+        selectedStart < resEndWithCleaning &&
+        selectedEndWithCleaning > resStart;
+      if (!timeConflict) return false;
 
-        // Rule: Family room restrictions
-        if (
-          (reservation.roomType.includes("FAMILY") ||
-            selectedRoom.type.includes("FAMILY")) &&
-          reservation.roomType.includes("FAMILY") &&
-          selectedRoom.type.includes("FAMILY")
-        ) {
-          return false;
-        }
+      // Check room type conflicts
+      const isMixConflict =
+        selectedRoom.type === "MIX" || reservation.roomType === "MIX";
+      const isSameGender =
+        (selectedRoom.type.startsWith("WOMEN") &&
+          reservation.roomType.startsWith("WOMEN")) ||
+        (selectedRoom.type.startsWith("MEN") &&
+          reservation.roomType.startsWith("MEN"));
+      const isFamilyConflict =
+        selectedRoom.type.includes("FAMILY") &&
+        reservation.roomType.includes("FAMILY");
 
-        // Rule: Men's room restrictions (including family)
-        if (isMensRoom(selectedRoom.type) && isMensRoom(reservation.roomType)) {
-          return false;
-        }
-
-        // Rule: Women's room restrictions (including family)
-        if (
-          isWomensRoom(selectedRoom.type) &&
-          isWomensRoom(reservation.roomType)
-        ) {
-          return false;
-        }
-
-        // Block same room type
-        if (reservation.roomType === selectedRoom.type) {
-          return false;
-        }
-      }
-    }
-
-    return true;
+      return isMixConflict || isSameGender || isFamilyConflict;
+    });
   };
 
   const availableTimes = useMemo(() => {
@@ -265,12 +232,6 @@ const Step3 = ({
       return [];
     }
   }, [date, selectedRoom.type]);
-
-  // Add TimeSlot type
-  type TimeSlot = {
-    startingTime: string;
-    endingTime: string;
-  };
 
   return (
     <motion.div

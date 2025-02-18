@@ -1,22 +1,3 @@
-export const checkTimeOverlap = (
-  requestedStartTime: number,
-  requestedDuration: number,
-  existingStartTime: number,
-  existingDuration: number
-): boolean => {
-  const requestedEndTime = requestedStartTime + requestedDuration;
-  const existingEndTime = existingStartTime + existingDuration;
-
-  // Consider it an overlap if:
-  // 1. The requested start time is less than or equal to the existing end time AND
-  // 2. The requested end time is greater than or equal to the existing start time
-  // This ensures that even touching times (start = end) are considered overlaps
-  return (
-    requestedStartTime <= existingEndTime &&
-    requestedEndTime >= existingStartTime
-  );
-};
-
 export const getRoomDuration = (roomType: string): number => {
   if (roomType.includes("FAMILY")) return 100;
   if (roomType.includes("90")) return 90;

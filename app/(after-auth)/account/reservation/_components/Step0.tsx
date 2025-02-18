@@ -68,7 +68,7 @@ const pricingData: PricingItem[] = [
     capacity: "2~4 인",
     durations: [
       {
-        minutes: "120분",
+        minutes: "100분",
         regularPrice: 120000,
         discountedPrice: 45000,
         normalnote: "(2인 기준)",
@@ -82,7 +82,7 @@ const pricingData: PricingItem[] = [
     capacity: "2~4 인",
     durations: [
       {
-        minutes: "120분",
+        minutes: "100분",
         regularPrice: 120000,
         discountedPrice: 45000,
         normalnote: "(2인 기준)",
@@ -96,7 +96,7 @@ const pricingData: PricingItem[] = [
     capacity: "2~6 인",
     durations: [
       {
-        minutes: "120분",
+        minutes: "100분",
         regularPrice: 120000,
         discountedPrice: 45000,
         normalnote: "(2인 기준)",
