@@ -4,11 +4,11 @@ export const HeaderLinks = [
     href: "/about",
   },
   {
-    label: "시설 안내",
+    label: "시설안내",
     href: "/guide",
   },
   {
-    label: "이용 방법",
+    label: "이용방법",
     href: "/how-to-use",
   },
   {

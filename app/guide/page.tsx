@@ -98,7 +98,7 @@ const tabData = {
 const page = async () => {
   return (
     <main className="page-padding px-0">
-      <h1 className="page-title">솔로 사우나 레포만의 시설 안내</h1>
+      <h1 className="page-title">솔로 사우나 레포만의 시설안내</h1>
       <article className="px-4 ~mt-[2rem]/[9.375rem]">
         <Tabs defaultValue="women" className="w-full">
           <TabsList className="mx-auto grid w-full max-w-screen-md grid-cols-4 bg-transparent ~mb-[4rem]/[9.375rem]">

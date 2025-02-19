@@ -152,7 +152,7 @@ const Step3 = ({
       selectedStart.getTime() + duration * 60 * 1000
     );
     const cleaningTime =
-      selectedRoom.type.includes("FAMILY") || selectedRoom.type === "MIX"
+      selectedRoom.type.includes("FAMILY") || selectedRoom.type.includes("MIX")
         ? 40
         : 20;
     const selectedEndWithCleaning = new Date(
@@ -181,7 +181,7 @@ const Step3 = ({
       const resEnd = new Date(resStart.getTime() + resDuration * 60 * 1000);
       const resCleaning =
         reservation.roomType.includes("FAMILY") ||
-        reservation.roomType === "MIX"
+        reservation.roomType.includes("MIX")
           ? 40
           : 20;
       const resEndWithCleaning = new Date(
@@ -196,7 +196,8 @@ const Step3 = ({
 
       // Check room type conflicts
       const isMixConflict =
-        selectedRoom.type === "MIX" || reservation.roomType === "MIX";
+        selectedRoom.type.includes("MIX") ||
+        reservation.roomType.includes("MIX");
       const isSameGender =
         (selectedRoom.type.startsWith("WOMEN") &&
           reservation.roomType.startsWith("WOMEN")) ||

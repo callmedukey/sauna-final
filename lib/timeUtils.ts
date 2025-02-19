@@ -1,8 +1,9 @@
-export const getRoomDuration = (roomType: string): number => {
-  if (roomType.includes("FAMILY")) return 100;
-  if (roomType.includes("90")) return 90;
-  return 60;
-};
+export function getRoomDuration(roomType: string): number {
+  // MIX rooms have 100min sessions regardless of naming
+  if (roomType.includes("MIX")) return 100;
+  // Handle 90/60 minute rooms
+  return roomType.includes("90") ? 90 : 60;
+}
 
 export const calculateAdditionalFee = (
   persons: { men: number; women: number; children: number; infants: number },
@@ -27,4 +28,15 @@ export const calculateAdditionalFee = (
   additionalFee += persons.children * 20000;
 
   return additionalFee;
+};
+
+export const checkTimeOverlap = (
+  start1: number,
+  duration1: number,
+  start2: number,
+  duration2: number
+): boolean => {
+  const end1 = start1 + duration1;
+  const end2 = start2 + duration2;
+  return start1 < end2 && end1 > start2;
 };

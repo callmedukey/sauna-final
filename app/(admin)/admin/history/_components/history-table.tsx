@@ -36,6 +36,7 @@ export function HistoryTable({
   regularReservations,
   naverReservations,
 }: HistoryTableProps) {
+  console.log(regularReservations, naverReservations);
   // Combine and sort reservations
   const allReservations = [
     ...regularReservations.map((r) => ({
@@ -43,13 +44,14 @@ export function HistoryTable({
       type: "regular" as const,
       displayName: r.user.name,
       displayPhone: r.user.phone,
+      roomType: r.roomType,
     })),
     ...naverReservations.map((r) => ({
       ...r,
       type: "naver" as const,
       displayName: r.name,
       displayPhone: "-",
-      roomType: null,
+      roomType: r.roomType,
     })),
   ].sort((a, b) => {
     // Sort by date first
@@ -141,7 +143,7 @@ export function HistoryTable({
                 {reservation.time}
               </TableCell>
               <TableCell className="min-w-[6.25rem]">
-                {reservation.type === "regular" && reservation.roomType
+                {reservation.roomType
                   ? parseRoomInfo(reservation.roomType).name
                   : "-"}
               </TableCell>

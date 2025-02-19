@@ -82,23 +82,30 @@ export function SignatureDialog({ reservationId, userName }: Props) {
       <Button onClick={() => setOpen(true)}>약관 추가</Button>
 
       <Dialog open={open} onOpenChange={setOpen}>
-        <DialogContent className="max-h-screen max-w-4xl overflow-y-auto">
-          <DialogHeader>
+        <DialogContent className="flex h-[95vh] max-w-4xl flex-col p-4">
+          <DialogHeader className="flex-none px-2">
             <DialogTitle>약관 동의 및 서명</DialogTitle>
           </DialogHeader>
 
-          <div className="space-y-8">
-            <div className="max-h-[40vh] overflow-y-auto rounded-md border p-4">
-              {/* <ConditionsText /> */}
-              <Image src={ConditionImage} alt="약관" />
+          <div className="flex min-h-0 flex-1 flex-col gap-4">
+            <div className="min-h-0 flex-1">
+              <div className="relative size-full">
+                <Image
+                  src={ConditionImage}
+                  alt="약관"
+                  className="object-contain"
+                  fill
+                  sizes="(max-width: 4xl) 100vw"
+                />
+              </div>
             </div>
 
-            <div className="space-y-4">
-              <div className="rounded-md border">
+            <div className="flex h-[25vh] flex-col gap-2">
+              <div className="min-h-0 flex-1 rounded-md border">
                 <SignaturePad
                   ref={signaturePadRef}
                   canvasProps={{
-                    className: "w-full h-[200px]",
+                    className: "w-full h-full",
                   }}
                 />
               </div>
