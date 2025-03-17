@@ -96,7 +96,7 @@ export const metadata: Metadata = {
   },
   verification: {
     other: {
-      "naver-site-verification": ["your-naver-site-verification"],
+      "naver-site-verification": "c0eeaf68f288bc268e713cd8a0e0a43919e234dc",
     },
   },
   category: "스파 & 웰니스",
